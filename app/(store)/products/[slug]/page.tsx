@@ -119,19 +119,19 @@ export default function ProductDetailPage() {
           if (typeof window !== "undefined" && window.history.length > 1) {
             router.back();
           } else {
-            router.push("/");
+            router.push("/#products");
           }
         }}
-        className="fixed top-20 right-4 sm:right-8 z-50 p-3 rounded-full bg-black text-white dark:bg-white dark:text-black shadow-2xl hover:scale-110 active:scale-95 transition-all cursor-pointer flex items-center justify-center border border-white/20 dark:border-black/20"
+        className="fixed top-20 right-4 sm:right-8 z-50 p-2.5 rounded-full bg-black text-white dark:bg-white dark:text-black shadow-xl hover:scale-110 active:scale-95 transition-all cursor-pointer flex items-center justify-center border border-white/20 dark:border-black/20"
         title="Close and return to store"
       >
-        <X size={20} />
+        <X size={16} />
       </button>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           {/* Image Gallery */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             {/* Main Image */}
             <motion.div
               className="aspect-square relative overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900"
@@ -166,9 +166,9 @@ export default function ProductDetailPage() {
                         i === 0 ? galleryImages.length - 1 : i - 1
                       )
                     }
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 dark:bg-zinc-800/80 backdrop-blur rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-zinc-700 transition-colors"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 dark:bg-zinc-800/80 backdrop-blur rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-zinc-700 transition-colors"
                   >
-                    <ChevronLeft size={18} />
+                    <ChevronLeft size={16} />
                   </button>
                   <button
                     onClick={() =>
@@ -176,9 +176,9 @@ export default function ProductDetailPage() {
                         i === galleryImages.length - 1 ? 0 : i + 1
                       )
                     }
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 dark:bg-zinc-800/80 backdrop-blur rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-zinc-700 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 dark:bg-zinc-800/80 backdrop-blur rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-zinc-700 transition-colors"
                   >
-                    <ChevronRight size={18} />
+                    <ChevronRight size={16} />
                   </button>
                 </>
               )}
@@ -186,12 +186,12 @@ export default function ProductDetailPage() {
 
             {/* Thumbnails */}
             {galleryImages.length > 1 && (
-              <div className="flex gap-3 overflow-x-auto pb-1">
+              <div className="flex gap-2.5 overflow-x-auto pb-1">
                 {galleryImages.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveImage(i)}
-                    className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
+                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
                       activeImage === i
                         ? "border-black dark:border-white"
                         : "border-gray-200 dark:border-zinc-800 hover:border-gray-400"
@@ -200,9 +200,9 @@ export default function ProductDetailPage() {
                     <Image
                       src={img}
                       alt={`${product.name} ${i + 1}`}
-                      width={80}
-                      height={80}
-                      className="w-full h-full object-contain p-2 bg-zinc-100 dark:bg-zinc-900"
+                      width={64}
+                      height={64}
+                      className="w-full h-full object-contain p-1.5 bg-zinc-100 dark:bg-zinc-900"
                     />
                   </button>
                 ))}
@@ -217,7 +217,7 @@ export default function ProductDetailPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-2">
               {product.bestSeller && (
                 <Badge variant="default">Best Seller</Badge>
               )}
@@ -232,50 +232,50 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            <p className="text-sm text-gray-500 font-medium mb-1">{product.brand}</p>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+            <p className="text-xs text-gray-500 font-medium mb-1">{product.brand}</p>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
               {product.name}
             </h1>
 
             {/* Price */}
-            <div className="flex items-center gap-3 mb-6">
-              <span className="text-3xl font-bold">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-2xl font-bold">
                 {formatPrice(displayPrice)}
               </span>
               {hasDiscount && (
                 <>
-                  <span className="text-xl text-gray-400 line-through">
+                  <span className="text-lg text-gray-400 line-through">
                     {formatPrice(product.price)}
                   </span>
-                  <span className="bg-red-100 text-red-600 text-sm font-bold px-2 py-0.5 rounded-full">
+                  <span className="bg-red-100 text-red-600 text-xs font-bold px-2 py-0.5 rounded-full">
                     -{discountPct}%
                   </span>
                 </>
               )}
             </div>
 
-            <p className="text-gray-600 leading-relaxed mb-8">
+            <p className="text-xs md:text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
               {product.description}
             </p>
 
             {/* Color Picker */}
             {product.variants.length > 0 && (
-              <div className="mb-6">
-                <p className="text-sm font-semibold mb-3">
+              <div className="mb-5">
+                <p className="text-xs font-semibold mb-2">
                   Color:{" "}
                   <span className="font-normal text-gray-500">
                     {selectedColor?.name}
                   </span>
                 </p>
-                <div className="flex gap-2.5">
+                <div className="flex gap-2">
                   {product.variants.map((variant) => (
                     <button
                       key={variant.colorHex}
                       onClick={() => handleColorSelect(variant)}
                       title={variant.colorName}
-                      className={`w-9 h-9 rounded-full border-2 transition-all ${
+                      className={`w-7 h-7 rounded-full border-2 transition-all ${
                         selectedColor?.hex === variant.colorHex
-                          ? "border-black scale-110"
+                          ? "border-black dark:border-white scale-110"
                           : "border-gray-200 hover:border-gray-400"
                       }`}
                       style={{ backgroundColor: variant.colorHex }}
@@ -287,14 +287,14 @@ export default function ProductDetailPage() {
 
             {/* Size Picker */}
             {availableSizes.length > 0 && (
-              <div className="mb-8">
-                <p className="text-sm font-semibold mb-3">
+              <div className="mb-6">
+                <p className="text-xs font-semibold mb-2">
                   Size:{" "}
                   <span className="font-normal text-gray-500">
                     {selectedSize}
                   </span>
                 </p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   {availableSizes.map((sizeStockItem) => {
                     const isOutOfStock = sizeStockItem.stock === 0;
                     return (
@@ -302,12 +302,12 @@ export default function ProductDetailPage() {
                         key={sizeStockItem.size}
                         disabled={isOutOfStock}
                         onClick={() => setSelectedSize(sizeStockItem.size)}
-                        className={`min-w-[44px] px-3 py-2 rounded-xl border text-sm font-semibold transition-all ${
+                        className={`min-w-[36px] px-2.5 py-1 rounded-lg border text-xs font-semibold transition-all ${
                           isOutOfStock
                             ? "bg-gray-100 text-gray-400 border-gray-100 cursor-not-allowed line-through"
                             : selectedSize === sizeStockItem.size
-                            ? "bg-black text-white border-black"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-gray-900"
+                            ? "bg-black text-white border-black dark:bg-white dark:text-black dark:border-white"
+                            : "bg-white text-gray-700 border-gray-200 hover:border-gray-900 dark:bg-zinc-900 dark:text-gray-300 dark:border-zinc-800"
                         }`}
                       >
                         {sizeStockItem.size}
@@ -319,16 +319,16 @@ export default function ProductDetailPage() {
             )}
 
             {/* Quantity + Add to Cart */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               {/* Quantity */}
-              <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden">
+              <div className="flex items-center border border-gray-200 dark:border-zinc-800 rounded-lg overflow-hidden h-10">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="w-10 h-12 flex items-center justify-center hover:bg-gray-50 transition-colors"
+                  className="w-8 h-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
                 >
-                  <Minus size={14} />
+                  <Minus size={12} />
                 </button>
-                <span className="w-10 text-center font-semibold text-sm">
+                <span className="w-8 text-center font-semibold text-xs">
                   {quantity}
                 </span>
                 <button
@@ -337,9 +337,9 @@ export default function ProductDetailPage() {
                       sizeStock > 0 ? Math.min(sizeStock, q + 1) : q + 1
                     )
                   }
-                  className="w-10 h-12 flex items-center justify-center hover:bg-gray-50 transition-colors"
+                  className="w-8 h-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
                 >
-                  <Plus size={14} />
+                  <Plus size={12} />
                 </button>
               </div>
 
@@ -347,14 +347,14 @@ export default function ProductDetailPage() {
               <motion.button
                 onClick={handleAddToCart}
                 disabled={adding || sizeStock === 0}
-                className="flex-1 h-12 bg-black text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 h-10 bg-black text-white dark:bg-white dark:text-black rounded-lg font-bold text-xs flex items-center justify-center gap-2 hover:opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 whileTap={{ scale: 0.98 }}
               >
                 {adding ? (
-                  <Spinner size="sm" className="border-white border-t-transparent" />
+                  <Spinner size="sm" className="border-white dark:border-black border-t-transparent" />
                 ) : (
                   <>
-                    <ShoppingBag size={16} />
+                    <ShoppingBag size={14} />
                     {sizeStock === 0 ? "Out of Stock" : "Add to Cart"}
                   </>
                 )}
@@ -364,14 +364,14 @@ export default function ProductDetailPage() {
               <button
                 type="button"
                 onClick={() => toggleWishlist(product)}
-                className={`w-12 h-12 rounded-xl border flex items-center justify-center transition-all ${
+                className={`w-10 h-10 rounded-lg border flex items-center justify-center transition-all ${
                   isInWishlist(product.id)
                     ? "bg-red-50/50 text-red-500 border-red-100 dark:bg-red-950/20 dark:border-red-900/50"
                     : "bg-white dark:bg-zinc-900 text-zinc-400 border-gray-200 dark:border-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-50"
                 }`}
                 title={isInWishlist(product.id) ? "Remove from wishlist" : "Add to wishlist"}
               >
-                <Heart size={18} className={isInWishlist(product.id) ? "fill-red-500 text-red-500" : ""} />
+                <Heart size={16} className={isInWishlist(product.id) ? "fill-red-500 text-red-500" : ""} />
               </button>
             </div>
 
