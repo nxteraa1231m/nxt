@@ -6,14 +6,12 @@ import { Truck, Check, Sparkles } from "lucide-react";
 
 interface TruckSubmitButtonProps {
   isSubmitting?: boolean;
-  onClick?: () => void;
   disabled?: boolean;
   totalText?: string;
 }
 
 export function TruckSubmitButton({
   isSubmitting = false,
-  onClick,
   disabled = false,
   totalText,
 }: TruckSubmitButtonProps) {
@@ -22,11 +20,7 @@ export function TruckSubmitButton({
 
   const handleClick = () => {
     if (disabled || isSubmitting || truckAnimating || isSuccess) return;
-
     setTruckAnimating(true);
-    if (onClick) onClick();
-
-    // Trigger Truck Drive Animation across button
     setTimeout(() => {
       setIsSuccess(true);
     }, 1400);
@@ -36,7 +30,7 @@ export function TruckSubmitButton({
 
   return (
     <button
-      type="button"
+      type="submit"
       onClick={handleClick}
       disabled={disabled || isExecuting}
       className={`relative w-full h-14 rounded-2xl font-black text-sm uppercase tracking-wider overflow-hidden transition-all duration-300 select-none shadow-xl active:scale-[0.99] ${
@@ -91,7 +85,7 @@ export function TruckSubmitButton({
             className="flex items-center gap-2 text-white font-extrabold"
           >
             <Check size={20} className="stroke-[3]" />
-            <span>Order Confirmed!</span>
+            <span>تم تأكيد الطلب!</span>
           </motion.div>
         ) : isExecuting ? (
           <motion.div
@@ -100,7 +94,7 @@ export function TruckSubmitButton({
             className="flex items-center gap-2 text-amber-400 font-extrabold text-xs tracking-widest"
           >
             <Sparkles size={14} className="animate-spin" />
-            <span>DELIVERING ORDER...</span>
+            <span>جارٍ إرسال الطلب...</span>
           </motion.div>
         ) : (
           <div className="flex items-center justify-between w-full">

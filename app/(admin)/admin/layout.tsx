@@ -25,15 +25,15 @@ import { useAuth } from "@/features/auth/AuthProvider";
 import { Spinner } from "@/components/ui/Spinner";
 
 const navItems = [
-  { href: "/admin", label: "Overview", icon: LayoutDashboard },
-  { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
-  { href: "/admin/shipping", label: "Shipping Rates", icon: Truck },
-  { href: "/admin/products", label: "Products", icon: Package },
-  { href: "/admin/messages", label: "Messages & Complaints", icon: MessageSquare },
-  { href: "/admin/errors", label: "System Errors", icon: AlertTriangle },
-  { href: "/admin/customers", label: "Customers", icon: Users },
-  { href: "/admin/categories", label: "Categories", icon: Tag },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin", label: "لوحة التحكم", icon: LayoutDashboard },
+  { href: "/admin/orders", label: "الطلبات", icon: ShoppingCart },
+  { href: "/admin/shipping", label: "أسعار الشحن", icon: Truck },
+  { href: "/admin/products", label: "المنتجات", icon: Package },
+  { href: "/admin/messages", label: "الرسائل والشكاوى", icon: MessageSquare },
+  { href: "/admin/errors", label: "أخطاء النظام", icon: AlertTriangle },
+  { href: "/admin/customers", label: "العملاء", icon: Users },
+  { href: "/admin/categories", label: "الفئات", icon: Tag },
+  { href: "/admin/settings", label: "الإعدادات", icon: Settings },
 ];
 
 export default function AdminLayout({
@@ -77,7 +77,7 @@ export default function AdminLayout({
       await fetch("/api/admin/auth", { method: "DELETE" });
       router.push("/admin/login");
     } catch {
-      toast.error("Sign out failed");
+      toast.error("فشل تسجيل الخروج");
     }
   };
 
@@ -90,7 +90,7 @@ export default function AdminLayout({
       <div className="min-h-screen bg-zinc-950 flex items-center justify-center text-white">
         <div className="text-center space-y-4">
           <Spinner size="lg" className="border-white border-t-transparent" />
-          <p className="text-xs text-zinc-400 font-bold tracking-[0.2em] uppercase">Initializing NXT Admin Console</p>
+          <p className="text-xs text-zinc-400 font-bold tracking-[0.2em] uppercase">جارٍ تحميل لوحة الإدارة</p>
         </div>
       </div>
     );
@@ -173,7 +173,7 @@ export default function AdminLayout({
             className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-zinc-400 hover:bg-red-950/40 hover:text-red-400 transition-all duration-300"
           >
             <LogOut size={16} className="text-zinc-400 group-hover:text-red-400" />
-            Sign Out
+            تسجيل الخروج
           </button>
         </div>
       </aside>
@@ -193,7 +193,7 @@ export default function AdminLayout({
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200/60 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm">
               <ShieldCheck size={12} />
-              Secure Console Active
+              لوحة إدارة آمنة
             </div>
           </div>
         </header>

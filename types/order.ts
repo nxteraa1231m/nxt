@@ -1,5 +1,4 @@
 import { Timestamp } from "firebase/firestore";
-import type { Product } from "./product";
 
 export type OrderStatus =
   | "pending"
@@ -8,7 +7,7 @@ export type OrderStatus =
   | "delivered"
   | "cancelled";
 
-export type PaymentMethod = "vodafone_cash" | "instapay";
+export type PaymentMethod = "cash_on_delivery" | "vodafone_cash" | "instapay";
 
 export interface OrderItem {
   productId: string;
@@ -34,6 +33,8 @@ export interface Order {
   address: string;
   notes?: string;
   paymentMethod: PaymentMethod;
+  transferPhone?: string;       // رقم اللي حوّل منه (للدفع الأونلاين)
+  transferScreenshot?: string;  // Cloudinary URL لصورة إيصال التحويل
   items: OrderItem[];
   subtotal: number;
   shippingCost?: number;
@@ -51,6 +52,8 @@ export interface CreateOrderInput {
   address: string;
   notes?: string;
   paymentMethod: PaymentMethod;
+  transferPhone?: string;
+  transferScreenshot?: string;
   items: OrderItem[];
   subtotal: number;
   shippingCost?: number;
@@ -58,11 +61,11 @@ export interface CreateOrderInput {
 }
 
 export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
-  pending: "Pending",
-  confirmed: "Confirmed",
-  shipping: "Shipping",
-  delivered: "Delivered",
-  cancelled: "Cancelled",
+  pending: "في الانتظار",
+  confirmed: "مؤكد",
+  shipping: "جارٍ الشحن",
+  delivered: "تم التسليم",
+  cancelled: "ملغي",
 };
 
 export const ORDER_STATUS_COLORS: Record<OrderStatus, string> = {
@@ -71,4 +74,10 @@ export const ORDER_STATUS_COLORS: Record<OrderStatus, string> = {
   shipping: "bg-purple-100 text-purple-800",
   delivered: "bg-green-100 text-green-800",
   cancelled: "bg-red-100 text-red-800",
+};
+
+export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
+  cash_on_delivery: "🚪 الدفع عند الاستلام",
+  vodafone_cash: "📱 فودافون كاش",
+  instapay: "💳 انستاباي",
 };

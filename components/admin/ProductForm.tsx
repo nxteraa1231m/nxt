@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, X, Upload, Trash2, Palette, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { createProduct, updateProduct } from "@/lib/firebase/firestore";
-import { generateSlug } from "@/lib/utils";
+import { generateSlug, generateSKU } from "@/lib/utils";
 import { productSchema, type ProductFormData } from "@/lib/validations/product.schema";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import type { Product, SizeStock } from "@/types/product";
@@ -42,6 +42,7 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
       ? {
           name: initialData.name,
           slug: initialData.slug,
+          sku: initialData.sku || generateSKU(),
           description: initialData.description,
           price: initialData.price,
           salePrice: initialData.salePrice,
@@ -59,6 +60,7 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
           featured: false,
           bestSeller: false,
           price: 0,
+          sku: generateSKU(),
         },
   });
 
@@ -211,16 +213,16 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
       
       {/* 1. Basic Info Panel */}
       <div className="bg-white rounded-2xl border border-zinc-100 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.015)]">
-        <h2 className="font-black text-xs text-zinc-900 uppercase tracking-widest mb-6">Basic Information</h2>
+        <h2 className="font-black text-xs text-zinc-900 uppercase tracking-widest mb-6">معلومات المنتج الأساسية</h2>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div className="sm:col-span-2">
             <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2">
-              Product Name
+              اسم المنتج
             </label>
             <input
               className="w-full px-4 py-3 border border-zinc-100 rounded-xl text-xs bg-white focus:outline-none focus:border-zinc-300 focus:ring-1 focus:ring-zinc-200/50 transition-all font-semibold text-zinc-800 placeholder:text-zinc-400"
-              placeholder="e.g. Minimalist Hoodie"
+              placeholder="مثال: هودي مينيمال"
               {...register("name")}
               onChange={handleNameChange}
             />
@@ -233,7 +235,7 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
 
           <div>
             <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2">
-              Slug (URL slug)
+              Slug (رابط المنتج)
             </label>
             <input
               className="w-full px-4 py-3 border border-zinc-100 rounded-xl text-xs bg-zinc-50 focus:outline-none focus:border-zinc-300 focus:ring-1 focus:ring-zinc-200/50 transition-all font-mono font-semibold text-zinc-600"
@@ -243,19 +245,49 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
             />
           </div>
 
+          <div>
+            <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2">
+              كود المنتج (SKU)
+            </label>
+            <div className="flex gap-2">
+              <input
+                className="flex-1 px-4 py-3 border border-zinc-100 rounded-xl text-xs bg-zinc-50 focus:outline-none focus:border-zinc-300 focus:ring-1 focus:ring-zinc-200/50 transition-all font-mono font-black text-zinc-800 uppercase"
+                placeholder="NXT-XXXX"
+                {...register("sku")}
+              />
+              {!productId && (
+                <button
+                  type="button"
+                  onClick={() => setValue("sku", generateSKU())}
+                  className="px-3 py-2 bg-zinc-100 hover:bg-zinc-200 rounded-xl text-[10px] font-bold text-zinc-600 transition-all whitespace-nowrap"
+                  title="توليد كود جديد"
+                >
+                  🔄 جديد
+                </button>
+              )}
+            </div>
+            {errors.sku && (
+              <p className="text-red-500 text-[10px] font-bold mt-1.5 flex items-center gap-1">
+                <AlertCircle size={10} /> {errors.sku.message}
+              </p>
+            )}
+            <p className="text-[9px] text-zinc-400 mt-1">الكود يظهر في رابط المنتج — لا يمكن تكراره</p>
+          </div>
+
           <div className="sm:col-span-2">
             <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2">
-              Description
+              الوصف
             </label>
             <textarea
               className="w-full px-4 py-3 border border-zinc-100 rounded-xl text-xs bg-white focus:outline-none focus:border-zinc-300 focus:ring-1 focus:ring-zinc-200/50 transition-all font-medium text-zinc-800 placeholder:text-zinc-400 resize-none"
               rows={4}
-              placeholder="Describe the fabrics, fitting, structure, wash instructions..."
+              placeholder="وصف القماش، المقاس، التصميم، تعليمات الغسيل..."
               {...register("description")}
             />
           </div>
         </div>
       </div>
+
 
       {/* 2. Cover / Main Image Card */}
       <div className="bg-white rounded-2xl border border-zinc-100 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.015)]">

@@ -36,7 +36,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       }}
       whileHover={{ y: -8, transition: { duration: 0.3, ease: "easeOut" } }}
     >
-      <Link href={`/products/${product.slug}`} className="block group">
+      <Link href={`/products/${product.slug}${product.sku ? `-${product.sku.toLowerCase()}` : ""}`} className="block group">
         {/* Floating Image Container — No border, drop-shadow creates depth */}
         <div className="relative overflow-visible">
           {/* Wishlist Heart */}
@@ -79,8 +79,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             </motion.span>
           </div>
 
-          {/* Product Image — Borderless floating with ambient shadow */}
-          <div className="aspect-square relative overflow-hidden rounded-2xl bg-transparent shadow-[0_8px_40px_rgba(0,0,0,0.25)] dark:shadow-[0_8px_50px_rgba(0,0,0,0.6)] group-hover:shadow-[0_16px_60px_rgba(0,0,0,0.35)] dark:group-hover:shadow-[0_20px_70px_rgba(0,0,0,0.75)] transition-shadow duration-500">
+          {/* Product Image — Zero border, zero bg, pure floating image */}
+          <div className="aspect-square relative overflow-hidden">
             {product.mainImage ? (
               <motion.div
                 className="w-full h-full"
@@ -96,8 +96,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                 />
               </motion.div>
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-zinc-900 dark:bg-zinc-950">
-                <span className="text-zinc-600 text-4xl font-black">NXT</span>
+              <div className="w-full h-full flex items-center justify-center">
+                <span className="text-zinc-400 dark:text-zinc-600 text-4xl font-black">NXT</span>
               </div>
             )}
           </div>

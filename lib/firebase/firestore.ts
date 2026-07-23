@@ -40,13 +40,31 @@ export async function getProducts(filters?: {
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Product);
 }
 
-export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const q = query(collection(db, "products"), where("slug", "==", slug), limit(1));
-  const snapshot = await getDocs(q);
-  if (snapshot.empty) return null;
-  const doc = snapshot.docs[0];
-  return { id: doc.id, ...doc.data() } as Product;
+export async function getProductBySlug(slugParam: string): Promise<Product | null> {
+  // The URL param could be "slug-NXT-XXXX" or just "slug"
+  // Try to find by full slug first, then strip the SKU suffix (last 8 chars: -NXT-XXXX)
+  const skuPattern = /-nxt-[a-z0-9]{4}$/i;
+  const cleanSlug = slugParam.replace(skuPattern, "");
+
+  // Try with full param first (for existing slugs without SKU)
+  const q1 = query(collection(db, "products"), where("slug", "==", slugParam), limit(1));
+  const snap1 = await getDocs(q1);
+  if (!snap1.empty) {
+    const d = snap1.docs[0];
+    return { id: d.id, ...d.data() } as Product;
+  }
+
+  // Try with clean slug (stripped SKU)
+  const q2 = query(collection(db, "products"), where("slug", "==", cleanSlug), limit(1));
+  const snap2 = await getDocs(q2);
+  if (!snap2.empty) {
+    const d = snap2.docs[0];
+    return { id: d.id, ...d.data() } as Product;
+  }
+
+  return null;
 }
+
 
 export async function getProductById(id: string): Promise<Product | null> {
   const docRef = doc(db, "products", id);

@@ -13,18 +13,19 @@ export const productVariantSchema = z.object({
 });
 
 export const productSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z.string().min(2, "الاسم يجب أن يكون حرفين على الأقل"),
   slug: z
     .string()
     .min(2)
-    .regex(/^[a-z0-9-]+$/, "Slug can only contain lowercase letters, numbers and hyphens"),
-  description: z.string().min(10, "Description must be at least 10 characters"),
-  price: z.number().min(0, "Price must be positive"),
+    .regex(/^[a-z0-9-]+$/, "الرابط يحتوي على أحرف إنجليزية صغيرة وأرقام وشرطة فقط"),
+  sku: z.string().min(3, "الكود مطلوب").max(20, "الكود طويل جداً"),
+  description: z.string().min(10, "الوصف يجب أن يكون 10 أحرف على الأقل"),
+  price: z.number().min(0, "السعر يجب أن يكون موجباً"),
   salePrice: z.number().min(0).optional(),
-  category: z.string().min(1, "Category required"),
-  brand: z.string().min(1, "Brand required"),
-  mainImage: z.string().url("Primary card image required"),
-  variants: z.array(productVariantSchema).min(1, "At least one color variant required"),
+  category: z.string().min(1, "اختر الفئة"),
+  brand: z.string().min(1, "البراند مطلوب"),
+  mainImage: z.string().url("صورة الغلاف الرئيسية مطلوبة"),
+  variants: z.array(productVariantSchema).min(1, "أضف لون واحد على الأقل"),
   featured: z.boolean().default(false),
   bestSeller: z.boolean().default(false),
 });

@@ -4,17 +4,19 @@ export interface Product {
   id: string;
   name: string;
   slug: string;
+  sku: string;       // كود فريد للمنتج مثل NXT-AB12 — يُدمج في رابط المنتج
   description: string;
   price: number;
   salePrice?: number;
   category: string;
   brand: string;
-  mainImage: string; // The primary cover image shown on the card from the outside
-  variants: ProductVariant[]; // Each color variant has its own image and size stocks
+  mainImage: string;
+  variants: ProductVariant[];
   featured: boolean;
   bestSeller: boolean;
   createdAt: Timestamp | Date;
 }
+
 
 export interface ProductVariant {
   colorName: string;
