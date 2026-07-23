@@ -11,7 +11,7 @@ export function HeroSection() {
       <div className="absolute inset-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1920&auto=format&fit=crop"
+          src="/banner.png"
           alt="NXT Hero — Premium Fashion"
           className="w-full h-full object-cover object-center"
         />

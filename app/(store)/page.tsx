@@ -11,17 +11,8 @@ export default function HomePage() {
   const [introComplete, setIntroComplete] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
 
-  // Check if intro was already shown this session
-  const hasSeenIntro =
-    typeof window !== "undefined"
-      ? sessionStorage.getItem("nxt-intro-seen")
-      : false;
-
-  useEffect(() => {
-    if (hasSeenIntro) {
-      setIntroComplete(true);
-    }
-  }, [hasSeenIntro]);
+  // Set to false initially so it runs on every page reload/refresh
+  const [hasSeenIntro, setHasSeenIntro] = useState(false);
 
   useEffect(() => {
     // Load featured products
@@ -34,7 +25,7 @@ export default function HomePage() {
   }, []);
 
   const handleIntroComplete = () => {
-    sessionStorage.setItem("nxt-intro-seen", "1");
+    setHasSeenIntro(true);
     setIntroComplete(true);
   };
 

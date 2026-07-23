@@ -4,10 +4,12 @@ echo "  NXT - PUSHING TO GITHUB (AUTOMATED SCRIPT)"
 echo "==================================================="
 echo ""
 
-# Create public directory and copy logo asset
+# Create public directory and copy logo and banner assets
 mkdir -p public
 cp "c:/Users/youse/OneDrive/Desktop/nxt/logo/12-removebg-preview.png" "./public/logo.png" 2>/dev/null
 cp "/Users/youse/OneDrive/Desktop/nxt/logo/12-removebg-preview.png" "./public/logo.png" 2>/dev/null
+cp "c:/Users/youse/OneDrive/Desktop/nxt/logo/baner.png" "./public/banner.png" 2>/dev/null
+cp "/Users/youse/OneDrive/Desktop/nxt/logo/baner.png" "./public/banner.png" 2>/dev/null
 
 # Initialize Git
 if [ ! -d ".git" ]; then
