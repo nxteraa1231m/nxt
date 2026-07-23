@@ -142,119 +142,125 @@ export default function AdminProductsPage() {
               </thead>
               <tbody className="divide-y divide-zinc-50">
                 <AnimatePresence initial={false}>
-                  {filtered.map((product, i) => (
-                    <motion.tr
-                      key={product.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3, delay: Math.min(i * 0.04, 0.2) }}
-                      className="hover:bg-zinc-50/40 transition-colors"
-                    >
-                      {/* Product details */}
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3.5">
-                          <div className="w-12 h-12 rounded-xl overflow-hidden bg-zinc-50/60 border border-zinc-100 flex-shrink-0 flex items-center justify-center p-1.5">
-                            {product.mainImage ? (
-                              <Image
-                                src={product.mainImage}
-                                alt={product.name}
-                                width={40}
-                                height={40}
-                                className="object-contain w-full h-full"
-                              />
-                            ) : (
-                              <div className="text-[10px] text-zinc-300 font-black tracking-tighter">
-                                NXT
+                  {filtered.map((product, i) => {
+                    const totalStock = product.variants?.reduce(
+                      (sum, v) => sum + v.sizes.reduce((sSum, s) => sSum + s.stock, 0),
+                      0
+                    ) || 0;
+                    return (
+                      <motion.tr
+                        key={product.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3, delay: Math.min(i * 0.04, 0.2) }}
+                        className="hover:bg-zinc-50/40 transition-colors"
+                      >
+                        {/* Product details */}
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3.5">
+                            <div className="w-12 h-12 rounded-xl overflow-hidden bg-zinc-50/60 border border-zinc-100 flex-shrink-0 flex items-center justify-center p-1.5">
+                              {product.mainImage ? (
+                                <Image
+                                  src={product.mainImage}
+                                  alt={product.name}
+                                  width={40}
+                                  height={40}
+                                  className="object-contain w-full h-full"
+                                />
+                              ) : (
+                                <div className="text-[10px] text-zinc-300 font-black tracking-tighter">
+                                  NXT
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <p className="font-bold text-xs text-zinc-950">{product.name}</p>
+                              <p className="text-[10px] text-zinc-400 font-medium tracking-wide uppercase mt-0.5">{product.brand}</p>
+                            </div>
+                          </div>
+                        </td>
+                        
+                        {/* Category */}
+                        <td className="px-6 py-4 text-xs font-semibold text-zinc-500 capitalize">
+                          {product.category}
+                        </td>
+
+                        {/* Pricing */}
+                        <td className="px-6 py-4 text-xs font-black text-zinc-950">
+                          <div>
+                            {product.salePrice ? (
+                              <div className="space-y-0.5">
+                                <p className="font-black text-zinc-950">{formatPrice(product.salePrice)}</p>
+                                <p className="text-[10px] text-zinc-400 line-through font-medium">
+                                  {formatPrice(product.price)}
+                                </p>
                               </div>
+                            ) : (
+                              <p>{formatPrice(product.price)}</p>
                             )}
                           </div>
-                          <div>
-                            <p className="font-bold text-xs text-zinc-950">{product.name}</p>
-                            <p className="text-[10px] text-zinc-400 font-medium tracking-wide uppercase mt-0.5">{product.brand}</p>
+                        </td>
+
+                        {/* Stock Level */}
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`w-1.5 h-1.5 rounded-full ${
+                                totalStock === 0
+                                  ? "bg-red-500"
+                                  : totalStock <= 5
+                                  ? "bg-amber-500"
+                                  : "bg-green-500"
+                              }`}
+                            />
+                            <span className="text-xs font-bold text-zinc-800">
+                              {totalStock === 0 ? "Out of Stock" : `${totalStock} units`}
+                            </span>
                           </div>
-                        </div>
-                      </td>
-                      
-                      {/* Category */}
-                      <td className="px-6 py-4 text-xs font-semibold text-zinc-500 capitalize">
-                        {product.category}
-                      </td>
+                        </td>
 
-                      {/* Pricing */}
-                      <td className="px-6 py-4 text-xs font-black text-zinc-950">
-                        <div>
-                          {product.salePrice ? (
-                            <div className="space-y-0.5">
-                              <p className="font-black text-zinc-950">{formatPrice(product.salePrice)}</p>
-                              <p className="text-[10px] text-zinc-400 line-through font-medium">
-                                {formatPrice(product.price)}
-                              </p>
-                            </div>
-                          ) : (
-                            <p>{formatPrice(product.price)}</p>
-                          )}
-                        </div>
-                      </td>
+                        {/* Status Badges */}
+                        <td className="px-6 py-4">
+                          <div className="flex flex-wrap gap-1">
+                            {product.featured && (
+                              <span className="text-[9px] bg-zinc-900 text-white px-2 py-0.5 rounded font-bold uppercase tracking-wider">
+                                Featured
+                              </span>
+                            )}
+                            {product.bestSeller && (
+                              <span className="text-[9px] bg-zinc-100 text-zinc-800 border border-zinc-200 px-2 py-0.5 rounded font-bold uppercase tracking-wider">
+                                Best Seller
+                              </span>
+                            )}
+                            {!product.featured && !product.bestSeller && (
+                              <span className="text-[9px] text-zinc-400 font-bold uppercase tracking-wider">
+                                Standard
+                              </span>
+                            )}
+                          </div>
+                        </td>
 
-                      {/* Stock Level */}
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          <span
-                            className={`w-1.5 h-1.5 rounded-full ${
-                              product.stock === 0
-                                ? "bg-red-500"
-                                : product.stock <= 5
-                                ? "bg-amber-500"
-                                : "bg-green-500"
-                            }`}
-                          />
-                          <span className="text-xs font-bold text-zinc-800">
-                            {product.stock === 0 ? "Out of Stock" : `${product.stock} units`}
-                          </span>
-                        </div>
-                      </td>
-
-                      {/* Status Badges */}
-                      <td className="px-6 py-4">
-                        <div className="flex flex-wrap gap-1">
-                          {product.featured && (
-                            <span className="text-[9px] bg-zinc-900 text-white px-2 py-0.5 rounded font-bold uppercase tracking-wider">
-                              Featured
-                            </span>
-                          )}
-                          {product.bestSeller && (
-                            <span className="text-[9px] bg-zinc-100 text-zinc-800 border border-zinc-200 px-2 py-0.5 rounded font-bold uppercase tracking-wider">
-                              Best Seller
-                            </span>
-                          )}
-                          {!product.featured && !product.bestSeller && (
-                            <span className="text-[9px] text-zinc-400 font-bold uppercase tracking-wider">
-                              Standard
-                            </span>
-                          )}
-                        </div>
-                      </td>
-
-                      {/* Action buttons */}
-                      <td className="px-6 py-4">
-                        <div className="flex items-center justify-end gap-1.5">
-                          <Link
-                            href={`/admin/products/${product.id}/edit`}
-                            className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-zinc-50 border border-transparent hover:border-zinc-100 transition-all text-zinc-500 hover:text-zinc-900"
-                          >
-                            <Edit size={13} />
-                          </Link>
-                          <button
-                            onClick={() => setDeleteId(product.id)}
-                            className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-50 border border-transparent hover:border-red-100 transition-all text-zinc-400 hover:text-red-600"
-                          >
-                            <Trash2 size={13} />
-                          </button>
-                        </div>
-                      </td>
-                    </motion.tr>
-                  ))}
+                        {/* Action buttons */}
+                        <td className="px-6 py-4">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <Link
+                              href={`/admin/products/${product.id}/edit`}
+                              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-zinc-50 border border-transparent hover:border-zinc-100 transition-all text-zinc-500 hover:text-zinc-900"
+                            >
+                              <Edit size={13} />
+                            </Link>
+                            <button
+                              onClick={() => setDeleteId(product.id)}
+                              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-50 border border-transparent hover:border-red-100 transition-all text-zinc-400 hover:text-red-600"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
+                        </td>
+                      </motion.tr>
+                    );
+                  })}
                 </AnimatePresence>
               </tbody>
             </table>
