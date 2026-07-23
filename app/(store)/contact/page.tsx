@@ -47,8 +47,8 @@ export default function ContactPage() {
               {
                 icon: Instagram,
                 label: "Instagram",
-                value: "@nxtstore",
-                href: "#",
+                value: "@nxt_era11",
+                href: "https://www.instagram.com/nxt_era11?igsh=a24waXR2OXQwdmhv&utm_source=qr",
               },
               {
                 icon: MapPin,

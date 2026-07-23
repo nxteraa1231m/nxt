@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram, Twitter, Facebook } from "lucide-react";
+import { Instagram, Facebook, Tiktok } from "lucide-react";
 
 export function Footer() {
   return (
@@ -15,13 +15,27 @@ export function Footer() {
             </p>
             <div className="flex gap-4 mt-6">
               {[
-                { icon: Instagram, label: "Instagram", href: "#" },
-                { icon: Twitter, label: "Twitter", href: "#" },
-                { icon: Facebook, label: "Facebook", href: "#" },
+                {
+                  icon: Instagram,
+                  label: "Instagram",
+                  href: "https://www.instagram.com/nxt_era11?igsh=a24waXR2OXQwdmhv&utm_source=qr",
+                },
+                {
+                  icon: Facebook,
+                  label: "Facebook",
+                  href: "https://www.facebook.com/share/1D4P25PPrn/?mibextid=wwXIfr",
+                },
+                {
+                  icon: Tiktok,
+                  label: "TikTok",
+                  href: "https://www.tiktok.com/@nxt_eraa?_r=1&_t=ZS-98G939LYUoU",
+                },
               ].map(({ icon: Icon, label, href }) => (
                 <a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center hover:bg-white/20 transition-colors"
                 >

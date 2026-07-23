@@ -7,15 +7,16 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        background: "#FFFFFF",
-        foreground: "#000000",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
         gray: {
-          50: "#F9F9F9",
-          100: "#F5F5F5",
-          200: "#EEEEEE",
+          50: "var(--gray-50)",
+          100: "var(--gray-100)",
+          200: "var(--gray-200)",
           300: "#E0E0E0",
           400: "#BDBDBD",
           500: "#9E9E9E",
@@ -24,8 +25,8 @@ const config: Config = {
           800: "#424242",
           900: "#212121",
         },
-        accent: "#111111",
-        muted: "#6B7280",
+        accent: "var(--accent)",
+        muted: "var(--muted)",
       },
       fontFamily: {
         sans: ["var(--font-outfit)", "var(--font-inter)", "system-ui", "sans-serif"],

@@ -80,15 +80,12 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                   alt={product.name}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  className="object-contain p-4 transition-opacity duration-300"
-                  style={{
-                    mixBlendMode: "multiply",
-                  }}
+                  className="object-contain p-4 transition-opacity duration-300 mix-blend-multiply dark:mix-blend-normal bg-transparent dark:bg-zinc-900/40 rounded-3xl"
                 />
               </motion.div>
             ) : (
-              <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                <span className="text-gray-300 text-4xl font-black">NXT</span>
+              <div className="w-full h-full bg-gray-100 dark:bg-zinc-900 flex items-center justify-center rounded-3xl">
+                <span className="text-gray-300 dark:text-zinc-700 text-4xl font-black">NXT</span>
               </div>
             )}
           </div>
@@ -102,7 +99,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
               {product.colors.slice(0, 4).map((color) => (
                 <div
                   key={color.hex}
-                  className="w-3 h-3 rounded-full border border-gray-200"
+                  className="w-3 h-3 rounded-full border border-gray-200 dark:border-zinc-800"
                   style={{ backgroundColor: color.hex }}
                   title={color.name}
                 />
@@ -115,12 +112,12 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             </div>
           )}
 
-          <h3 className="text-sm font-semibold text-gray-900 leading-tight">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight">
             {product.name}
           </h3>
 
           <div className="flex items-center justify-center gap-2">
-            <span className="text-base font-bold">
+            <span className="text-base font-bold text-foreground">
               {formatPrice(displayPrice)}
             </span>
             {hasDiscount && (

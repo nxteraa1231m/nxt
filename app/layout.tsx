@@ -3,6 +3,7 @@ import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/features/cart/CartProvider";
 import { AuthProvider } from "@/features/auth/AuthProvider";
+import { ThemeProvider } from "@/features/theme/ThemeProvider";
 import { Toaster } from "sonner";
 
 const outfit = Outfit({
@@ -56,22 +57,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased bg-background text-foreground transition-colors duration-300">
         <AuthProvider>
-          <CartProvider>
-            {children}
-            <Toaster
-              position="bottom-right"
-              toastOptions={{
-                style: {
-                  background: "#000",
-                  color: "#fff",
-                  borderRadius: "12px",
-                  border: "none",
-                },
-              }}
-            />
-          </CartProvider>
+          <ThemeProvider>
+            <CartProvider>
+              {children}
+              <Toaster
+                position="bottom-right"
+                toastOptions={{
+                  style: {
+                    background: "#000",
+                    color: "#fff",
+                    borderRadius: "12px",
+                    border: "none",
+                  },
+                }}
+              />
+            </CartProvider>
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

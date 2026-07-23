@@ -24,6 +24,16 @@
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --gray-50: #121212;
+  --gray-100: #1a1a1a;
+  --gray-200: #262626;
+  --accent: #f5f5f5;
+  --muted: #9CA3AF;
+}
+
 /* ─── Base Reset ─────────────────────────────────────── */
 * {
   margin: 0;
