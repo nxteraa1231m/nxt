@@ -263,6 +263,6 @@ git push -u origin main
 
 ## 📞 Support
 
-For any issues, contact: support@nxtstore.com
+For any issues, contact: nxteraa953@gmail.com
 
 © 2026 NXT — All rights reserved.

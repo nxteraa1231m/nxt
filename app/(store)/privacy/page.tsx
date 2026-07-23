@@ -29,7 +29,7 @@ export default function PrivacyPage() {
           {
             title: "Contact Us",
             content:
-              "If you have questions about this Privacy Policy, please contact us at support@nxtstore.com",
+              "If you have questions about this Privacy Policy, please contact us at nxteraa953@gmail.com",
           },
         ].map(({ title, content }) => (
           <section key={title} className="mb-8">

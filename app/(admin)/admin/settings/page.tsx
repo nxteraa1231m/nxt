@@ -27,7 +27,7 @@ export default function AdminSettingsPage() {
               </label>
               <input
                 type="email"
-                defaultValue="support@nxtstore.com"
+                defaultValue="nxteraa953@gmail.com"
                 className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black bg-white"
               />
             </div>

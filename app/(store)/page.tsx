@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { IntroScreen } from "@/components/home/IntroScreen";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
-import { CollectionsGrid } from "@/components/home/CollectionsGrid";
 import type { Product } from "@/types/product";
 import { getProducts } from "@/lib/firebase/firestore";
 
@@ -55,7 +54,6 @@ export default function HomePage() {
       >
         <HeroSection />
         <FeaturedProducts products={products} />
-        <CollectionsGrid />
       </div>
     </>
   );

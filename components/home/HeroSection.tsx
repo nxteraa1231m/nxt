@@ -11,13 +11,13 @@ export function HeroSection() {
       <div className="absolute inset-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1920&auto=format&fit=crop"
           alt="NXT Hero — Premium Fashion"
           className="w-full h-full object-cover object-center"
         />
         {/* Multi-layer gradient overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/70" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
       </div>
 
       {/* Hero Content */}
@@ -70,10 +70,10 @@ export function HeroSection() {
             />
           </Link>
           <Link
-            href="/#collections"
+            href="/shop"
             className="inline-flex items-center gap-2 border border-white/30 text-white px-8 py-4 rounded-full font-medium text-sm tracking-wide hover:bg-white/10 transition-all duration-300"
           >
-            View Collections
+            View Shop
           </Link>
         </motion.div>
       </div>

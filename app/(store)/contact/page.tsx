@@ -35,8 +35,8 @@ export default function ContactPage() {
               {
                 icon: Mail,
                 label: "Email",
-                value: "support@nxtstore.com",
-                href: "mailto:support@nxtstore.com",
+                value: "nxteraa953@gmail.com",
+                href: "mailto:nxteraa953@gmail.com",
               },
               {
                 icon: Phone,

@@ -24,7 +24,7 @@ export default function TermsPage() {
           {
             title: "Returns & Exchanges",
             content:
-              "We accept returns within 7 days of delivery for unused items in original condition. Items must not be washed or damaged. Contact us at support@nxtstore.com to initiate a return.",
+              "We accept returns within 7 days of delivery for unused items in original condition. Items must not be washed or damaged. Contact us at nxteraa953@gmail.com to initiate a return.",
           },
           {
             title: "Limitation of Liability",
