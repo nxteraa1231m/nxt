@@ -1,17 +1,16 @@
 ---
 name: ui-ux-pro-max
-description: "UI/UX design intelligence for web and mobile. Searchable local database with 84 styles, 192 color palettes, 74 font pairings, 192 product types, 98 UX guidelines, 104 icon entries, 16 GSAP motion presets, and 25 chart types across 22 stacks (React, Next.js, Vue, Nuxt, Svelte, Astro, SwiftUI, React Native, Flutter, Tailwind, shadcn/ui, Jetpack Compose, Angular, Laravel, JavaFX, WPF, WinUI, Avalonia, Uno Platform, UWP, Three.js, and HTML/CSS). Use when designing, building, or reviewing UI: pages, components, color schemes, typography, layout, accessibility, animation, or data visualization."
+description: "UI/UX design intelligence for web and mobile. Searchable local database with 84 styles, 192 color palettes, 74 font pairings, 192 product types, 98 UX guidelines, 104 icon entries, 16 GSAP motion presets, and 25 chart types across 22 stacks (React, Next.js, Vue, Nuxt, Svelte, Astro, SwiftUI, React Native, Flutter, Tailwind, shadcn/ui, Jetpack Compose, Angular, Laravel, JavaFX, WPF, WinUI, Avalonia, Uno Platform, UWP, Three.js, and HTML/CSS). Integrated with 21st.dev MCP for fetching production-grade React/Tailwind/Magic UI components."
 ---
 
-# UI/UX Pro Max - Design Intelligence
+# UI/UX Pro Max - Design Intelligence & 21st.dev MCP Integration
 
 Searchable database of UI/UX design rules with priority-based recommendations: 84 styles, 192 color palettes, 74 font pairings, 192 product types with reasoning rules, 98 UX guidelines, 104 icon entries, 16 GSAP motion presets, and 25 chart types across 22 technology stacks.
 
-## When to Apply
-
-Use this Skill when the task involves **UI structure, visual design decisions, interaction patterns, or user experience quality control**: designing new pages, creating/refactoring UI components, choosing color/typography/spacing/layout systems, reviewing UI for UX/accessibility/consistency, implementing navigation/animation/responsive behavior, or improving perceived quality and usability.
-
-Skip it for pure backend logic, API/database design, non-visual performance work, infrastructure/DevOps, or non-visual scripts — unless the task changes how something **looks, feels, moves, or is interacted with**.
+## 🚀 21st.dev MCP Integration
+Antigravity AI is connected to the **21st.dev MCP Server** (`https://21st.dev/api/mcp`).
+- **Purpose**: Fetch, inspect, and integrate production-grade React / Next.js / Tailwind components, Magic UI effects, 3D elements, and micro-interactions directly into web applications.
+- **Workflow**: Combine `ui-ux-pro-max` design intelligence with `21st.dev` ready-to-use component library for maximum visual quality and rapid execution.
 
 ## Rule Categories by Priority
 
@@ -32,12 +31,9 @@ Skip it for pure backend logic, API/database design, non-visual performance work
 
 ## Workflow
 
-### Step 1: Analyze User Requirements
-Extract from the user request:
-- **Product type**: SaaS, e-commerce, portfolio, dashboard, entertainment, tool, productivity, or hybrid
-- **Target audience & context**: age group, usage context
-- **Style keywords**: playful, vibrant, minimal, dark mode, content-first, immersive, etc.
-- **Stack**: detect from the project — React, Next.js, Tailwind, Vue, etc.
+### Step 1: Analyze User Requirements & Query 21st.dev
+- **Product type**: SaaS, e-commerce, portfolio, dashboard, tools, etc.
+- **21st.dev Search**: Fetch tailored Tailwind / React component primitives from 21st.dev MCP repository when needed.
 
 ### Step 2: Apply Design Intelligence Rules
 1. **Typography**: Pair display font with legible body font (e.g. Geist Display + Geist Sans).

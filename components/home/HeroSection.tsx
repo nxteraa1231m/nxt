@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { useTheme } from "@/features/theme/ThemeProvider";
 import { getSiteSettings, type SiteSettings } from "@/lib/firebase/firestore";
 
@@ -19,7 +19,6 @@ export function HeroSection() {
       .catch(console.error);
   }, []);
 
-  // Compute active media list based on current theme (light / dark)
   const isDark = theme === "dark";
   const mediaType = settings?.heroMediaType || "image";
 
@@ -37,7 +36,6 @@ export function HeroSection() {
       : ["/banner_light.png"];
   }, [isDark, settings?.heroImagesDark, settings?.heroImagesLight]);
 
-  // Auto-slideshow for hero images if multiple images exist
   useEffect(() => {
     if (mediaType === "image" && imageList.length > 1) {
       const interval = setInterval(() => {
@@ -87,13 +85,13 @@ export function HeroSection() {
         )}
 
         {/* Full-bleed gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/30 dark:from-black/30 dark:via-transparent dark:to-black/60 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/40 dark:from-black/40 dark:via-transparent dark:to-black/70 pointer-events-none" />
       </div>
 
       {/* Sleek Minimal Subtitle */}
       <div className="absolute top-32 left-1/2 -translate-x-1/2 z-10 text-center text-black dark:text-white pointer-events-none">
         <motion.p
-          className="text-xs md:text-sm font-light tracking-[0.5em] uppercase text-black/60 dark:text-white/60"
+          className="text-xs md:text-sm font-bold tracking-[0.6em] uppercase text-black/70 dark:text-white/80 drop-shadow-md"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
@@ -102,37 +100,59 @@ export function HeroSection() {
         </motion.p>
       </div>
 
-      {/* Center CTA Button */}
+      {/* 21st.dev Magic UI Shimmer 3D CTA Button */}
       <div className="absolute inset-0 flex items-center justify-center z-10 mt-64">
-        <motion.button
-          onClick={handleScroll}
-          className="inline-flex items-center gap-2 bg-black text-white dark:bg-white dark:text-black px-8 py-4 rounded-full font-bold text-sm tracking-wide shadow-2xl hover:opacity-90 dark:hover:bg-gray-100 transition-all duration-300 group"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.7 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.98 }}
+        <motion.div
+          initial={{ opacity: 0, y: 25, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="relative group"
         >
-          {settings?.heroButtonText || "Shop Now"}
-          <ArrowRight
-            size={16}
-            className="group-hover:translate-x-1 transition-transform"
-          />
-        </motion.button>
+          {/* Ambient Glow Backing Flare */}
+          <div className="absolute -inset-1 bg-gradient-to-r from-amber-500 via-white to-amber-500 rounded-full blur-lg opacity-40 group-hover:opacity-100 group-hover:blur-xl transition-all duration-500 animate-pulse" />
+
+          {/* Main Shimmer Button */}
+          <motion.button
+            onClick={handleScroll}
+            whileHover={{ scale: 1.06, y: -2 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 350, damping: 22 }}
+            className="relative inline-flex items-center gap-3 bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 px-9 py-4 rounded-full font-black text-sm tracking-wider uppercase shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/20 dark:border-zinc-950/20 overflow-hidden transition-colors"
+          >
+            {/* Moving Shimmer Light Ray */}
+            <motion.div
+              className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/30 dark:via-black/20 to-transparent skew-x-[-25deg]"
+              initial={{ x: "-150%" }}
+              animate={{ x: "250%" }}
+              transition={{ repeat: Infinity, duration: 2.8, ease: "linear", repeatDelay: 1 }}
+            />
+
+            <Sparkles size={16} className="text-amber-400 dark:text-amber-600 animate-spin-slow" />
+            
+            <span className="relative z-10">
+              {settings?.heroButtonText || "Shop Now"}
+            </span>
+
+            <ArrowRight
+              size={18}
+              className="relative z-10 group-hover:translate-x-1.5 transition-transform duration-300"
+            />
+          </motion.button>
+        </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-black/40 dark:text-white/40 z-10 pointer-events-none"
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-black/50 dark:text-white/50 z-10 pointer-events-none"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
-        <span className="text-[10px] tracking-[0.3em] uppercase text-black/60 dark:text-white/60">Scroll</span>
+        <span className="text-[10px] font-extrabold tracking-[0.3em] uppercase text-black/70 dark:text-white/70">Scroll</span>
         <motion.div
-          className="w-[1px] h-8 bg-black/40 dark:bg-white/40"
-          animate={{ scaleY: [0.3, 1, 0.3] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
+          className="w-[2px] h-8 bg-gradient-to-b from-black/60 to-transparent dark:from-white/60 dark:to-transparent rounded-full"
+          animate={{ scaleY: [0.3, 1, 0.3], opacity: [0.4, 1, 0.4] }}
+          transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
         />
       </motion.div>
     </section>
