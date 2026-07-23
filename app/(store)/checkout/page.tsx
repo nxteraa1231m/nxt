@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
@@ -31,9 +31,24 @@ export default function CheckoutPage() {
     defaultValues: { paymentMethod: "vodafone_cash" },
   });
 
-  if (items.length === 0) {
-    router.replace("/shop");
-    return null;
+  // Perform redirect only on client side to avoid location ReferenceError during prerendering
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    if (items.length === 0) {
+      setIsRedirecting(true);
+      router.replace("/shop");
+    }
+  }, [items, router]);
+
+  if (!mounted || items.length === 0 || isRedirecting) {
+    return (
+      <div className="pt-20 min-h-screen flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
   }
 
   const onSubmit = async (data: CheckoutFormData) => {
