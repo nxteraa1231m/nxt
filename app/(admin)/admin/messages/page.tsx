@@ -94,10 +94,11 @@ export default function AdminMessagesPage() {
       );
     });
 
-  const formatDate = (timestamp: any) => {
+  const formatDate = (timestamp: unknown) => {
     if (!timestamp) return "Just now";
     try {
-      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      const tsObj = timestamp as { toDate?: () => Date };
+      const date = typeof tsObj.toDate === "function" ? tsObj.toDate() : new Date(timestamp as string | number | Date);
       return date.toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",

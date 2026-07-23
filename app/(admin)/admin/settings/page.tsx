@@ -100,26 +100,10 @@ NXT is not responsible for delays caused by courier services or events beyond ou
     }
   };
 
-  const addImageLight = (url: string) => {
-    if (!url) return;
-    setSettings((prev) => ({
-      ...prev,
-      heroImagesLight: [...(prev.heroImagesLight || []), url],
-    }));
-  };
-
   const removeImageLight = (index: number) => {
     setSettings((prev) => ({
       ...prev,
       heroImagesLight: prev.heroImagesLight?.filter((_, i) => i !== index),
-    }));
-  };
-
-  const addImageDark = (url: string) => {
-    if (!url) return;
-    setSettings((prev) => ({
-      ...prev,
-      heroImagesDark: [...(prev.heroImagesDark || []), url],
     }));
   };
 
