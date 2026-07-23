@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { X, ShoppingBag, Minus, Plus, Trash2 } from "lucide-react";
+import { X, ShoppingBag, Minus, Plus, Trash2, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/features/cart/CartProvider";
 import { formatPrice } from "@/lib/utils";

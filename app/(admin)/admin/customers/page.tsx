@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getDocs, collection, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
-import { Search, Sparkles } from "lucide-react";
+import { Search } from "lucide-react";
 import { Spinner } from "@/components/ui/Spinner";
 import { formatDate } from "@/lib/utils";
 import type { User } from "@/types/user";

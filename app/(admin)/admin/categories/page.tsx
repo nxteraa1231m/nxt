@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Trash2, FolderPlus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { getCategories, createCategory, deleteCategory } from "@/lib/firebase/firestore";
 import { generateSlug } from "@/lib/utils";
 import type { Category } from "@/types/category";
@@ -105,7 +105,7 @@ export default function AdminCategoriesPage() {
                 No categories registered yet. Use the field above to add one.
               </div>
             ) : (
-              categories.map((cat, i) => (
+              categories.map((cat) => (
                 <div
                   key={cat.id}
                   className="flex items-center justify-between px-6 py-4.5 hover:bg-zinc-50/40 transition-colors duration-300"

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, X, Upload, Trash2, Palette, Sparkles, AlertCircle } from "lucide-react";
+import { Plus, X, Upload, Trash2, Palette, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { createProduct, updateProduct, getCategories } from "@/lib/firebase/firestore";
 import { generateSlug } from "@/lib/utils";

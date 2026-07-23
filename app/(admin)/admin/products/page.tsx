@@ -10,8 +10,6 @@ import {
   Edit,
   Trash2,
   AlertTriangle,
-  ChevronRight,
-  SlidersHorizontal,
 } from "lucide-react";
 import { getProducts, deleteProduct } from "@/lib/firebase/firestore";
 import { formatPrice } from "@/lib/utils";
@@ -157,9 +155,9 @@ export default function AdminProductsPage() {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3.5">
                           <div className="w-12 h-12 rounded-xl overflow-hidden bg-zinc-50/60 border border-zinc-100 flex-shrink-0 flex items-center justify-center p-1.5">
-                            {product.images[0] ? (
+                            {product.mainImage ? (
                               <Image
-                                src={product.images[0]}
+                                src={product.mainImage}
                                 alt={product.name}
                                 width={40}
                                 height={40}

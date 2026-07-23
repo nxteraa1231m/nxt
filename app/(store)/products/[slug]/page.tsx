@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { getProductBySlug } from "@/lib/firebase/firestore";
 import { useCart } from "@/features/cart/CartProvider";
 import { formatPrice, getDiscountPercentage } from "@/lib/utils";
-import type { Product, ProductColor } from "@/types/product";
+import type { Product, ProductVariant } from "@/types/product";
 import { Spinner } from "@/components/ui/Spinner";
 import { Badge } from "@/components/ui/Badge";
 
@@ -76,7 +76,7 @@ export default function ProductDetailPage() {
   const availableSizes = activeVariant?.sizes || [];
   const sizeStock = activeVariant?.sizes.find((s) => s.size === selectedSize)?.stock || 0;
 
-  const handleColorSelect = (variant: any) => {
+  const handleColorSelect = (variant: ProductVariant) => {
     setSelectedColor({
       name: variant.colorName,
       hex: variant.colorHex,

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, X, ChevronRight, ArrowRight, Sparkles } from "lucide-react";
+import { Search, X, ChevronRight, Sparkles } from "lucide-react";
 import { getOrders, updateOrderStatus } from "@/lib/firebase/firestore";
 import { formatPrice, formatDate } from "@/lib/utils";
 import type { Order, OrderStatus } from "@/types/order";
