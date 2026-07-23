@@ -40,7 +40,7 @@ export function Header() {
             : "bg-transparent"
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Desktop Navigation — Left aligned */}
             <nav className="hidden md:flex items-center gap-6">
@@ -59,46 +59,52 @@ export function Header() {
             </nav>
 
             {/* Logo — absolute centered */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center">
+            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center pointer-events-auto">
               <Link href="/">
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative flex items-center justify-center"
+                  className="relative flex items-center justify-center py-1"
                 >
-                  <Logo3D size={44} layers={35} className={theme === "dark" ? "invert" : "invert-0"} />
+                  {/* Mobile size 50, Desktop size 68 */}
+                  <div className="block md:hidden">
+                    <Logo3D size={50} layers={40} className={theme === "dark" ? "invert" : "invert-0"} />
+                  </div>
+                  <div className="hidden md:block">
+                    <Logo3D size={68} layers={50} className={theme === "dark" ? "invert" : "invert-0"} />
+                  </div>
                 </motion.div>
               </Link>
             </div>
 
             {/* Right Actions */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 sm:gap-2 md:gap-3 ml-auto z-20">
               {/* Theme Toggle */}
               <motion.button
                 onClick={toggleTheme}
                 className={cn(
-                  "p-2 transition-all duration-300 rounded-lg hover:bg-black/5 dark:hover:bg-white/5",
+                  "p-1.5 sm:p-2 transition-all duration-300 rounded-lg hover:bg-black/5 dark:hover:bg-white/5",
                   scrolled || theme === "light" ? "text-black dark:text-white" : "text-white"
                 )}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Toggle theme"
               >
-                {mounted ? (theme === "dark" ? <Sun size={20} /> : <Moon size={20} />) : <div className="w-5 h-5" />}
+                {mounted ? (theme === "dark" ? <Sun size={18} className="sm:w-5 sm:h-5" /> : <Moon size={18} className="sm:w-5 sm:h-5" />) : <div className="w-4 h-4 sm:w-5 sm:h-5" />}
               </motion.button>
 
               {/* Wishlist Toggle */}
               <motion.button
                 onClick={toggleWishlistDrawer}
                 className={cn(
-                  "relative p-2 transition-all duration-300",
+                  "relative p-1.5 sm:p-2 transition-all duration-300",
                   scrolled || theme === "light" ? "text-black dark:text-white" : "text-white"
                 )}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Wishlist"
               >
-                <Heart size={20} className={wishlist.length > 0 ? "fill-red-500 text-red-500" : ""} />
+                <Heart size={18} className={cn("sm:w-5 sm:h-5", wishlist.length > 0 ? "fill-red-500 text-red-500" : "")} />
                 <AnimatePresence>
                   {wishlist.length > 0 && (
                     <motion.span
@@ -119,19 +125,19 @@ export function Header() {
               <motion.button
                 onClick={toggleCart}
                 className={cn(
-                  "relative p-2 transition-all duration-300",
+                  "relative p-1.5 sm:p-2 transition-all duration-300",
                   scrolled || theme === "light" ? "text-black dark:text-white" : "text-white"
                 )}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Shopping cart"
               >
-                <ShoppingBag size={22} />
+                <ShoppingBag size={20} className="sm:w-[22px] sm:h-[22px]" />
                 <AnimatePresence>
                   {totalItems > 0 && (
                     <motion.span
                       key="badge"
-                      className="absolute -top-1 -right-1 w-5 h-5 bg-black text-white dark:bg-white dark:text-black text-[10px] font-bold rounded-full flex items-center justify-center"
+                      className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-black text-white dark:bg-white dark:text-black text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center"
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       exit={{ scale: 0 }}
@@ -146,13 +152,13 @@ export function Header() {
               {/* Mobile Menu Button */}
               <button
                 className={cn(
-                  "md:hidden p-2 transition-colors",
+                  "md:hidden p-1.5 sm:p-2 transition-colors",
                   scrolled || theme === "light" ? "text-black dark:text-white" : "text-white"
                 )}
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label="Toggle menu"
               >
-                {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
             </div>
           </div>

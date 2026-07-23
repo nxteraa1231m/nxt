@@ -34,7 +34,7 @@ export function Logo3D({ className, layers = 15, size = 220 }: Logo3DProps) {
         }}
       >
         {Array.from({ length: layers }).map((_, i) => {
-          const zOffset = -i * 0.35; // Extrude each layer backwards in 3D space with very tight spacing
+          const zOffset = -i * 0.12; // Ultra tight spacing between layers for a solid 3D extrusion look
           return (
             <div
               key={i}

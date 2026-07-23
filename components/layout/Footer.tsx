@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Instagram, Facebook } from "lucide-react";
 
 function TiktokIcon({ size = 18 }: { size?: number }) {
@@ -19,6 +22,13 @@ function TiktokIcon({ size = 18 }: { size?: number }) {
 }
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // Hide footer on dedicated product details page
+  if (pathname?.startsWith("/products/")) {
+    return null;
+  }
+
   return (
     <footer className="bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

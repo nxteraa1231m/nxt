@@ -47,23 +47,51 @@ export function IntroScreen({ onComplete }: { onComplete: () => void }) {
           {/* Brand Name */}
           <div className="relative z-10 flex flex-col items-center gap-8">
             <motion.div
-              initial={{ opacity: 0, scale: 0.85, filter: "blur(10px)" }}
+              initial={{ opacity: 0, scale: 0.8, filter: "blur(12px)" }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               transition={{
                 duration: 1.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="relative w-[280px] h-[120px] flex items-center justify-center"
+              className="relative w-[320px] sm:w-[440px] md:w-[560px] h-[150px] sm:h-[200px] md:h-[240px] flex items-center justify-center"
+              style={{ perspective: "1200px" }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/intro.png"
-                alt="NXT Brand"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "/logo.png";
+              {/* 3D Stacked Extrusion Container */}
+              <motion.div
+                className="w-full h-full relative flex items-center justify-center"
+                style={{ transformStyle: "preserve-3d" }}
+                animate={{
+                  rotateY: [-18, 18, -18],
+                  rotateX: [12, -8, 12],
                 }}
-                className="w-full h-full object-contain pointer-events-none select-none"
-              />
+                transition={{
+                  repeat: Infinity,
+                  duration: 6,
+                  ease: "easeInOut",
+                }}
+              >
+                {Array.from({ length: 30 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute inset-0 w-full h-full flex items-center justify-center"
+                    style={{
+                      transform: `translateZ(${-i * 0.35}px)`,
+                      backfaceVisibility: "visible",
+                      filter: i > 0 ? `brightness(${Math.max(0.2, 1 - (i / 30) * 0.85)})` : "none",
+                    }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/intro.png"
+                      alt="NXT 3D Brand Intro"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/logo.png";
+                      }}
+                      className="w-full h-full object-contain pointer-events-none select-none"
+                    />
+                  </div>
+                ))}
+              </motion.div>
             </motion.div>
 
             {/* Tagline — letter by letter */}
