@@ -31,18 +31,7 @@ export default function AdminLoginPage() {
   const onSubmit = async (data: LoginForm) => {
     setLoading(true);
     try {
-      const user = await signInAdmin(data.email, data.password);
-      const idToken = await user.getIdToken();
-
-      // Set session cookie via API
-      const res = await fetch("/api/admin/auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken }),
-      });
-
-      if (!res.ok) throw new Error("Failed to create session");
-
+      await signInAdmin(data.email, data.password);
       toast.success("Welcome back!");
       router.push("/admin");
     } catch (err: unknown) {

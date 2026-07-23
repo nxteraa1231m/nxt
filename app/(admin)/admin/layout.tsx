@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import {
   LayoutDashboard,
   Package,
@@ -15,6 +16,8 @@ import {
 } from "lucide-react";
 import { signOut } from "@/lib/firebase/auth";
 import { toast } from "sonner";
+import { useAuth } from "@/features/auth/AuthProvider";
+import { Spinner } from "@/components/ui/Spinner";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -32,6 +35,15 @@ export default function AdminLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { user, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user || user.email !== "nxteraa953@gmail.com") {
+        router.push("/admin/login");
+      }
+    }
+  }, [user, loading, router]);
 
   const handleSignOut = async () => {
     try {
@@ -43,6 +55,18 @@ export default function AdminLayout({
       toast.error("Sign out failed");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  if (!user || user.email !== "nxteraa953@gmail.com") {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
