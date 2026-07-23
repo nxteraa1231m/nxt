@@ -66,12 +66,12 @@ export function Header() {
                   whileTap={{ scale: 0.95 }}
                   className="relative flex items-center justify-center py-1"
                 >
-                  {/* Mobile size 50, Desktop size 68 */}
+                  {/* Mobile size 65, Desktop size 90 */}
                   <div className="block md:hidden">
-                    <Logo3D size={50} layers={40} className={theme === "dark" ? "invert" : "invert-0"} />
+                    <Logo3D size={65} layers={50} className={theme === "dark" ? "invert" : "invert-0"} />
                   </div>
                   <div className="hidden md:block">
-                    <Logo3D size={68} layers={50} className={theme === "dark" ? "invert" : "invert-0"} />
+                    <Logo3D size={90} layers={60} className={theme === "dark" ? "invert" : "invert-0"} />
                   </div>
                 </motion.div>
               </Link>

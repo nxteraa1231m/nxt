@@ -134,7 +134,7 @@ export default function ProductDetailPage() {
           <div className="space-y-4">
             {/* Main Image */}
             <motion.div
-              className="aspect-square relative overflow-hidden rounded-2xl bg-gray-50"
+              className="aspect-square relative overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900"
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
             >
@@ -151,8 +151,7 @@ export default function ProductDetailPage() {
                     src={galleryImages[activeImage] || "/placeholder.jpg"}
                     alt={product.name}
                     fill
-                    className="object-contain p-8"
-                    style={{ mixBlendMode: "multiply" }}
+                    className="object-contain p-4"
                     priority
                   />
                 </motion.div>
@@ -167,7 +166,7 @@ export default function ProductDetailPage() {
                         i === 0 ? galleryImages.length - 1 : i - 1
                       )
                     }
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 dark:bg-zinc-800/80 backdrop-blur rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-zinc-700 transition-colors"
                   >
                     <ChevronLeft size={18} />
                   </button>
@@ -177,7 +176,7 @@ export default function ProductDetailPage() {
                         i === galleryImages.length - 1 ? 0 : i + 1
                       )
                     }
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 dark:bg-zinc-800/80 backdrop-blur rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-zinc-700 transition-colors"
                   >
                     <ChevronRight size={18} />
                   </button>
@@ -194,8 +193,8 @@ export default function ProductDetailPage() {
                     onClick={() => setActiveImage(i)}
                     className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
                       activeImage === i
-                        ? "border-black"
-                        : "border-gray-200 hover:border-gray-400"
+                        ? "border-black dark:border-white"
+                        : "border-gray-200 dark:border-zinc-800 hover:border-gray-400"
                     }`}
                   >
                     <Image
@@ -203,8 +202,7 @@ export default function ProductDetailPage() {
                       alt={`${product.name} ${i + 1}`}
                       width={80}
                       height={80}
-                      className="w-full h-full object-contain p-2 bg-gray-50"
-                      style={{ mixBlendMode: "multiply" }}
+                      className="w-full h-full object-contain p-2 bg-zinc-100 dark:bg-zinc-900"
                     />
                   </button>
                 ))}

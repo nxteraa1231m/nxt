@@ -85,7 +85,6 @@ export function WishlistSidebar() {
                           src={product.mainImage || "/placeholder.jpg"}
                           alt={product.name}
                           className="w-full h-full object-contain"
-                          style={{ mixBlendMode: "multiply" }}
                         />
                       </div>
 

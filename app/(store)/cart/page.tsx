@@ -76,7 +76,6 @@ export default function CartPage() {
                           width={128}
                           height={128}
                           className="w-full h-full object-contain p-2"
-                          style={{ mixBlendMode: "multiply" }}
                         />
                       </div>
 

@@ -97,7 +97,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                   alt={product.name}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  className="object-contain p-4 transition-opacity duration-300 mix-blend-multiply dark:mix-blend-normal bg-transparent dark:bg-zinc-900/40 rounded-3xl"
+                  className="object-contain p-3 transition-all duration-300 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50"
                 />
               </motion.div>
             ) : (

@@ -47,37 +47,41 @@ export function IntroScreen({ onComplete }: { onComplete: () => void }) {
           {/* Brand Name */}
           <div className="relative z-10 flex flex-col items-center gap-8">
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, filter: "blur(12px)" }}
+              initial={{ opacity: 0, scale: 0.75, filter: "blur(16px)" }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               transition={{
                 duration: 1.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="relative w-[320px] sm:w-[440px] md:w-[560px] h-[150px] sm:h-[200px] md:h-[240px] flex items-center justify-center"
-              style={{ perspective: "1200px" }}
+              className="relative w-[340px] sm:w-[480px] md:w-[620px] h-[160px] sm:h-[220px] md:h-[280px] flex items-center justify-center"
+              style={{ perspective: "1000px" }}
             >
-              {/* 3D Stacked Extrusion Container */}
+              {/* High-Impact 3D Extrusion Container */}
               <motion.div
                 className="w-full h-full relative flex items-center justify-center"
                 style={{ transformStyle: "preserve-3d" }}
                 animate={{
-                  rotateY: [-18, 18, -18],
-                  rotateX: [12, -8, 12],
+                  rotateY: [-35, 35, -35],
+                  rotateX: [18, -18, 18],
+                  rotateZ: [-2, 2, -2],
                 }}
                 transition={{
                   repeat: Infinity,
-                  duration: 6,
+                  duration: 4.5,
                   ease: "easeInOut",
                 }}
               >
-                {Array.from({ length: 30 }).map((_, i) => (
+                {Array.from({ length: 50 }).map((_, i) => (
                   <div
                     key={i}
                     className="absolute inset-0 w-full h-full flex items-center justify-center"
                     style={{
-                      transform: `translateZ(${-i * 0.35}px)`,
+                      transform: `translateZ(${-i * 0.08}px)`,
                       backfaceVisibility: "visible",
-                      filter: i > 0 ? `brightness(${Math.max(0.2, 1 - (i / 30) * 0.85)})` : "none",
+                      filter:
+                        i === 0
+                          ? "drop-shadow(0 20px 30px rgba(255,255,255,0.25))"
+                          : `brightness(${Math.max(0.15, 1 - (i / 50) * 0.85)})`,
                     }}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
