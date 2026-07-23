@@ -8,18 +8,10 @@ import type { Product } from "@/types/product";
 import { getProducts } from "@/lib/firebase/firestore";
 
 export default function HomePage() {
-  const [hasSeenIntro, setHasSeenIntro] = useState<boolean>(true); // default true to avoid flash
-  const [introChecked, setIntroChecked] = useState(false);
+  const [showIntro, setShowIntro] = useState<boolean>(true);
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    // Check sessionStorage — if user already saw intro this session, skip it
-    const alreadySeen = sessionStorage.getItem("nxt-intro-seen");
-    if (!alreadySeen) {
-      setHasSeenIntro(false); // show intro
-    }
-    setIntroChecked(true);
-
     // Load products
     getProducts()
       .then(setProducts)
@@ -29,22 +21,22 @@ export default function HomePage() {
   }, []);
 
   const handleIntroComplete = useCallback(() => {
-    sessionStorage.setItem("nxt-intro-seen", "1");
-    setHasSeenIntro(true);
+    setShowIntro(false);
   }, []);
 
   return (
     <>
-      {/* Cinematic Intro — only shown once per browser session */}
-      {introChecked && !hasSeenIntro && (
+      {/* Cinematic Intro — Plays on main homepage entrance */}
+      {showIntro && (
         <IntroScreen onComplete={handleIntroComplete} />
       )}
 
       {/* Main Content */}
       <div
+        className="transition-opacity duration-700 ease-out"
         style={{
-          opacity: hasSeenIntro ? 1 : 0,
-          transition: "opacity 0.5s ease",
+          opacity: showIntro ? 0 : 1,
+          pointerEvents: showIntro ? "none" : "auto",
         }}
       >
         <HeroSection />
