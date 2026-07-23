@@ -8,7 +8,6 @@ import {
   type ReactNode,
 } from "react";
 import type { CartItem, Product } from "@/types/product";
-import type { ProductColor } from "@/types/product";
 
 interface CartState {
   items: CartItem[];
@@ -25,7 +24,12 @@ type CartAction =
   | { type: "CLOSE_CART" };
 
 interface CartContextType extends CartState {
-  addItem: (product: Product, quantity: number, size: string, color: ProductColor) => void;
+  addItem: (
+    product: Product,
+    quantity: number,
+    size: string,
+    color: { name: string; hex: string; image: string }
+  ) => void;
   removeItem: (productId: string, size: string, color: string) => void;
   updateQuantity: (productId: string, size: string, color: string, quantity: number) => void;
   clearCart: () => void;
@@ -108,7 +112,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   });
 
   const addItem = useCallback(
-    (product: Product, quantity: number, size: string, color: ProductColor) => {
+    (
+      product: Product,
+      quantity: number,
+      size: string,
+      color: { name: string; hex: string; image: string }
+    ) => {
       dispatch({
         type: "ADD_ITEM",
         payload: { product, quantity, selectedSize: size, selectedColor: color },

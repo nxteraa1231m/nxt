@@ -1,5 +1,5 @@
 import { Timestamp } from "firebase/firestore";
-import type { Product, ProductColor } from "./product";
+import type { Product } from "./product";
 
 export type OrderStatus =
   | "pending"
@@ -17,7 +17,11 @@ export interface OrderItem {
   price: number;
   quantity: number;
   selectedSize: string;
-  selectedColor: ProductColor;
+  selectedColor: {
+    name: string;
+    hex: string;
+    image: string;
+  };
 }
 
 export interface Order {
