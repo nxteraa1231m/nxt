@@ -274,6 +274,20 @@ NXT is not responsible for delays caused by courier services or events beyond ou
               </div>
             </div>
           )}
+
+          {/* DEDICATED INTRO SCREEN PHOTOS CMS */}
+          <div className="pt-4 border-t border-zinc-100 space-y-3">
+            <label className="block text-xs font-bold text-zinc-900 uppercase tracking-wider">
+              Dedicated Intro Background Photos (صور الإنترو الخاصة)
+            </label>
+            <p className="text-xs text-zinc-500">
+              ارفع صوراً خاصة بعرض الإنترو السينمائي (ستظهر بدلاً من صور الهيرو في خلفية الإنترو)
+            </p>
+            <ImageUploader
+              images={settings.introImages || []}
+              onChange={(newImgs) => setSettings((prev) => ({ ...prev, introImages: newImgs }))}
+            />
+          </div>
         </div>
 
         {/* SECTION 2: ABOUT US PAGE CONTENT & IMAGES */}

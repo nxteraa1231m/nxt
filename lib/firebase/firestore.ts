@@ -160,6 +160,7 @@ export interface SiteSettings {
   featuredTitle?: string;
   featuredSubtitle?: string;
   introTagline?: string;
+  introImages?: string[];
   footerDescription?: string;
   storeEmail?: string;
   storePhone?: string;
