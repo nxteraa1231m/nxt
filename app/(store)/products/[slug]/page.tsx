@@ -112,9 +112,39 @@ export default function ProductDetailPage() {
     openCart();
   };
 
+  const handleClose = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
+
   return (
     <div className="pt-20 min-h-screen relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Navigation & Close (X) Header */}
+        <div className="flex items-center justify-between mb-6 pb-3 border-b border-zinc-200/60 dark:border-zinc-800/60">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors cursor-pointer"
+          >
+            <ChevronLeft size={18} />
+            <span>العودة للمتجر / Back to Shop</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleClose}
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-800 flex items-center justify-center transition-all shadow-sm hover:scale-105 active:scale-95 cursor-pointer"
+            title="إغلاق / Close"
+            aria-label="Close product details"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           {/* Image Gallery */}
           <div className="space-y-3">
