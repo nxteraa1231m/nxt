@@ -1,5 +1,22 @@
 import Link from "next/link";
-import { Instagram, Facebook, Tiktok } from "lucide-react";
+import { Instagram, Facebook } from "lucide-react";
+
+function TiktokIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+    </svg>
+  );
+}
 
 export function Footer() {
   return (
@@ -31,7 +48,7 @@ export function Footer() {
                   href: "https://www.facebook.com/share/1D4P25PPrn/?mibextid=wwXIfr",
                 },
                 {
-                  icon: Tiktok,
+                  icon: TiktokIcon,
                   label: "TikTok",
                   href: "https://www.tiktok.com/@nxt_eraa?_r=1&_t=ZS-98G939LYUoU",
                 },
