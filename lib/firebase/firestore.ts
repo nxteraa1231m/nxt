@@ -6,6 +6,7 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  setDoc,
   query,
   where,
   orderBy,
@@ -125,4 +126,48 @@ export async function createCategory(
 
 export async function deleteCategory(id: string): Promise<void> {
   await deleteDoc(doc(db, "categories", id));
+}
+
+// ─── Site Settings (CMS) ─────────────────────────────────
+
+export interface SiteSettings {
+  storeName?: string;
+  heroTagline?: string;
+  heroButtonText?: string;
+  heroMediaType?: "image" | "video";
+  heroVideoUrlLight?: string;
+  heroVideoUrlDark?: string;
+  heroImagesLight?: string[];
+  heroImagesDark?: string[];
+  featuredTitle?: string;
+  featuredSubtitle?: string;
+  introTagline?: string;
+  footerDescription?: string;
+  storeEmail?: string;
+  storePhone?: string;
+  vodafoneCash?: string;
+  instapayUsername?: string;
+  instagramUrl?: string;
+  facebookUrl?: string;
+  tiktokUrl?: string;
+  currency?: string;
+}
+
+export async function getSiteSettings(): Promise<SiteSettings | null> {
+  try {
+    const docRef = doc(db, "site_settings", "general");
+    const snapshot = await getDoc(docRef);
+    if (!snapshot.exists()) return null;
+    return snapshot.data() as SiteSettings;
+  } catch (err) {
+    console.error("Failed to fetch site settings:", err);
+    return null;
+  }
+}
+
+export async function updateSiteSettings(
+  data: Partial<SiteSettings>
+): Promise<void> {
+  const docRef = doc(db, "site_settings", "general");
+  await setDoc(docRef, data, { merge: true });
 }

@@ -155,10 +155,14 @@ export function Header() {
               {/* Mobile Menu Button */}
               <button
                 className={cn(
-                  "p-2 transition-colors rounded-xl hover:bg-black/5 dark:hover:bg-white/5",
+                  "p-2 transition-colors rounded-xl hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer",
                   scrolled || theme === "light" ? "text-black dark:text-white" : "text-white"
                 )}
-                onClick={() => setMobileOpen(!mobileOpen)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setMobileOpen((prev) => !prev);
+                }}
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X size={22} className="sm:w-6 sm:h-6" /> : <Menu size={22} className="sm:w-6 sm:h-6" />}
@@ -173,23 +177,29 @@ export function Header() {
         {mobileOpen && (
           <>
             <motion.div
-              className="fixed inset-0 bg-black/50 z-30 md:hidden"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[99998]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
             />
             <motion.nav
-              className="fixed top-0 left-0 bottom-0 w-72 bg-white dark:bg-zinc-950 border-r border-gray-100 dark:border-zinc-900 z-40 md:hidden flex flex-col pt-20 px-6"
+              className="fixed top-0 left-0 bottom-0 w-80 bg-white dark:bg-zinc-950 border-r border-gray-100 dark:border-zinc-900 z-[99999] flex flex-col pt-20 px-6 shadow-2xl"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
             >
-              <div className="absolute top-5 left-4">
-                <span className="text-2xl font-black tracking-tighter text-foreground">NXT</span>
+              <div className="flex items-center justify-between absolute top-6 left-6 right-6 border-b border-gray-100 dark:border-zinc-900 pb-4">
+                <span className="text-xl font-black tracking-tighter text-foreground">NXT MENU</span>
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="p-2 rounded-xl bg-gray-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400"
+                >
+                  <X size={18} />
+                </button>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 mt-4">
                 {navLinks.map((link, i) => (
                   <motion.div
                     key={link.href}
@@ -199,7 +209,7 @@ export function Header() {
                   >
                     <Link
                       href={link.href}
-                      className="block py-4 text-lg font-semibold border-b border-gray-100 dark:border-zinc-900 text-foreground hover:opacity-60 transition-opacity"
+                      className="block py-4 text-base font-bold border-b border-gray-100 dark:border-zinc-900 text-foreground hover:opacity-60 transition-opacity"
                       onClick={() => setMobileOpen(false)}
                     >
                       {link.label}

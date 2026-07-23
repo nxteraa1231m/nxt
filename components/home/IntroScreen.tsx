@@ -2,11 +2,23 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const TAGLINE_LETTERS = "DEFINE YOUR STYLE".split("");
+import { getSiteSettings } from "@/lib/firebase/firestore";
 
 export function IntroScreen({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState<"logo" | "tagline" | "exit">("logo");
+  const [taglineText, setTaglineText] = useState("DEFINE YOUR STYLE");
+
+  useEffect(() => {
+    getSiteSettings()
+      .then((data) => {
+        if (data?.introTagline) {
+          setTaglineText(data.introTagline);
+        }
+      })
+      .catch(console.error);
+  }, []);
+
+  const taglineLetters = taglineText.split("");
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase("tagline"), 1200);
@@ -106,7 +118,7 @@ export function IntroScreen({ onComplete }: { onComplete: () => void }) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
-                  {TAGLINE_LETTERS.map((letter, i) => (
+                  {taglineLetters.map((letter, i) => (
                     <motion.span
                       key={i}
                       className={`text-xs md:text-sm font-medium tracking-[0.3em] ${

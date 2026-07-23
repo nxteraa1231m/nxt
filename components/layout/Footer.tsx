@@ -1,8 +1,10 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Instagram, Facebook } from "lucide-react";
+import { getSiteSettings, type SiteSettings } from "@/lib/firebase/firestore";
 
 function TiktokIcon({ size = 18 }: { size?: number }) {
   return (
@@ -23,11 +25,38 @@ function TiktokIcon({ size = 18 }: { size?: number }) {
 
 export function Footer() {
   const pathname = usePathname();
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    getSiteSettings()
+      .then((data) => {
+        if (data) setSettings(data);
+      })
+      .catch(console.error);
+  }, []);
 
   // Hide footer on dedicated product details page
   if (pathname?.startsWith("/products/")) {
     return null;
   }
+
+  const socialLinks = [
+    {
+      icon: Instagram,
+      label: "Instagram",
+      href: settings?.instagramUrl || "https://www.instagram.com/nxt_era11?igsh=a24waXR2OXQwdmhv&utm_source=qr",
+    },
+    {
+      icon: Facebook,
+      label: "Facebook",
+      href: settings?.facebookUrl || "https://www.facebook.com/share/1D4P25PPrn/?mibextid=wwXIfr",
+    },
+    {
+      icon: TiktokIcon,
+      label: "TikTok",
+      href: settings?.tiktokUrl || "https://www.tiktok.com/@nxt_eraa?_r=1&_t=ZS-98G939LYUoU",
+    },
+  ];
 
   return (
     <footer className="bg-black text-white">
@@ -42,27 +71,11 @@ export function Footer() {
               className="h-8 w-auto object-contain invert"
             />
             <p className="mt-4 text-gray-400 text-sm leading-relaxed max-w-sm">
-              Premium fashion for modern people. Elevate your style with our
-              curated collections of high-quality clothing and accessories.
+              {settings?.footerDescription ||
+                "Premium fashion for modern people. Elevate your style with our curated collections of high-quality clothing and accessories."}
             </p>
             <div className="flex gap-4 mt-6">
-              {[
-                {
-                  icon: Instagram,
-                  label: "Instagram",
-                  href: "https://www.instagram.com/nxt_era11?igsh=a24waXR2OXQwdmhv&utm_source=qr",
-                },
-                {
-                  icon: Facebook,
-                  label: "Facebook",
-                  href: "https://www.facebook.com/share/1D4P25PPrn/?mibextid=wwXIfr",
-                },
-                {
-                  icon: TiktokIcon,
-                  label: "TikTok",
-                  href: "https://www.tiktok.com/@nxt_eraa?_r=1&_t=ZS-98G939LYUoU",
-                },
-              ].map(({ icon: Icon, label, href }) => (
+              {socialLinks.map(({ icon: Icon, label, href }) => (
                 <a
                   key={label}
                   href={href}
