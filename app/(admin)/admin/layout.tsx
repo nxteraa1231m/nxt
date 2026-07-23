@@ -15,7 +15,6 @@ import {
   LogOut,
   ChevronRight,
   ShieldCheck,
-  Sparkles,
   AlertTriangle,
   Truck,
 } from "lucide-react";

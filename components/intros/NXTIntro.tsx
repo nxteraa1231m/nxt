@@ -8,7 +8,7 @@ interface NXTIntroProps {
   onComplete: () => void;
 }
 
-export function NXTIntro({ onComplete }: { onComplete: () => void }) {
+export function NXTIntro({ onComplete }: NXTIntroProps) {
   const [phase, setPhase] = useState<"ignite" | "reveal" | "exit">("ignite");
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
