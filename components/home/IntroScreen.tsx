@@ -187,7 +187,7 @@ export function IntroScreen({ onComplete }: { onComplete: () => void }) {
             {/* Kinetic Letter-by-Letter Tagline */}
             <div className="h-8 flex items-center justify-center">
               <AnimatePresence>
-                {(phase === "tagline" || phase === "exit") && (
+                {phase === "tagline" && (
                   <motion.div
                     className="flex gap-1.5 items-center"
                     initial={{ opacity: 0 }}
