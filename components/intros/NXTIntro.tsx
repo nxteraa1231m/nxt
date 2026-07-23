@@ -106,22 +106,31 @@ export function NXTIntro({ onComplete }: NXTIntroProps) {
     };
   }, []);
 
-  // Timeline sequences
+  const onCompleteRef = useRef(onComplete);
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("reveal"), 1500);
-    const t2 = setTimeout(() => setPhase("exit"), 4600);
-    const t3 = setTimeout(() => onComplete(), 5300);
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  // Timeline sequences — runs once cleanly without timer cancellations
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase("reveal"), 1200);
+    const t2 = setTimeout(() => setPhase("exit"), 3800);
+    const t3 = setTimeout(() => {
+      onCompleteRef.current();
+    }, 4400);
 
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
     };
-  }, [onComplete]);
+  }, []);
 
   const handleSkip = () => {
     setPhase("exit");
-    setTimeout(onComplete, 400);
+    setTimeout(() => {
+      onCompleteRef.current();
+    }, 300);
   };
 
   return (

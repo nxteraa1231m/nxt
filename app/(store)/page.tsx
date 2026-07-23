@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { IntroScreen } from "@/components/home/IntroScreen";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
@@ -28,10 +28,10 @@ export default function HomePage() {
       });
   }, []);
 
-  const handleIntroComplete = () => {
+  const handleIntroComplete = useCallback(() => {
     sessionStorage.setItem("nxt-intro-seen", "1");
     setHasSeenIntro(true);
-  };
+  }, []);
 
   return (
     <>
