@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { notFound, useParams } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, Minus, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import { ShoppingBag, Minus, Plus, ChevronLeft, ChevronRight, Heart, X } from "lucide-react";
 import { toast } from "sonner";
 import { getProductBySlug } from "@/lib/firebase/firestore";
 import { useCart } from "@/features/cart/CartProvider";
+import { useWishlist } from "@/features/wishlist/WishlistProvider";
 import { formatPrice, getDiscountPercentage } from "@/lib/utils";
 import type { Product, ProductVariant } from "@/types/product";
 import { Spinner } from "@/components/ui/Spinner";
@@ -16,6 +17,8 @@ import { Badge } from "@/components/ui/Badge";
 export default function ProductDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const router = useRouter();
+  const { toggleWishlist, isInWishlist } = useWishlist();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -109,7 +112,16 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="pt-20 min-h-screen">
+    <div className="pt-20 min-h-screen relative">
+      {/* Floating Close Button */}
+      <button
+        onClick={() => router.back()}
+        className="absolute top-6 right-4 sm:right-6 lg:right-8 p-2.5 rounded-xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur border border-gray-100 dark:border-zinc-800 text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-50 transition-all z-20 shadow-sm"
+        title="Close and go back"
+      >
+        <X size={18} />
+      </button>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Image Gallery */}
@@ -343,6 +355,20 @@ export default function ProductDetailPage() {
                   </>
                 )}
               </motion.button>
+
+              {/* Wishlist Heart Toggle */}
+              <button
+                type="button"
+                onClick={() => toggleWishlist(product)}
+                className={`w-12 h-12 rounded-xl border flex items-center justify-center transition-all ${
+                  isInWishlist(product.id)
+                    ? "bg-red-50/50 text-red-500 border-red-100 dark:bg-red-950/20 dark:border-red-900/50"
+                    : "bg-white dark:bg-zinc-900 text-zinc-400 border-gray-200 dark:border-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-50"
+                }`}
+                title={isInWishlist(product.id) ? "Remove from wishlist" : "Add to wishlist"}
+              >
+                <Heart size={18} className={isInWishlist(product.id) ? "fill-red-500 text-red-500" : ""} />
+              </button>
             </div>
 
             {/* Stock info */}

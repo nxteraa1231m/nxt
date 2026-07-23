@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/features/cart/CartProvider";
 import { AuthProvider } from "@/features/auth/AuthProvider";
 import { ThemeProvider } from "@/features/theme/ThemeProvider";
+import { WishlistProvider } from "@/features/wishlist/WishlistProvider";
 import { Toaster } from "sonner";
 
 const outfit = Outfit({
@@ -80,18 +81,20 @@ export default function RootLayout({
         <AuthProvider>
           <ThemeProvider>
             <CartProvider>
-              {children}
-              <Toaster
-                position="bottom-right"
-                toastOptions={{
-                  style: {
-                    background: "#000",
-                    color: "#fff",
-                    borderRadius: "12px",
-                    border: "none",
-                  },
-                }}
-              />
+              <WishlistProvider>
+                {children}
+                <Toaster
+                  position="bottom-right"
+                  toastOptions={{
+                    style: {
+                      background: "#000",
+                      color: "#fff",
+                      borderRadius: "12px",
+                      border: "none",
+                    },
+                  }}
+                />
+              </WishlistProvider>
             </CartProvider>
           </ThemeProvider>
         </AuthProvider>

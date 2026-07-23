@@ -2,10 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Eye } from "lucide-react";
-import { formatPrice, getDiscountPercentage } from "@/lib/utils";
+import { Eye, Heart } from "lucide-react";
+import { useWishlist } from "@/features/wishlist/WishlistProvider";
+import { formatPrice } from "@/lib/utils";
 import type { Product } from "@/types/product";
+import { getDiscountPercentage } from "@/lib/utils/discount";
 
 interface ProductCardProps {
   product: Product;
@@ -13,6 +16,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, index = 0 }: ProductCardProps) {
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const isFavorite = isInWishlist(product.id);
   const displayPrice = product.salePrice ?? product.price;
   const hasDiscount = product.salePrice && product.salePrice < product.price;
   const discountPct = hasDiscount
@@ -32,10 +37,23 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           - Transparent background (no bg color set)
           - No border, no shadow on the card itself
           - The product PNG image uses mix-blend-mode: multiply
-            so white/light areas in the image become transparent,
-            making it look like the product is floating on the page
+          - The heart icon floating on top allows quick wishlist toggle
         */}
         <div className="relative overflow-hidden">
+          {/* Wishlist Heart Toggle */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleWishlist(product);
+            }}
+            className="absolute top-2.5 right-2.5 z-20 p-2 rounded-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur border border-gray-100 dark:border-zinc-800 text-zinc-400 hover:text-red-500 transition-all shadow-sm"
+            title={isFavorite ? "Remove from wishlist" : "Add to wishlist"}
+          >
+            <Heart size={13} className={isFavorite ? "fill-red-500 text-red-500" : ""} />
+          </button>
+
           {/* Badges */}
           <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
             {product.bestSeller && (

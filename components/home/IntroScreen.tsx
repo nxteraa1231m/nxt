@@ -59,6 +59,9 @@ export function IntroScreen({ onComplete }: { onComplete: () => void }) {
               <img
                 src="/intro.png"
                 alt="NXT Brand"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "/logo.png";
+                }}
                 className="w-full h-full object-contain pointer-events-none select-none"
               />
             </motion.div>

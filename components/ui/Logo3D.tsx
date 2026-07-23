@@ -34,7 +34,7 @@ export function Logo3D({ className, layers = 15, size = 220 }: Logo3DProps) {
         }}
       >
         {Array.from({ length: layers }).map((_, i) => {
-          const zOffset = -i * 1.5; // Extrude each layer backwards in 3D space
+          const zOffset = -i * 0.35; // Extrude each layer backwards in 3D space with very tight spacing
           return (
             <div
               key={i}
@@ -43,7 +43,7 @@ export function Logo3D({ className, layers = 15, size = 220 }: Logo3DProps) {
                 transform: `translateZ(${zOffset}px)`,
                 backfaceVisibility: "visible",
                 // Simulate depth shading/shadows: deeper layers are progressively darker
-                filter: i > 0 ? `brightness(${Math.max(0.4, 1 - i * 0.04)})` : "none",
+                filter: i > 0 ? `brightness(${Math.max(0.25, 1 - (i / layers) * 0.75)})` : "none",
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
