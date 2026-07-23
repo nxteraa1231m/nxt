@@ -25,7 +25,7 @@ export default function ShopPage() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [sort, setSort] = useState("newest");
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
+  const priceRange: [number, number] = [0, 10000];
 
   const category = searchParams.get("category");
   const featured = searchParams.get("featured");

@@ -88,7 +88,7 @@ export default function AdminCustomersPage() {
                       ? formatDate(
                           customer.createdAt instanceof Date
                             ? customer.createdAt
-                            : (customer.createdAt as any).toDate()
+                            : (customer.createdAt as { toDate(): Date }).toDate()
                         )
                       : "—"}
                   </td>

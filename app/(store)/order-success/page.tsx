@@ -42,7 +42,7 @@ export default function OrderSuccessPage() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          Thank you for your order. We'll start processing it right away.
+          Thank you for your order. We&apos;ll start processing it right away.
         </motion.p>
 
         {orderId && (
@@ -68,12 +68,12 @@ export default function OrderSuccessPage() {
           <div className="flex items-start gap-3">
             <Package className="text-gray-600 mt-0.5 flex-shrink-0" size={18} />
             <div>
-              <p className="font-semibold text-sm mb-1">What's next?</p>
+              <p className="font-semibold text-sm mb-1">What&apos;s next?</p>
               <ul className="text-sm text-gray-500 space-y-1">
                 <li>• Complete your payment via the selected method</li>
                 <li>• Send your Order ID with payment</li>
-                <li>• We'll confirm and ship your order</li>
-                <li>• You'll receive your items in 2–5 business days</li>
+                <li>• We&apos;ll confirm and ship your order</li>
+                <li>• You&apos;ll receive your items in 2–5 business days</li>
               </ul>
             </div>
           </div>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, ChevronDown, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { getOrders, updateOrderStatus } from "@/lib/firebase/firestore";
 import { formatPrice, formatDate } from "@/lib/utils";
 import type { Order, OrderStatus } from "@/types/order";
@@ -172,7 +172,7 @@ export default function AdminOrdersPage() {
                       {formatDate(
                         order.createdAt instanceof Date
                           ? order.createdAt
-                          : (order.createdAt as any).toDate()
+                          : (order.createdAt as { toDate(): Date }).toDate()
                       )}
                     </td>
                     <td className="px-6 py-4 text-sm font-bold">

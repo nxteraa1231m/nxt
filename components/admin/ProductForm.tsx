@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, X } from "lucide-react";
 import { toast } from "sonner";
@@ -33,7 +33,6 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
     handleSubmit,
     watch,
     setValue,
-    control,
     formState: { errors },
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
@@ -64,7 +63,6 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
         },
   });
 
-  const watchedName = watch("name");
   const watchedSizes = watch("sizes") || [];
   const watchedColors = watch("colors") || [];
 
@@ -115,7 +113,7 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
         toast.success("Product created!");
       }
       router.push("/admin/products");
-    } catch (err) {
+    } catch {
       toast.error("Failed to save product");
     } finally {
       setSaving(false);

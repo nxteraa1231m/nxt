@@ -29,7 +29,7 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
         );
         onChange([...images, ...urls]);
         toast.success(`${urls.length} image(s) uploaded`);
-      } catch (err) {
+      } catch {
         toast.error("Upload failed. Check your Cloudinary config.");
       } finally {
         setUploading(false);

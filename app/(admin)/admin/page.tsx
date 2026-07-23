@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import {
   ShoppingCart,
   Package,
-  Users,
   TrendingUp,
   ArrowRight,
   Clock,
