@@ -36,14 +36,32 @@ export default function AdminLayout({
   const pathname = usePathname();
   const router = useRouter();
   const { user, loading } = useAuth();
+  const isLoginPage = pathname === "/admin/login";
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !isLoginPage) {
       if (!user || user.email !== "nxteraa953@gmail.com") {
         router.push("/admin/login");
       }
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, isLoginPage]);
+
+  useEffect(() => {
+    // Force Light Mode for the Admin Dashboard
+    const html = document.documentElement;
+    const isDark = html.classList.contains("dark");
+    if (isDark) {
+      html.classList.remove("dark");
+    }
+
+    return () => {
+      // Restore user storefront theme when leaving admin panel
+      const savedTheme = localStorage.getItem("nxt-theme");
+      if (savedTheme === "dark") {
+        html.classList.add("dark");
+      }
+    };
+  }, []);
 
   const handleSignOut = async () => {
     try {
@@ -55,6 +73,11 @@ export default function AdminLayout({
       toast.error("Sign out failed");
     }
   };
+
+  // If it's the login page, render it directly without layout wrapper or loaders
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
 
   if (loading) {
     return (
