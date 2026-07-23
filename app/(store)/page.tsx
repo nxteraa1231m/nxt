@@ -15,12 +15,11 @@ export default function HomePage() {
   const [hasSeenIntro, setHasSeenIntro] = useState(false);
 
   useEffect(() => {
-    // Load featured products
-    getProducts({ featured: true, limitCount: 8 })
+    // Load all products for the single-page catalog layout
+    getProducts()
       .then(setProducts)
       .catch((err) => {
         console.error("Failed to load products:", err);
-        // Products will be empty — graceful degradation
       });
   }, []);
 
@@ -44,7 +43,9 @@ export default function HomePage() {
         }}
       >
         <HeroSection />
-        <FeaturedProducts products={products} />
+        <div id="products">
+          <FeaturedProducts products={products} />
+        </div>
       </div>
     </>
   );

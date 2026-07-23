@@ -74,11 +74,7 @@ export function Footer() {
             </h4>
             <ul className="space-y-3 text-sm text-gray-400">
               {[
-                { href: "/shop", label: "All Products" },
-                { href: "/shop?category=men", label: "Men" },
-                { href: "/shop?category=women", label: "Women" },
-                { href: "/shop?featured=true", label: "New Arrivals" },
-                { href: "/shop?bestSeller=true", label: "Best Sellers" },
+                { href: "/#products", label: "Our Collection" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link

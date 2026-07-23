@@ -30,25 +30,12 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Featured Products
+            Our Collection
           </motion.h2>
         </div>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-        >
-          <Link
-            href="/shop"
-            className="inline-flex items-center gap-2 text-sm font-semibold hover:opacity-60 transition-opacity group"
-          >
-            View All
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </motion.div>
       </div>
 
-      <ProductGrid products={products.slice(0, 8)} columns={4} />
+      <ProductGrid products={products} columns={4} />
     </section>
   );
 }

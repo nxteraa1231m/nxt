@@ -62,7 +62,7 @@ export function CartSidebar() {
                     </p>
                   </div>
                   <Link
-                    href="/shop"
+                    href="/#products"
                     onClick={closeCart}
                     className="btn-primary mt-2"
                   >

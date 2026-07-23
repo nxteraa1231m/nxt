@@ -39,7 +39,7 @@ export default function CheckoutPage() {
     setMounted(true);
     if (items.length === 0) {
       setIsRedirecting(true);
-      router.replace("/shop");
+      router.replace("/");
     }
   }, [items, router]);
 
