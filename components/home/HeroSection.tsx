@@ -30,8 +30,8 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/20 dark:from-black/20 dark:via-transparent dark:to-black/40 rounded-2xl md:rounded-[2rem] m-4 md:m-8 pointer-events-none" />
       </div>
 
-      {/* Sleek Minimal Subtitle — positioned at the top to avoid overlapping main logo graphics */}
-      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-10 text-center text-black dark:text-white pointer-events-none">
+      {/* Sleek Minimal Subtitle — positioned further down to avoid header overlap */}
+      <div className="absolute top-32 left-1/2 -translate-x-1/2 z-10 text-center text-black dark:text-white pointer-events-none">
         <motion.p
           className="text-xs md:text-sm font-light tracking-[0.5em] uppercase text-black/50 dark:text-white/50"
           initial={{ opacity: 0, y: -10 }}
@@ -42,8 +42,8 @@ export function HeroSection() {
         </motion.p>
       </div>
 
-      {/* Center CTA Button */}
-      <div className="absolute inset-0 flex items-center justify-center z-10 mt-28">
+      {/* Center CTA Button — pushed down to mt-64 to clear the central logo graphics */}
+      <div className="absolute inset-0 flex items-center justify-center z-10 mt-64">
         <motion.button
           onClick={handleScroll}
           className="inline-flex items-center gap-2 bg-black text-white dark:bg-white dark:text-black px-8 py-4 rounded-full font-bold text-sm tracking-wide shadow-2xl hover:opacity-90 dark:hover:bg-gray-100 transition-all duration-300 group"
