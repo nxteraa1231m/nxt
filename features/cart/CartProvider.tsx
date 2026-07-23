@@ -5,6 +5,7 @@ import {
   useContext,
   useReducer,
   useCallback,
+  useEffect,
   type ReactNode,
 } from "react";
 import type { CartItem, Product } from "@/types/product";
@@ -15,6 +16,7 @@ interface CartState {
 }
 
 type CartAction =
+  | { type: "SET_ITEMS"; payload: CartItem[] }
   | { type: "ADD_ITEM"; payload: CartItem }
   | { type: "REMOVE_ITEM"; payload: { productId: string; size: string; color: string } }
   | { type: "UPDATE_QUANTITY"; payload: { productId: string; size: string; color: string; quantity: number } }
@@ -42,6 +44,9 @@ interface CartContextType extends CartState {
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
+    case "SET_ITEMS":
+      return { ...state, items: action.payload };
+
     case "ADD_ITEM": {
       const existingIndex = state.items.findIndex(
         (item) =>
@@ -81,7 +86,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
           item.product.id === action.payload.productId &&
           item.selectedSize === action.payload.size &&
           item.selectedColor.hex === action.payload.color
-            ? { ...item, quantity: action.payload.quantity }
+            ? { ...item, quantity: Math.max(1, action.payload.quantity) }
             : item
         ),
       };
@@ -105,11 +110,37 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const LOCAL_STORAGE_KEY = "nxt_cart_items_v2";
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, {
     items: [],
     isOpen: false,
   });
+
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          dispatch({ type: "SET_ITEMS", payload: parsed });
+        }
+      }
+    } catch (e) {
+      console.error("Cart localStorage load error:", e);
+    }
+  }, []);
+
+  // Save cart to localStorage on change
+  useEffect(() => {
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state.items));
+    } catch (e) {
+      console.error("Cart localStorage save error:", e);
+    }
+  }, [state.items]);
 
   const addItem = useCallback(
     (
@@ -148,8 +179,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = state.items.reduce(
     (sum, item) =>
-      sum +
-      (item.product.salePrice ?? item.product.price) * item.quantity,
+      sum + (item.product.salePrice ?? item.product.price) * item.quantity,
     0
   );
 

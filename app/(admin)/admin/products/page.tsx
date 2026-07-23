@@ -42,12 +42,12 @@ export default function AdminProductsPage() {
   useEffect(() => {
     const q = search.toLowerCase();
     setFiltered(
-      products.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q) ||
-          p.brand.toLowerCase().includes(q)
-      )
+      products.filter((p) => {
+        const name = (p.name || "").toLowerCase();
+        const cat = (p.category || "").toLowerCase();
+        const brand = (p.brand || "").toLowerCase();
+        return name.includes(q) || cat.includes(q) || brand.includes(q);
+      })
     );
   }, [search, products]);
 

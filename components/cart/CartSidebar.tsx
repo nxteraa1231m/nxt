@@ -1,205 +1,169 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
-import { X, ShoppingBag, Minus, Plus, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { X, ShoppingBag, Minus, Plus, Trash2, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/features/cart/CartProvider";
 import { formatPrice } from "@/lib/utils";
 
 export function CartSidebar() {
+  const router = useRouter();
   const { isOpen, closeCart, items, removeItem, updateQuantity, totalPrice, totalItems } =
     useCart();
+  const [mounted, setMounted] = useState(false);
 
-  return (
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
+
+  // Portal renders directly into document.body — completely outside any
+  // CSS stacking context (transform/filter/backdrop-filter) in the tree.
+  // This is the ONLY reliable way to guarantee fixed positioning works
+  // regardless of where the user has scrolled on the page.
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50"
+            key="cart-backdrop"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            style={{ zIndex: 99998 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeCart}
           />
 
-          {/* Sidebar */}
+          {/* Drawer — fixed to top/right/bottom of viewport, never scrolls with page */}
           <motion.aside
-            className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-background text-foreground z-50 flex flex-col shadow-2xl border-l border-gray-100 dark:border-zinc-800"
+            key="cart-drawer"
+            style={{ zIndex: 99999 }}
+            className="fixed top-0 right-0 bottom-0 w-full max-w-sm sm:max-w-md bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 flex flex-col shadow-2xl border-l border-zinc-200 dark:border-zinc-800"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            transition={{ type: "spring", damping: 30, stiffness: 350 }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-zinc-800">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex-shrink-0">
+              <div className="flex items-center gap-2.5">
                 <ShoppingBag size={20} />
-                <h2 className="font-bold text-lg">
-                  Cart {totalItems > 0 && <span className="text-gray-400 font-normal text-base">({totalItems})</span>}
-                </h2>
+                <h2 className="font-extrabold text-sm uppercase tracking-wider">سلة الشراء</h2>
+                {totalItems > 0 && (
+                  <span className="bg-black text-white dark:bg-white dark:text-black text-[10px] font-black px-2 py-0.5 rounded-full">
+                    {totalItems}
+                  </span>
+                )}
               </div>
               <button
+                type="button"
                 onClick={closeCart}
-                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+                className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors cursor-pointer"
               >
                 <X size={18} />
               </button>
             </div>
 
-            {/* Items */}
-            <div className="flex-1 overflow-y-auto px-6 py-4">
+            {/* Items — scrolls internally only */}
+            <div className="flex-1 min-h-0 overflow-y-auto px-4 py-4 space-y-3">
               {items.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full text-center gap-4">
-                  <div className="w-20 h-20 bg-gray-50 dark:bg-zinc-900 rounded-full flex items-center justify-center">
-                    <ShoppingBag className="text-gray-400" size={32} />
+                <div className="flex flex-col items-center justify-center h-full text-center gap-4 py-16">
+                  <div className="w-16 h-16 bg-zinc-100 dark:bg-zinc-900 rounded-full flex items-center justify-center text-zinc-400">
+                    <ShoppingBag size={28} />
                   </div>
                   <div>
-                    <p className="font-semibold text-lg">Your cart is empty</p>
-                    <p className="text-gray-400 text-sm mt-1">
-                      Add some products to get started
-                    </p>
+                    <p className="font-bold text-sm">سلة الشراء فارغة</p>
+                    <p className="text-xs text-zinc-400 mt-1">أضف منتجاتك المفضلة لبدء التسوق الآن</p>
                   </div>
-                  <Link
-                    href="/#products"
-                    onClick={closeCart}
-                    className="btn-primary mt-2"
+                  <button
+                    type="button"
+                    onClick={() => { closeCart(); router.push("/shop"); }}
+                    className="px-6 py-2.5 bg-black text-white dark:bg-white dark:text-black rounded-xl text-xs font-bold hover:opacity-90 transition-all cursor-pointer"
                   >
-                    Start Shopping
-                  </Link>
+                    تصفح المنتجات
+                  </button>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  <AnimatePresence initial={false}>
-                    {items.map((item) => {
-                      const key = `${item.product.id}-${item.selectedSize}-${item.selectedColor.hex}`;
-                      const price = item.product.salePrice ?? item.product.price;
-
-                      return (
-                        <motion.div
-                          key={key}
-                          layout
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: 20, height: 0 }}
-                          className="flex gap-4 p-3 bg-gray-50 dark:bg-zinc-900 rounded-2xl"
-                        >
-                          {/* Image */}
-                          <div className="w-20 h-20 rounded-xl overflow-hidden bg-white flex-shrink-0">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={item.selectedColor.image || item.product.mainImage || "/placeholder.jpg"}
-                              alt={item.product.name}
-                              width={80}
-                              height={80}
-                              className="w-full h-full object-contain p-1"
-                            />
+                items.map((item) => {
+                  const key = `${item.product.id}-${item.selectedSize}-${item.selectedColor.hex}`;
+                  const price = item.product.salePrice ?? item.product.price;
+                  return (
+                    <motion.div
+                      key={key}
+                      layout
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      className="flex items-center gap-3 p-3 bg-zinc-50 dark:bg-zinc-900/60 rounded-xl border border-zinc-200/60 dark:border-zinc-800"
+                    >
+                      <div className="w-14 h-14 rounded-lg overflow-hidden bg-white dark:bg-zinc-900 flex-shrink-0 p-1 border border-zinc-200/60 dark:border-zinc-800">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={item.selectedColor.image || item.product.mainImage || "/placeholder.jpg"}
+                          alt={item.product.name}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-1">
+                          <h4 className="font-bold text-xs truncate">{item.product.name}</h4>
+                          <button
+                            type="button"
+                            onClick={() => removeItem(item.product.id, item.selectedSize, item.selectedColor.hex)}
+                            className="text-zinc-400 hover:text-red-500 transition-colors p-0.5 cursor-pointer flex-shrink-0"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <div className="flex items-center gap-1">
+                            <span className="w-2.5 h-2.5 rounded-full border border-zinc-300 dark:border-zinc-700" style={{ backgroundColor: item.selectedColor.hex }} />
+                            <span className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium">{item.selectedColor.name}</span>
                           </div>
-
-                          {/* Info */}
-                          <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-sm truncate">
-                              {item.product.name}
-                            </p>
-                            <div className="flex items-center gap-2 mt-1">
-                              <div
-                                className="w-3 h-3 rounded-full border border-gray-200 dark:border-zinc-800"
-                                style={{ backgroundColor: item.selectedColor.hex }}
-                              />
-                              <span className="text-xs text-gray-500 dark:text-gray-400">
-                                {item.selectedColor.name} / {item.selectedSize}
-                              </span>
-                            </div>
-                            <p className="font-bold text-sm mt-1">
-                              {formatPrice(price * item.quantity)}
-                            </p>
+                          <span className="text-[10px] font-bold bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 px-1.5 rounded">
+                            {item.selectedSize}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between mt-2">
+                          <span className="text-xs font-black">{formatPrice(price * item.quantity)}</span>
+                          <div className="flex items-center gap-1.5 bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 px-1.5 py-0.5 shadow-sm">
+                            <button type="button" onClick={() => updateQuantity(item.product.id, item.selectedSize, item.selectedColor.hex, item.quantity - 1)} className="w-4 h-4 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded cursor-pointer"><Minus size={10} /></button>
+                            <span className="text-xs font-bold w-4 text-center">{item.quantity}</span>
+                            <button type="button" onClick={() => updateQuantity(item.product.id, item.selectedSize, item.selectedColor.hex, item.quantity + 1)} className="w-4 h-4 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded cursor-pointer"><Plus size={10} /></button>
                           </div>
-
-                          {/* Actions */}
-                          <div className="flex flex-col items-end justify-between">
-                            <button
-                              onClick={() =>
-                                removeItem(
-                                  item.product.id,
-                                  item.selectedSize,
-                                  item.selectedColor.hex
-                                )
-                              }
-                              className="text-gray-400 hover:text-red-500 transition-colors"
-                            >
-                              <Trash2 size={14} />
-                            </button>
-                            <div className="flex items-center gap-1.5 bg-white dark:bg-zinc-800 rounded-lg p-1 border border-gray-200 dark:border-zinc-700">
-                              <button
-                                onClick={() => {
-                                  if (item.quantity > 1) {
-                                    updateQuantity(
-                                      item.product.id,
-                                      item.selectedSize,
-                                      item.selectedColor.hex,
-                                      item.quantity - 1
-                                    );
-                                  }
-                                }}
-                                className="w-5 h-5 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-700 rounded"
-                              >
-                                <Minus size={10} />
-                              </button>
-                              <span className="text-xs font-semibold w-5 text-center">
-                                {item.quantity}
-                              </span>
-                              <button
-                                onClick={() =>
-                                  updateQuantity(
-                                    item.product.id,
-                                    item.selectedSize,
-                                    item.selectedColor.hex,
-                                    item.quantity + 1
-                                  )
-                                }
-                                className="w-5 h-5 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-700 rounded"
-                              >
-                                <Plus size={10} />
-                              </button>
-                            </div>
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </AnimatePresence>
-                </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })
               )}
             </div>
 
-            {/* Footer */}
+            {/* Pinned Checkout Footer */}
             {items.length > 0 && (
-              <div className="px-6 py-5 border-t border-gray-100 dark:border-zinc-800 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-500 dark:text-gray-400 text-sm">Subtotal</span>
-                  <span className="font-bold text-lg">{formatPrice(totalPrice)}</span>
+              <div className="px-5 py-4 border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex-shrink-0 space-y-3">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider">المجموع الكلي</span>
+                  <span className="font-black text-base">{formatPrice(totalPrice)}</span>
                 </div>
-                <p className="text-xs text-gray-400">
-                  Shipping calculated at checkout
-                </p>
                 <Link
                   href="/checkout"
                   onClick={closeCart}
-                  className="block w-full text-center py-4 bg-accent text-background rounded-xl font-semibold text-sm hover:opacity-90 transition-all"
+                  className="flex items-center justify-center gap-2 w-full py-3.5 bg-black text-white dark:bg-white dark:text-black rounded-xl font-bold text-xs hover:opacity-90 transition-all shadow-lg cursor-pointer"
                 >
-                  Checkout
-                </Link>
-                <Link
-                  href="/cart"
-                  onClick={closeCart}
-                  className="block w-full text-center py-3 border border-gray-200 dark:border-zinc-700 rounded-xl font-medium text-sm hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
-                >
-                  View Cart
+                  <span>إتمام الشراء الآن</span>
+                  <ArrowRight size={14} />
                 </Link>
               </div>
             )}
           </motion.aside>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

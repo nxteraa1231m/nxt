@@ -55,11 +55,16 @@ export default function AdminOrdersPage() {
 
   const filtered = orders.filter((o) => {
     const matchStatus = statusFilter === "all" || o.status === statusFilter;
+    const name = (o.customerName || "").toLowerCase();
+    const phone = o.phone || o.customerPhone || "";
+    const id = (o.id || "").toLowerCase();
+    const s = search.toLowerCase();
+
     const matchSearch =
       search === "" ||
-      o.customerName.toLowerCase().includes(search.toLowerCase()) ||
-      o.phone.includes(search) ||
-      o.id.toLowerCase().includes(search.toLowerCase());
+      name.includes(s) ||
+      phone.includes(search) ||
+      id.includes(s);
     return matchStatus && matchSearch;
   });
 
@@ -232,8 +237,8 @@ export default function AdminOrdersPage() {
                       )}
                     </td>
                     <td className="px-6 py-4">
-                      <p className="text-xs font-bold text-zinc-900">{order.customerName}</p>
-                      <p className="text-[10px] text-zinc-400 font-mono mt-0.5">{order.phone}</p>
+                      <p className="text-xs font-bold text-zinc-900">{order.customerName || "—"}</p>
+                      <p className="text-[10px] text-zinc-400 font-mono mt-0.5">{order.phone || order.customerPhone || "—"}</p>
                     </td>
                     <td className="px-6 py-4 text-xs text-zinc-500 font-medium">
                       {formatDate(

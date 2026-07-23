@@ -15,12 +15,20 @@ export function formatPrice(price: number, currency = "EGP"): string {
 }
 
 export function generateSlug(name: string): string {
-  return name
+  if (!name) return `product-${Date.now().toString(36)}`;
+  
+  // Keep English alphanumeric, Arabic letters, spaces, hyphens
+  const cleaned = name
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/[^\w\s\u0600-\u06FF-]/g, "")
     .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .trim();
+    .replace(/-+/g, "-");
+
+  if (!cleaned || cleaned === "-") {
+    return `product-${Date.now().toString(36)}`;
+  }
+  return cleaned;
 }
 
 export function truncateText(text: string, maxLength: number): string {

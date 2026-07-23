@@ -55,7 +55,7 @@ export default function AdminLayout({
 
   useEffect(() => {
     if (!loading && !isLoginPage) {
-      if (!user || user.email !== "nxteraa953@gmail.com") {
+      if (!user) {
         router.push("/admin/login");
       }
     }
@@ -103,7 +103,7 @@ export default function AdminLayout({
     );
   }
 
-  if (!user || user.email !== "nxteraa953@gmail.com") {
+  if (!user) {
     return null;
   }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Eye, Heart } from "lucide-react";
@@ -14,6 +14,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, index = 0 }: ProductCardProps) {
+  const router = useRouter();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const isFavorite = isInWishlist(product.id);
   const displayPrice = product.salePrice ?? product.price;
@@ -23,6 +24,14 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     : 0;
 
   const staggerDelay = (index % 4) * 0.08;
+  const targetSlug = product.slug || product.id;
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Always navigate by document ID (guaranteed unique in Firestore)
+    // Never use slug — two products can share the same slug/name
+    router.push(`/products?id=${encodeURIComponent(product.id)}`);
+  };
 
   return (
     <motion.article
@@ -36,10 +45,16 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       }}
       whileHover={{ y: -8, transition: { duration: 0.3, ease: "easeOut" } }}
     >
-      <Link href={`/products/${product.slug}${product.sku ? `-${product.sku.toLowerCase()}` : ""}`} className="block group">
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={handleCardClick}
+        onKeyDown={(e) => e.key === "Enter" && handleCardClick(e as any)}
+        className="block group cursor-pointer select-none"
+      >
         {/* Floating Image Container — No border, drop-shadow creates depth */}
         <div className="relative overflow-visible">
-          {/* Wishlist Heart */}
+          {/* Wishlist Heart Button */}
           <button
             type="button"
             onClick={(e) => {
@@ -93,6 +108,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                   fill
                   priority={index < 4}
                   quality={95}
+                  crossOrigin="anonymous"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-contain object-top transition-transform duration-500"
                 />
@@ -141,7 +157,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             )}
           </div>
         </div>
-      </Link>
+      </div>
     </motion.article>
   );
 }

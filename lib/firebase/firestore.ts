@@ -41,25 +41,67 @@ export async function getProducts(filters?: {
 }
 
 export async function getProductBySlug(slugParam: string): Promise<Product | null> {
-  // The URL param could be "slug-NXT-XXXX" or just "slug"
-  // Try to find by full slug first, then strip the SKU suffix (last 8 chars: -NXT-XXXX)
-  const skuPattern = /-nxt-[a-z0-9]{4}$/i;
-  const cleanSlug = slugParam.replace(skuPattern, "");
+  if (!slugParam) return null;
 
-  // Try with full param first (for existing slugs without SKU)
-  const q1 = query(collection(db, "products"), where("slug", "==", slugParam), limit(1));
-  const snap1 = await getDocs(q1);
-  if (!snap1.empty) {
-    const d = snap1.docs[0];
-    return { id: d.id, ...d.data() } as Product;
-  }
+  try {
+    const decodedParam = decodeURIComponent(slugParam).trim().toLowerCase();
 
-  // Try with clean slug (stripped SKU)
-  const q2 = query(collection(db, "products"), where("slug", "==", cleanSlug), limit(1));
-  const snap2 = await getDocs(q2);
-  if (!snap2.empty) {
-    const d = snap2.docs[0];
-    return { id: d.id, ...d.data() } as Product;
+    // 1. Try fetching directly by document ID first
+    const byId = await getProductById(slugParam);
+    if (byId) return byId;
+
+    // 2. Try matching by full slug field
+    const q1 = query(collection(db, "products"), where("slug", "==", slugParam), limit(1));
+    const snap1 = await getDocs(q1);
+    if (!snap1.empty) {
+      const d = snap1.docs[0];
+      return { id: d.id, ...d.data() } as Product;
+    }
+
+    // 3. Try clean slug without SKU suffix
+    const skuPattern = /-nxt-[a-z0-9]{4}$/i;
+    const cleanSlug = slugParam.replace(skuPattern, "");
+    if (cleanSlug !== slugParam) {
+      const q2 = query(collection(db, "products"), where("slug", "==", cleanSlug), limit(1));
+      const snap2 = await getDocs(q2);
+      if (!snap2.empty) {
+        const d = snap2.docs[0];
+        return { id: d.id, ...d.data() } as Product;
+      }
+    }
+
+    // 4. Fallback: Fetch all products and match strictly by ID, slug, or SKU
+    const allProducts = await getProducts();
+    if (allProducts.length === 0) return null;
+
+    // First try strict exact match
+    const exactMatched = allProducts.find((p) => {
+      const pId = (p.id || "").toLowerCase();
+      const pSlug = (p.slug || "").toLowerCase();
+      const pSku = (p.sku || "").toLowerCase();
+      return (
+        pId === decodedParam ||
+        pSlug === decodedParam ||
+        pSku === decodedParam
+      );
+    });
+    if (exactMatched) return exactMatched;
+
+    // Second try name exact match
+    const nameMatched = allProducts.find(
+      (p) => (p.name || "").toLowerCase().trim() === decodedParam
+    );
+    if (nameMatched) return nameMatched;
+
+    // Third try partial slug or name match
+    const partialMatched = allProducts.find((p) => {
+      const pSlug = (p.slug || "").toLowerCase();
+      const pName = (p.name || "").toLowerCase();
+      return pSlug.includes(decodedParam) || pName.includes(decodedParam);
+    });
+    if (partialMatched) return partialMatched;
+  } catch (err) {
+    console.error("Error fetching product by slug/id:", err);
   }
 
   return null;
@@ -116,6 +158,7 @@ export async function deleteProduct(id: string): Promise<void> {
 export async function createOrder(data: CreateOrderInput): Promise<string> {
   const docRef = await addDoc(collection(db, "orders"), {
     ...data,
+    customerPhone: data.phone,
     status: "pending" as OrderStatus,
     createdAt: Timestamp.now(),
   });
