@@ -241,6 +241,8 @@ NXT is not responsible for delays caused by courier services or events beyond ou
                   ))}
                 </div>
                 <ImageUploader
+                  id="hero-images-light-uploader"
+                  multiple={true}
                   images={settings.heroImagesLight || []}
                   onChange={(newImgs) => setSettings((prev) => ({ ...prev, heroImagesLight: newImgs }))}
                 />
@@ -268,6 +270,8 @@ NXT is not responsible for delays caused by courier services or events beyond ou
                   ))}
                 </div>
                 <ImageUploader
+                  id="hero-images-dark-uploader"
+                  multiple={true}
                   images={settings.heroImagesDark || []}
                   onChange={(newImgs) => setSettings((prev) => ({ ...prev, heroImagesDark: newImgs }))}
                 />
@@ -284,6 +288,8 @@ NXT is not responsible for delays caused by courier services or events beyond ou
               ارفع صوراً خاصة بعرض الإنترو السينمائي (ستظهر بدلاً من صور الهيرو في خلفية الإنترو)
             </p>
             <ImageUploader
+              id="intro-background-images-uploader"
+              multiple={true}
               images={settings.introImages || []}
               onChange={(newImgs) => setSettings((prev) => ({ ...prev, introImages: newImgs }))}
             />
@@ -356,8 +362,10 @@ NXT is not responsible for delays caused by courier services or events beyond ou
                   Section 1 Image URL / Upload
                 </label>
                 <ImageUploader
+                  id="about-section-1-image-uploader"
+                  multiple={false}
                   images={settings.aboutSection1Image ? [settings.aboutSection1Image] : []}
-                  onChange={(imgs) => setSettings({ ...settings, aboutSection1Image: imgs[imgs.length - 1] || "" })}
+                  onChange={(imgs) => setSettings((prev) => ({ ...prev, aboutSection1Image: imgs[imgs.length - 1] || "" }))}
                 />
               </div>
             </div>
@@ -392,8 +400,10 @@ NXT is not responsible for delays caused by courier services or events beyond ou
                   Section 2 Image URL / Upload
                 </label>
                 <ImageUploader
+                  id="about-section-2-image-uploader"
+                  multiple={false}
                   images={settings.aboutSection2Image ? [settings.aboutSection2Image] : []}
-                  onChange={(imgs) => setSettings({ ...settings, aboutSection2Image: imgs[imgs.length - 1] || "" })}
+                  onChange={(imgs) => setSettings((prev) => ({ ...prev, aboutSection2Image: imgs[imgs.length - 1] || "" }))}
                 />
               </div>
             </div>

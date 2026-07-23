@@ -16,6 +16,8 @@ import {
   ChevronRight,
   ShieldCheck,
   Sparkles,
+  AlertTriangle,
+  Truck,
 } from "lucide-react";
 import { signOut } from "@/lib/firebase/auth";
 import { toast } from "sonner";
@@ -25,8 +27,10 @@ import { Spinner } from "@/components/ui/Spinner";
 const navItems = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
+  { href: "/admin/shipping", label: "Shipping Rates", icon: Truck },
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/messages", label: "Messages & Complaints", icon: MessageSquare },
+  { href: "/admin/errors", label: "System Errors", icon: AlertTriangle },
   { href: "/admin/customers", label: "Customers", icon: Users },
   { href: "/admin/categories", label: "Categories", icon: Tag },
   { href: "/admin/settings", label: "Settings", icon: Settings },

@@ -127,6 +127,10 @@ export async function updateOrderStatus(
   await updateDoc(doc(db, "orders", id), { status });
 }
 
+export async function deleteOrder(id: string): Promise<void> {
+  await deleteDoc(doc(db, "orders", id));
+}
+
 // ─── Categories ──────────────────────────────────────────
 
 export async function getCategories(): Promise<Category[]> {
@@ -205,6 +209,31 @@ export async function updateSiteSettings(
   await setDoc(docRef, data, { merge: true });
 }
 
+// ─── Shipping Rates (Governorates) ──────────────────────
+
+import { DEFAULT_EGYPT_GOVERNORATES, type GovernorateRate } from "@/constants/governorates";
+
+export async function getShippingRates(): Promise<GovernorateRate[]> {
+  try {
+    const docRef = doc(db, "site_settings", "shipping");
+    const snapshot = await getDoc(docRef);
+    if (!snapshot.exists()) return DEFAULT_EGYPT_GOVERNORATES;
+    const data = snapshot.data();
+    if (data?.rates && Array.isArray(data.rates)) {
+      return data.rates as GovernorateRate[];
+    }
+    return DEFAULT_EGYPT_GOVERNORATES;
+  } catch (err) {
+    console.error("Failed to fetch shipping rates:", err);
+    return DEFAULT_EGYPT_GOVERNORATES;
+  }
+}
+
+export async function updateShippingRates(rates: GovernorateRate[]): Promise<void> {
+  const docRef = doc(db, "site_settings", "shipping");
+  await setDoc(docRef, { rates, updatedAt: Timestamp.now() }, { merge: true });
+}
+
 // ─── Contact Messages & Complaints ──────────────────────
 
 export interface ContactMessage {
@@ -249,4 +278,69 @@ export async function updateContactMessageStatus(
 
 export async function deleteContactMessage(id: string): Promise<void> {
   await deleteDoc(doc(db, "contact_messages", id));
+}
+
+// ─── System Error Logs ─────────────────────────────────
+
+export interface SystemErrorLog {
+  id: string;
+  message: string;
+  stack?: string;
+  url?: string;
+  userAgent?: string;
+  context?: string;
+  resolved: boolean;
+  createdAt: any;
+}
+
+export async function createSystemErrorLog(data: {
+  message: string;
+  stack?: string;
+  url?: string;
+  userAgent?: string;
+  context?: string;
+}): Promise<string> {
+  try {
+    const docRef = await addDoc(collection(db, "system_errors"), {
+      message: data.message || "Unknown Runtime Error",
+      stack: data.stack || "",
+      url: data.url || (typeof window !== "undefined" ? window.location.href : ""),
+      userAgent: data.userAgent || (typeof navigator !== "undefined" ? navigator.userAgent : ""),
+      context: data.context || "Client Runtime",
+      resolved: false,
+      createdAt: Timestamp.now(),
+    });
+    return docRef.id;
+  } catch (err) {
+    console.error("Failed to log system error to Firestore:", err);
+    return "";
+  }
+}
+
+export async function getSystemErrorLogs(): Promise<SystemErrorLog[]> {
+  try {
+    const q = query(collection(db, "system_errors"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as SystemErrorLog);
+  } catch (err) {
+    console.error("Failed to fetch system errors:", err);
+    return [];
+  }
+}
+
+export async function updateSystemErrorStatus(
+  id: string,
+  resolved: boolean
+): Promise<void> {
+  await updateDoc(doc(db, "system_errors", id), { resolved });
+}
+
+export async function deleteSystemErrorLog(id: string): Promise<void> {
+  await deleteDoc(doc(db, "system_errors", id));
+}
+
+export async function clearAllSystemErrors(): Promise<void> {
+  const snapshot = await getDocs(collection(db, "system_errors"));
+  const deletePromises = snapshot.docs.map((docItem) => deleteDoc(docItem.ref));
+  await Promise.all(deletePromises);
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useId } from "react";
 import Image from "next/image";
 import { Upload, X, Plus, Loader2 } from "lucide-react";
 import { uploadToCloudinary } from "@/lib/cloudinary";
@@ -9,11 +9,21 @@ import { toast } from "sonner";
 interface ImageUploaderProps {
   images: string[];
   onChange: (images: string[]) => void;
+  id?: string;
+  multiple?: boolean;
 }
 
-export function ImageUploader({ images, onChange }: ImageUploaderProps) {
+export function ImageUploader({
+  images,
+  onChange,
+  id: customId,
+  multiple = true,
+}: ImageUploaderProps) {
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+
+  const autoId = useId();
+  const inputId = customId || `image-input-${autoId.replace(/:/g, "")}`;
 
   const handleFiles = useCallback(
     async (files: FileList | File[]) => {
@@ -22,20 +32,27 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
       );
       if (fileArray.length === 0) return;
 
+      const targetFiles = multiple ? fileArray : [fileArray[0]];
+
       setUploading(true);
       try {
         const urls = await Promise.all(
-          fileArray.map((file) => uploadToCloudinary(file))
+          targetFiles.map((file) => uploadToCloudinary(file))
         );
-        onChange([...images, ...urls]);
-        toast.success(`${urls.length} image(s) uploaded`);
+
+        if (multiple) {
+          onChange([...images, ...urls]);
+        } else {
+          onChange([urls[0]]);
+        }
+        toast.success(`${urls.length} image(s) uploaded successfully`);
       } catch {
-        toast.error("Upload failed. Check your Cloudinary config.");
+        toast.error("Upload failed. Please check your Cloudinary configuration.");
       } finally {
         setUploading(false);
       }
     },
-    [images, onChange]
+    [images, onChange, multiple]
   );
 
   const removeImage = (index: number) => {
@@ -61,15 +78,20 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
           setDragOver(false);
           handleFiles(e.dataTransfer.files);
         }}
-        onClick={() => document.getElementById("image-input")?.click()}
+        onClick={() => document.getElementById(inputId)?.click()}
       >
         <input
-          id="image-input"
+          id={inputId}
           type="file"
           accept="image/*"
-          multiple
+          multiple={multiple}
           className="hidden"
-          onChange={(e) => e.target.files && handleFiles(e.target.files)}
+          onChange={(e) => {
+            if (e.target.files) {
+              handleFiles(e.target.files);
+              e.target.value = ""; // Reset input so re-uploading same file works
+            }
+          }}
         />
         {uploading ? (
           <div className="flex flex-col items-center gap-2">
@@ -95,25 +117,27 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
         <div className="grid grid-cols-4 gap-3">
           {images.map((url, i) => (
             <div
-              key={url}
+              key={`${url}-${i}`}
               className="relative group aspect-square rounded-xl overflow-hidden border border-gray-200"
             >
               <Image
                 src={url}
-                alt={`Product image ${i + 1}`}
+                alt={`Image ${i + 1}`}
                 fill
                 className="object-contain p-2 bg-gray-50"
-                style={{ mixBlendMode: "multiply" }}
               />
               <button
                 type="button"
-                onClick={() => removeImage(i)}
-                className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeImage(i);
+                }}
+                className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
               >
                 <X size={12} />
               </button>
               {i === 0 && (
-                <span className="absolute bottom-1 left-1 text-[10px] bg-black/60 text-white px-1.5 py-0.5 rounded-full">
+                <span className="absolute bottom-1 left-1 text-[10px] bg-black/60 text-white px-1.5 py-0.5 rounded-full z-10">
                   Main
                 </span>
               )}
@@ -121,13 +145,15 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
           ))}
 
           {/* Add More Button */}
-          <button
-            type="button"
-            onClick={() => document.getElementById("image-input")?.click()}
-            className="aspect-square rounded-xl border-2 border-dashed border-gray-200 flex items-center justify-center hover:border-gray-400 transition-colors"
-          >
-            <Plus size={20} className="text-gray-400" />
-          </button>
+          {multiple && (
+            <button
+              type="button"
+              onClick={() => document.getElementById(inputId)?.click()}
+              className="aspect-square rounded-xl border-2 border-dashed border-gray-200 flex items-center justify-center hover:border-gray-400 transition-colors"
+            >
+              <Plus size={20} className="text-gray-400" />
+            </button>
+          )}
         </div>
       )}
     </div>

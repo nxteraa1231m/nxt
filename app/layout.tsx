@@ -51,6 +51,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { ErrorTrackerProvider } from "@/components/ui/ErrorTrackerProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -78,26 +80,28 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased bg-background text-foreground transition-colors duration-300">
-        <AuthProvider>
-          <ThemeProvider>
-            <CartProvider>
-              <WishlistProvider>
-                {children}
-                <Toaster
-                  position="bottom-right"
-                  toastOptions={{
-                    style: {
-                      background: "#000",
-                      color: "#fff",
-                      borderRadius: "12px",
-                      border: "none",
-                    },
-                  }}
-                />
-              </WishlistProvider>
-            </CartProvider>
-          </ThemeProvider>
-        </AuthProvider>
+        <ErrorTrackerProvider>
+          <AuthProvider>
+            <ThemeProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  {children}
+                  <Toaster
+                    position="bottom-right"
+                    toastOptions={{
+                      style: {
+                        background: "#000",
+                        color: "#fff",
+                        borderRadius: "12px",
+                        border: "none",
+                      },
+                    }}
+                  />
+                </WishlistProvider>
+              </CartProvider>
+            </ThemeProvider>
+          </AuthProvider>
+        </ErrorTrackerProvider>
       </body>
     </html>
   );

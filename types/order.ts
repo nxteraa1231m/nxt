@@ -28,12 +28,15 @@ export interface Order {
   id: string;
   customerName: string;
   phone: string;
+  whatsappPhone?: string;
+  governorate?: string;
   city: string;
   address: string;
   notes?: string;
   paymentMethod: PaymentMethod;
   items: OrderItem[];
   subtotal: number;
+  shippingCost?: number;
   total: number;
   status: OrderStatus;
   createdAt: Timestamp | Date;
@@ -42,12 +45,15 @@ export interface Order {
 export interface CreateOrderInput {
   customerName: string;
   phone: string;
+  whatsappPhone?: string;
+  governorate?: string;
   city: string;
   address: string;
   notes?: string;
   paymentMethod: PaymentMethod;
   items: OrderItem[];
   subtotal: number;
+  shippingCost?: number;
   total: number;
 }
 

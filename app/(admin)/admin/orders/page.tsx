@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, X, ChevronRight, Sparkles } from "lucide-react";
-import { getOrders, updateOrderStatus } from "@/lib/firebase/firestore";
+import { Search, X, ChevronRight, Sparkles, Trash2 } from "lucide-react";
+import { getOrders, updateOrderStatus, deleteOrder } from "@/lib/firebase/firestore";
 import { formatPrice, formatDate } from "@/lib/utils";
 import type { Order, OrderStatus } from "@/types/order";
 import { ORDER_STATUS_LABELS } from "@/types/order";
@@ -81,6 +81,20 @@ export default function AdminOrdersPage() {
       toast.error("Failed to update status");
     } finally {
       setUpdatingId(null);
+    }
+  };
+
+  const handleDeleteOrder = async (orderId: string) => {
+    if (!confirm("Are you sure you want to delete this order permanently?")) return;
+    try {
+      await deleteOrder(orderId);
+      setOrders((prev) => prev.filter((o) => o.id !== orderId));
+      if (selectedOrder?.id === orderId) {
+        setSelectedOrder(null);
+      }
+      toast.success("Order deleted successfully");
+    } catch {
+      toast.error("Failed to delete order");
     }
   };
 
@@ -201,31 +215,41 @@ export default function AdminOrdersPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-right" onClick={(e) => e.stopPropagation()}>
-                      {STATUS_NEXT[order.status].length > 0 ? (
-                        <div className="relative inline-block">
-                          <select
-                            value=""
-                            onChange={(e) => {
-                              if (e.target.value) {
-                                handleStatusChange(order.id, e.target.value as OrderStatus);
-                              }
-                            }}
-                            className="text-[10px] font-bold border border-zinc-100 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-zinc-300 bg-white cursor-pointer hover:bg-zinc-50 transition-all"
-                            disabled={updatingId === order.id}
-                          >
-                            <option value="">Status</option>
-                            {STATUS_NEXT[order.status].map((s) => (
-                              <option key={s} value={s}>
-                                {ORDER_STATUS_LABELS[s]}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      ) : (
-                        <span className="text-[10px] text-zinc-300 font-bold uppercase tracking-wider">
-                          Locked
-                        </span>
-                      )}
+                      <div className="flex items-center justify-end gap-2">
+                        {STATUS_NEXT[order.status].length > 0 ? (
+                          <div className="relative inline-block">
+                            <select
+                              value=""
+                              onChange={(e) => {
+                                if (e.target.value) {
+                                  handleStatusChange(order.id, e.target.value as OrderStatus);
+                                }
+                              }}
+                              className="text-[10px] font-bold border border-zinc-100 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-zinc-300 bg-white cursor-pointer hover:bg-zinc-50 transition-all"
+                              disabled={updatingId === order.id}
+                            >
+                              <option value="">Status</option>
+                              {STATUS_NEXT[order.status].map((s) => (
+                                <option key={s} value={s}>
+                                  {ORDER_STATUS_LABELS[s]}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : (
+                          <span className="text-[10px] text-zinc-300 font-bold uppercase tracking-wider">
+                            Locked
+                          </span>
+                        )}
+
+                        <button
+                          onClick={() => handleDeleteOrder(order.id)}
+                          className="p-1.5 text-zinc-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Delete Order"
+                        >
+                          <Trash2 size={15} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -370,7 +394,15 @@ export default function AdminOrdersPage() {
                       {formatPrice(selectedOrder.total)}
                     </p>
                   </div>
-                  <div className="flex gap-2 self-end sm:self-auto">
+                  <div className="flex gap-2 self-end sm:self-auto items-center">
+                    <button
+                      onClick={() => handleDeleteOrder(selectedOrder.id)}
+                      className="inline-flex items-center gap-1 text-xs font-bold px-4 py-2.5 rounded-xl border border-red-200 text-red-600 hover:bg-red-50 transition-all duration-300 shadow-sm"
+                    >
+                      <Trash2 size={14} />
+                      Delete Order
+                    </button>
+
                     {STATUS_NEXT[selectedOrder.status].map((s) => (
                       <button
                         key={s}
@@ -378,7 +410,7 @@ export default function AdminOrdersPage() {
                         disabled={updatingId === selectedOrder.id}
                         className={`inline-flex items-center gap-1 text-xs font-bold px-4 py-2.5 rounded-xl transition-all duration-300 shadow-sm ${
                           s === "cancelled"
-                            ? "border border-red-200 text-red-500 hover:bg-red-50"
+                            ? "border border-zinc-200 text-zinc-600 hover:bg-zinc-50"
                             : "bg-zinc-900 text-white hover:bg-zinc-800 shadow-zinc-900/10"
                         }`}
                       >
