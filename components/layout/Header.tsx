@@ -34,14 +34,14 @@ export function Header() {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-40 transition-all duration-500",
+          "sticky top-0 left-0 right-0 z-40 transition-all duration-300 backdrop-blur-md",
           scrolled
-            ? "bg-white/95 dark:bg-black/95 backdrop-blur-md border-b border-gray-100 dark:border-zinc-900 shadow-sm"
-            : "bg-transparent"
+            ? "bg-white/90 dark:bg-black/90 border-b border-gray-200/60 dark:border-zinc-800/60 shadow-md py-1"
+            : "bg-white/70 dark:bg-black/70 border-b border-transparent py-2 sm:py-3"
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20 sm:h-24 md:h-28">
+          <div className={cn("flex items-center justify-between transition-all duration-300", scrolled ? "h-14 sm:h-16 md:h-18" : "h-18 sm:h-22 md:h-24")}>
             {/* Left Section: 2 Icons (Theme & Wishlist) + Desktop Nav */}
             <div className="flex items-center gap-2 sm:gap-4 z-20">
               {/* Theme Toggle */}
@@ -104,19 +104,19 @@ export function Header() {
             </div>
 
             {/* Center Section: Enlarged 3D Logo */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center pointer-events-auto">
+            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center pointer-events-auto transition-all duration-300">
               <Link href="/">
                 <motion.div
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative flex items-center justify-center py-1"
+                  className="relative flex items-center justify-center py-1 transition-all duration-300"
                 >
-                  {/* Mobile size 80, Desktop size 115 */}
+                  {/* Mobile & Desktop sizes adapt smoothly to scroll with 4K clarity */}
                   <div className="block md:hidden">
-                    <Logo3D size={80} layers={70} className={theme === "dark" ? "invert" : "invert-0"} />
+                    <Logo3D size={scrolled ? 65 : 80} layers={14} className={theme === "dark" ? "invert" : "invert-0"} />
                   </div>
                   <div className="hidden md:block">
-                    <Logo3D size={115} layers={90} className={theme === "dark" ? "invert" : "invert-0"} />
+                    <Logo3D size={scrolled ? 85 : 115} layers={14} className={theme === "dark" ? "invert" : "invert-0"} />
                   </div>
                 </motion.div>
               </Link>

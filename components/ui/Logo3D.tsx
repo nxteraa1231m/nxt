@@ -8,33 +8,38 @@ interface Logo3DProps {
   size?: number;
 }
 
-export function Logo3D({ className, layers = 15, size = 220 }: Logo3DProps) {
+export function Logo3D({ className, layers = 14, size = 100 }: Logo3DProps) {
+  const actualLayers = Math.min(layers, 16); // 14-16 layers gives razor-sharp 3D depth without blurring texture
+
   return (
     <div
       className={`relative flex items-center justify-center ${className}`}
       style={{
         width: size,
         height: size,
-        perspective: "1200px",
+        perspective: "1000px",
       }}
     >
       <motion.div
         className="w-full h-full relative"
         style={{
           transformStyle: "preserve-3d",
+          willChange: "transform",
         }}
         animate={{
           rotateY: [0, 360],
-          rotateX: [12, 12], // Keep tilted slightly forward to show 3D depth clearly
+          rotateX: [10, 10],
         }}
         transition={{
           repeat: Infinity,
-          duration: 10,
+          duration: 9,
           ease: "linear",
         }}
       >
-        {Array.from({ length: layers }).map((_, i) => {
-          const zOffset = -i * 0.04; // Micro-spacing between layers for seamless solid 3D extrusion
+        {Array.from({ length: actualLayers }).map((_, i) => {
+          const isFront = i === 0;
+          const zOffset = -i * 0.45; // Smooth subpixel 3D extrusion step
+
           return (
             <div
               key={i}
@@ -42,18 +47,20 @@ export function Logo3D({ className, layers = 15, size = 220 }: Logo3DProps) {
               style={{
                 transform: `translateZ(${zOffset}px)`,
                 backfaceVisibility: "visible",
-                // Simulate depth shading/shadows: deeper layers are progressively darker
-                filter: i > 0 ? `brightness(${Math.max(0.25, 1 - (i / layers) * 0.75)})` : "none",
+                filter: isFront
+                  ? "drop-shadow(0 4px 12px rgba(0,0,0,0.18))"
+                  : `brightness(${Math.max(0.3, 1 - (i / actualLayers) * 0.7)})`,
+                opacity: isFront ? 1 : 0.95,
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo.png"
-                alt="NXT 3D Extrusion Layer"
+                alt="NXT 3D Logo"
                 className="w-full h-full object-contain pointer-events-none select-none"
                 style={{
-                  // Prevent image color wash on dark/light transitions
-                  filter: "drop-shadow(0 0 1px rgba(0,0,0,0.1))",
+                  imageRendering: "crisp-edges",
+                  WebkitFontSmoothing: "antialiased",
                 }}
               />
             </div>

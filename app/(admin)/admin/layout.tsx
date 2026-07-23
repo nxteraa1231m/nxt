@@ -104,16 +104,12 @@ export default function AdminLayout({
     <div className="min-h-screen bg-[#F8F9FA] flex text-zinc-950 font-sans selection:bg-zinc-900 selection:text-white">
       {/* Sidebar - ui-ux-pro-max Obsidian & High-Contrast Console */}
       <aside className="w-64 bg-zinc-950 border-r border-zinc-900 flex flex-col fixed top-0 bottom-0 left-0 z-30 shadow-2xl text-white">
-        {/* Logo and Console Indicator */}
+        {/* Logo */}
         <div className="px-6 py-6 border-b border-zinc-900 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt="NXT Logo" className="h-6 w-auto object-contain invert group-hover:scale-105 transition-transform" />
           </Link>
-          <span className="text-[9px] tracking-widest bg-amber-500/10 text-amber-400 border border-amber-500/20 font-extrabold uppercase px-2.5 py-0.5 rounded-full flex items-center gap-1">
-            <Sparkles size={10} />
-            Console
-          </span>
         </div>
 
         {/* User Info Capsule */}

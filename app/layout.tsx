@@ -25,24 +25,29 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL || "https://nxt-store.vercel.app"
   ),
   title: {
-    default: "NXT — Premium Fashion",
+    default: "NXT",
     template: "%s | NXT",
   },
   description:
     "Discover premium fashion for modern people. Shop the latest collections at NXT.",
   keywords: ["fashion", "clothing", "premium", "luxury", "NXT", "menswear", "womenswear"],
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "ar_EG",
     url: "/",
     siteName: "NXT",
-    title: "NXT — Premium Fashion",
+    title: "NXT",
     description:
       "Discover premium fashion for modern people. Shop the latest collections at NXT.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "NXT — Premium Fashion",
+    title: "NXT",
     description: "Discover premium fashion for modern people.",
   },
   robots: {
@@ -61,6 +66,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

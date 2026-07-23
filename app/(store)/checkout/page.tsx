@@ -52,7 +52,7 @@ export default function CheckoutPage() {
   const [shippingRates, setShippingRates] = useState<GovernorateRate[]>([]);
   const [vodafoneNumber, setVodafoneNumber] = useState("01000000000");
   const [instapayUsername, setInstapayUsername] = useState("@nxtstore");
-  const [onlinePaymentEnabled, setOnlinePaymentEnabled] = useState<boolean>(true);
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   const {
     register,
@@ -66,6 +66,26 @@ export default function CheckoutPage() {
   });
 
   const selectedGovernorate = watch("governorate");
+  const watchedName = watch("customerName");
+  const watchedPhone = watch("phone");
+  const watchedCity = watch("city");
+  const watchedAddress = watch("address");
+  const watchedTransferPhone = watch("transferPhone");
+
+  const isEgyptianPhone = (val?: string) =>
+    !!val && /^(\+20|0)?1[0-2,5]{1}[0-9]{8}$/.test(val.trim());
+
+  const isFormValid =
+    !!watchedName &&
+    watchedName.trim().length >= 2 &&
+    isEgyptianPhone(watchedPhone) &&
+    !!selectedGovernorate &&
+    !!watchedCity &&
+    watchedCity.trim().length >= 2 &&
+    !!watchedAddress &&
+    watchedAddress.trim().length >= 8 &&
+    (paymentCategory === "cash" ||
+      (isEgyptianPhone(watchedTransferPhone) && !!screenshotFile));
 
   useEffect(() => {
     setMounted(true);
@@ -205,6 +225,7 @@ export default function CheckoutPage() {
         total: finalOrderTotal,
       });
 
+      setOrderSuccess(true);
       clearCart();
       setTimeout(() => {
         router.push(`/order-success?orderId=${orderId}`);
@@ -275,21 +296,21 @@ export default function CheckoutPage() {
 
                   {/* Governorate */}
                   <div>
-                    <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+                    <label className="block text-xs font-bold text-gray-800 dark:text-zinc-200 uppercase tracking-wider mb-1.5">
                       المحافظة *
                     </label>
                     <select
                       {...register("governorate")}
-                      className="w-full px-4 py-3 border border-gray-200 dark:border-zinc-700 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-black dark:bg-zinc-800 cursor-pointer"
+                      className="w-full px-4 py-3 border border-gray-200 dark:border-zinc-700 bg-white text-gray-900 dark:bg-zinc-800/90 dark:text-zinc-100 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white cursor-pointer shadow-sm"
                     >
                       {shippingRates.map((rate) => (
-                        <option key={rate.id} value={rate.nameAr}>
+                        <option key={rate.id} value={rate.nameAr} className="bg-white text-gray-900 dark:bg-zinc-800 dark:text-white">
                           {rate.nameAr} — شحن {rate.price} ج.م
                         </option>
                       ))}
                     </select>
                     {errors.governorate && (
-                      <p className="text-red-500 text-xs mt-1">{errors.governorate.message}</p>
+                      <p className="text-red-500 text-xs font-bold mt-1.5">{errors.governorate.message}</p>
                     )}
                   </div>
                 </div>
@@ -303,26 +324,26 @@ export default function CheckoutPage() {
                 />
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-800 dark:text-zinc-200 uppercase tracking-wider mb-1.5">
                     العنوان بالتفصيل *
                   </label>
                   <textarea
-                    className="w-full px-4 py-3 border border-gray-200 dark:border-zinc-700 dark:bg-zinc-800 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-black resize-none"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-zinc-700 bg-white text-gray-900 placeholder:text-gray-400 dark:bg-zinc-800/90 dark:text-zinc-100 dark:placeholder:text-zinc-400 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white resize-none shadow-sm"
                     rows={3}
                     placeholder="الشارع، رقم العمارة، الدور، رقم الشقة..."
                     {...register("address")}
                   />
                   {errors.address && (
-                    <p className="text-red-500 text-xs mt-1">{errors.address.message}</p>
+                    <p className="text-red-500 text-xs font-bold mt-1.5">{errors.address.message}</p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-800 dark:text-zinc-200 uppercase tracking-wider mb-1.5">
                     ملاحظات (اختياري)
                   </label>
                   <textarea
-                    className="w-full px-4 py-3 border border-gray-200 dark:border-zinc-700 dark:bg-zinc-800 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-black resize-none"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-zinc-700 bg-white text-gray-900 placeholder:text-gray-400 dark:bg-zinc-800/90 dark:text-zinc-100 dark:placeholder:text-zinc-400 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white resize-none shadow-sm"
                     rows={2}
                     placeholder="أي تعليمات للمندوب..."
                     {...register("notes")}
@@ -565,6 +586,8 @@ export default function CheckoutPage() {
                 <div className="pt-1">
                   <TruckSubmitButton
                     isSubmitting={submitting || uploadingScreenshot}
+                    isSuccess={orderSuccess}
+                    disabled={!isFormValid}
                     totalText={formatPrice(finalOrderTotal)}
                   />
                 </div>
