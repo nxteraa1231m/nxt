@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Truck, Search, Save, RefreshCw, CheckCircle2 } from "lucide-react";
+import { Truck, Search, Save, RefreshCw } from "lucide-react";
 import { getShippingRates, updateShippingRates } from "@/lib/firebase/firestore";
 import type { GovernorateRate } from "@/constants/governorates";
 import { toast } from "sonner";

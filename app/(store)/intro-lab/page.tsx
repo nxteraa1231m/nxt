@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Check, Sparkles, ArrowLeft, Zap, Castle, Award } from "lucide-react";
+import { Play, Check, ArrowLeft, Zap, Castle } from "lucide-react";
 import Link from "next/link";
 import { IntroWorldClassLuxury } from "@/components/intros/IntroWorldClassLuxury";
 import { IntroArchitecturalCathedral } from "@/components/intros/IntroArchitecturalCathedral";

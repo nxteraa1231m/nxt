@@ -20,7 +20,7 @@ export function TruckSubmitButton({
   const [truckAnimating, setTruckAnimating] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = () => {
     if (disabled || isSubmitting || truckAnimating || isSuccess) return;
 
     setTruckAnimating(true);

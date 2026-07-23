@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { Smartphone, CreditCard, MapPin, Truck, MessageSquare } from "lucide-react";
+import { Smartphone, CreditCard, MapPin, Truck } from "lucide-react";
 import { useCart } from "@/features/cart/CartProvider";
 import { createOrder, getShippingRates } from "@/lib/firebase/firestore";
 import { formatPrice } from "@/lib/utils";
