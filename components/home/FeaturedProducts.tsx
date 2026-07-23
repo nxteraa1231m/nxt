@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import type { Product } from "@/types/product";

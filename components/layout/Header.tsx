@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ShoppingBag, Menu, X, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useScroll } from "@/hooks/useScroll";
 import { useCart } from "@/features/cart/CartProvider";
 import { useTheme } from "@/features/theme/ThemeProvider";
