@@ -151,6 +151,7 @@ export default function ProductDetailPage() {
                     src={galleryImages[activeImage] || "/placeholder.jpg"}
                     alt={product.name}
                     fill
+                    quality={95}
                     className="object-contain p-4"
                     priority
                   />
