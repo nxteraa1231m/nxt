@@ -245,7 +245,7 @@ export default function AdminProductsPage() {
                         <td className="px-6 py-4">
                           <div className="flex items-center justify-end gap-1.5">
                             <Link
-                              href={`/admin/products/${product.id}/edit`}
+                              href={`/admin/products/edit?id=${product.id}`}
                               className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-zinc-50 border border-transparent hover:border-zinc-100 transition-all text-zinc-500 hover:text-zinc-900"
                             >
                               <Edit size={13} />

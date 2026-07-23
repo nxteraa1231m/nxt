@@ -54,7 +54,6 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transform: translateZ(0);
 }
 
 /* GPU Acceleration for smooth animations */
