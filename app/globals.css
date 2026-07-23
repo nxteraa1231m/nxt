@@ -44,6 +44,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -53,6 +54,20 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transform: translateZ(0);
+}
+
+/* GPU Acceleration for smooth animations */
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Performance optimization for lists/cards offscreen */
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 400px;
 }
 
 /* ─── Hide Scrollbar (Modern Minimal Style) ─────────── */

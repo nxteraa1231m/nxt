@@ -592,6 +592,39 @@ NXT is not responsible for delays caused by courier services or events beyond ou
               />
             </div>
 
+            {/* Online Payment Toggle */}
+            <div className="sm:col-span-2">
+              <div className={`flex items-center justify-between p-5 rounded-2xl border-2 transition-all duration-300 ${
+                settings.onlinePaymentEnabled
+                  ? "border-green-300 bg-green-50"
+                  : "border-red-200 bg-red-50"
+              }`}>
+                <div>
+                  <p className="text-sm font-black text-zinc-900">
+                    {settings.onlinePaymentEnabled ? "✅ الدفع الأونلاين مفعّل" : "🔴 الدفع الأونلاين معطّل"}
+                  </p>
+                  <p className="text-[11px] text-zinc-500 mt-0.5">
+                    {settings.onlinePaymentEnabled
+                      ? "العملاء يقدرون يدفعوا بفودافون كاش أو انستاباي"
+                      : "الدفع عند الاستلام فقط — الأونلاين مخفي تماماً"}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSettings({ ...settings, onlinePaymentEnabled: !settings.onlinePaymentEnabled })}
+                  className={`relative w-14 h-7 rounded-full transition-all duration-300 focus:outline-none shadow-inner ${
+                    settings.onlinePaymentEnabled ? "bg-green-500" : "bg-zinc-300"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-0.5 w-6 h-6 rounded-full bg-white shadow-md transition-all duration-300 ${
+                      settings.onlinePaymentEnabled ? "right-0.5" : "left-0.5"
+                    }`}
+                  />
+                </button>
+              </div>
+            </div>
+
             <div>
               <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-1.5">
                 Support Email Address

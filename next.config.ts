@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  reactStrictMode: true,
+  poweredByHeader: false,
+  compress: true,
   images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 86400,
     remotePatterns: [
       {
         protocol: "https",
@@ -22,6 +27,7 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
+    optimizePackageImports: ["lucide-react", "framer-motion"],
     serverActions: {
       allowedOrigins: ["localhost:3000"],
     },

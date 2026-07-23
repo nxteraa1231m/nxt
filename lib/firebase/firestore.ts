@@ -188,6 +188,7 @@ export interface SiteSettings {
   storePhone?: string;
   vodafoneCash?: string;
   instapayUsername?: string;
+  onlinePaymentEnabled?: boolean;  // تفعيل/إيقاف الدفع الأونلاين
   instagramUrl?: string;
   facebookUrl?: string;
   tiktokUrl?: string;

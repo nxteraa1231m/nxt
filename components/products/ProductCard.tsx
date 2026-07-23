@@ -79,20 +79,21 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             </motion.span>
           </div>
 
-          {/* Product Image — Zero border, zero bg, pure floating image */}
-          <div className="aspect-square relative overflow-hidden">
+          {/* Product Image — Full image, no crop, no border */}
+          <div className="aspect-[3/4] relative overflow-hidden">
             {product.mainImage ? (
               <motion.div
                 className="w-full h-full"
-                whileHover={{ scale: 1.06 }}
+                whileHover={{ scale: 1.04 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
                 <Image
                   src={product.mainImage}
                   alt={product.name}
                   fill
+                  priority={index < 4}
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  className="object-cover transition-transform duration-500"
+                  className="object-contain object-top transition-transform duration-500"
                 />
               </motion.div>
             ) : (

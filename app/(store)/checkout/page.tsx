@@ -52,6 +52,7 @@ export default function CheckoutPage() {
   const [shippingRates, setShippingRates] = useState<GovernorateRate[]>([]);
   const [vodafoneNumber, setVodafoneNumber] = useState("01000000000");
   const [instapayUsername, setInstapayUsername] = useState("@nxtstore");
+  const [onlinePaymentEnabled, setOnlinePaymentEnabled] = useState<boolean>(true);
 
   const {
     register,
@@ -87,6 +88,12 @@ export default function CheckoutPage() {
       .then((s) => {
         if (s?.storePhone) setVodafoneNumber(s.storePhone);
         if (s?.instapayUsername) setInstapayUsername(s.instapayUsername);
+        if (s?.onlinePaymentEnabled !== undefined) {
+          setOnlinePaymentEnabled(s.onlinePaymentEnabled);
+          if (!s.onlinePaymentEnabled) {
+            setPaymentCategory("cash");
+          }
+        }
       })
       .catch(() => {});
   }, [items, router, setValue]);
@@ -335,7 +342,7 @@ export default function CheckoutPage() {
                 </h2>
 
                 {/* Category: Cash or Online */}
-                <div className="grid grid-cols-2 gap-3">
+                <div className={`grid ${onlinePaymentEnabled ? "grid-cols-2" : "grid-cols-1"} gap-3`}>
                   <button
                     type="button"
                     onClick={() => setPaymentCategory("cash")}
@@ -349,18 +356,20 @@ export default function CheckoutPage() {
                     <span className="text-xs font-black">الدفع عند الاستلام</span>
                   </button>
 
-                  <button
-                    type="button"
-                    onClick={() => setPaymentCategory("online")}
-                    className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
-                      paymentCategory === "online"
-                        ? "border-black dark:border-white bg-black text-white dark:bg-white dark:text-black shadow-lg"
-                        : "border-gray-200 dark:border-zinc-700 hover:border-gray-400 bg-white dark:bg-zinc-800"
-                    }`}
-                  >
-                    <CreditCard size={22} />
-                    <span className="text-xs font-black">دفع أونلاين</span>
-                  </button>
+                  {onlinePaymentEnabled && (
+                    <button
+                      type="button"
+                      onClick={() => setPaymentCategory("online")}
+                      className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
+                        paymentCategory === "online"
+                          ? "border-black dark:border-white bg-black text-white dark:bg-white dark:text-black shadow-lg"
+                          : "border-gray-200 dark:border-zinc-700 hover:border-gray-400 bg-white dark:bg-zinc-800"
+                      }`}
+                    >
+                      <CreditCard size={22} />
+                      <span className="text-xs font-black">دفع أونلاين</span>
+                    </button>
+                  )}
                 </div>
 
                 {/* Cash confirmation */}
