@@ -1,10 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useTheme } from "@/features/theme/ThemeProvider";
 
 export function HeroSection() {
+  const { theme } = useTheme();
+  const bannerSrc = theme === "dark" ? "/banner.png" : "/banner_light.png";
+
   const handleScroll = (e: React.MouseEvent) => {
     e.preventDefault();
     const element = document.getElementById("products");
@@ -19,7 +22,7 @@ export function HeroSection() {
       <div className="absolute inset-0 flex items-center justify-center p-4 md:p-8 bg-black">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/banner.png"
+          src={bannerSrc}
           alt="NXT Hero — Premium Fashion"
           className="w-full h-full object-contain object-center rounded-2xl md:rounded-[2rem]"
         />

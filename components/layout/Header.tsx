@@ -21,6 +21,11 @@ export function Header() {
   const { totalItems, toggleCart } = useCart();
   const { theme, toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -28,7 +33,7 @@ export function Header() {
         className={cn(
           "fixed top-0 left-0 right-0 z-40 transition-all duration-500",
           scrolled
-            ? "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm"
+            ? "bg-white/95 dark:bg-black/95 backdrop-blur-md border-b border-gray-100 dark:border-zinc-900 shadow-sm"
             : "bg-transparent"
         )}
       >
@@ -61,7 +66,7 @@ export function Header() {
                   href={link.href}
                   className={cn(
                     "text-sm font-medium tracking-wide transition-all duration-300 hover:opacity-70",
-                    scrolled ? "text-black" : "text-white"
+                    scrolled ? "text-black dark:text-white" : "text-white"
                   )}
                 >
                   {link.label}
@@ -76,13 +81,13 @@ export function Header() {
                 onClick={toggleTheme}
                 className={cn(
                   "p-2 transition-all duration-300 rounded-lg hover:bg-black/5 dark:hover:bg-white/5",
-                  scrolled ? "text-black" : "text-white"
+                  scrolled ? "text-black dark:text-white" : "text-white"
                 )}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Toggle theme"
               >
-                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+                {mounted ? (theme === "dark" ? <Sun size={20} /> : <Moon size={20} />) : <div className="w-5 h-5" />}
               </motion.button>
 
               {/* Cart */}
@@ -90,7 +95,7 @@ export function Header() {
                 onClick={toggleCart}
                 className={cn(
                   "relative p-2 transition-all duration-300",
-                  scrolled ? "text-black" : "text-white"
+                  scrolled ? "text-black dark:text-white" : "text-white"
                 )}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -117,7 +122,7 @@ export function Header() {
               <button
                 className={cn(
                   "md:hidden p-2 transition-colors",
-                  scrolled ? "text-black" : "text-white"
+                  scrolled ? "text-black dark:text-white" : "text-white"
                 )}
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label="Toggle menu"
@@ -141,14 +146,14 @@ export function Header() {
               onClick={() => setMobileOpen(false)}
             />
             <motion.nav
-              className="fixed top-0 left-0 bottom-0 w-72 bg-white z-40 md:hidden flex flex-col pt-20 px-6"
+              className="fixed top-0 left-0 bottom-0 w-72 bg-white dark:bg-zinc-950 border-r border-gray-100 dark:border-zinc-900 z-40 md:hidden flex flex-col pt-20 px-6"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
             >
               <div className="absolute top-5 left-4">
-                <span className="text-2xl font-black tracking-tighter">NXT</span>
+                <span className="text-2xl font-black tracking-tighter text-foreground">NXT</span>
               </div>
               <div className="flex flex-col gap-1">
                 {navLinks.map((link, i) => (
@@ -160,7 +165,7 @@ export function Header() {
                   >
                     <Link
                       href={link.href}
-                      className="block py-4 text-lg font-semibold border-b border-gray-100 hover:opacity-60 transition-opacity"
+                      className="block py-4 text-lg font-semibold border-b border-gray-100 dark:border-zinc-900 text-foreground hover:opacity-60 transition-opacity"
                       onClick={() => setMobileOpen(false)}
                     >
                       {link.label}

@@ -10,6 +10,8 @@ cp "c:/Users/youse/OneDrive/Desktop/nxt/logo/12-removebg-preview.png" "./public/
 cp "/Users/youse/OneDrive/Desktop/nxt/logo/12-removebg-preview.png" "./public/logo.png" 2>/dev/null
 cp "c:/Users/youse/OneDrive/Desktop/nxt/logo/baner.png" "./public/banner.png" 2>/dev/null
 cp "/Users/youse/OneDrive/Desktop/nxt/logo/baner.png" "./public/banner.png" 2>/dev/null
+cp "c:/Users/youse/OneDrive/Desktop/nxt/logo/Screenshot 2026-07-23 041712.png" "./public/banner_light.png" 2>/dev/null
+cp "/Users/youse/OneDrive/Desktop/nxt/logo/Screenshot 2026-07-23 041712.png" "./public/banner_light.png" 2>/dev/null
 
 # Initialize Git
 if [ ! -d ".git" ]; then
