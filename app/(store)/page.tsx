@@ -8,10 +8,18 @@ import type { Product } from "@/types/product";
 import { getProducts } from "@/lib/firebase/firestore";
 
 export default function HomePage() {
-  const [hasSeenIntro, setHasSeenIntro] = useState<boolean>(false);
+  const [hasSeenIntro, setHasSeenIntro] = useState<boolean>(true); // default true to avoid flash
+  const [introChecked, setIntroChecked] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
+    // Check sessionStorage — if user already saw intro this session, skip it
+    const alreadySeen = sessionStorage.getItem("nxt-intro-seen");
+    if (!alreadySeen) {
+      setHasSeenIntro(false); // show intro
+    }
+    setIntroChecked(true);
+
     // Load products
     getProducts()
       .then(setProducts)
@@ -21,13 +29,14 @@ export default function HomePage() {
   }, []);
 
   const handleIntroComplete = () => {
+    sessionStorage.setItem("nxt-intro-seen", "1");
     setHasSeenIntro(true);
   };
 
   return (
     <>
-      {/* Cinematic 3D Intro */}
-      {!hasSeenIntro && (
+      {/* Cinematic Intro — only shown once per browser session */}
+      {introChecked && !hasSeenIntro && (
         <IntroScreen onComplete={handleIntroComplete} />
       )}
 

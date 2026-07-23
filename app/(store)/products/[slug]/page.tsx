@@ -134,7 +134,7 @@ export default function ProductDetailPage() {
           <div className="space-y-3">
             {/* Main Image */}
             <motion.div
-              className="aspect-square relative overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900"
+              className="aspect-square relative overflow-hidden rounded-2xl bg-background border border-zinc-200/50 dark:border-zinc-800/40"
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
             >

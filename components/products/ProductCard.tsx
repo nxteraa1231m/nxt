@@ -84,8 +84,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             </motion.span>
           </div>
 
-          {/* Product Image Container */}
-          <div className="aspect-square relative overflow-hidden bg-zinc-100/80 dark:bg-zinc-900/50 rounded-2xl border border-gray-100 dark:border-zinc-800/60 transition-colors">
+          {/* Product Image Container — Exact Site Background Blend */}
+          <div className="aspect-square relative overflow-hidden bg-background rounded-2xl border border-zinc-200/50 dark:border-zinc-800/40 transition-colors">
             {product.mainImage ? (
               <motion.div
                 className="w-full h-full"
