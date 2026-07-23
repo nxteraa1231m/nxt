@@ -15,16 +15,16 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
         <div>
           <motion.p
             className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-2"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
             Curated for you
           </motion.p>
           <motion.h2
             className="text-3xl md:text-4xl font-bold tracking-tight"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >

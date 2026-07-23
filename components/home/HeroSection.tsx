@@ -17,9 +17,9 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-black">
+    <section className="relative h-screen w-full overflow-hidden bg-white dark:bg-black transition-colors duration-500">
       {/* Background image */}
-      <div className="absolute inset-0 flex items-center justify-center p-4 md:p-8 bg-black">
+      <div className="absolute inset-0 flex items-center justify-center p-4 md:p-8 bg-white dark:bg-black transition-colors duration-500">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={bannerSrc}
@@ -27,13 +27,13 @@ export function HeroSection() {
           className="w-full h-full object-contain object-center rounded-2xl md:rounded-[2rem]"
         />
         {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 rounded-2xl md:rounded-[2rem] m-4 md:m-8 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/20 dark:from-black/20 dark:via-transparent dark:to-black/40 rounded-2xl md:rounded-[2rem] m-4 md:m-8 pointer-events-none" />
       </div>
 
       {/* Sleek Minimal Subtitle — positioned at the top to avoid overlapping main logo graphics */}
-      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-10 text-center text-white pointer-events-none">
+      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-10 text-center text-black dark:text-white pointer-events-none">
         <motion.p
-          className="text-xs md:text-sm font-light tracking-[0.5em] uppercase text-white/50"
+          className="text-xs md:text-sm font-light tracking-[0.5em] uppercase text-black/50 dark:text-white/50"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
@@ -46,7 +46,7 @@ export function HeroSection() {
       <div className="absolute inset-0 flex items-center justify-center z-10 mt-28">
         <motion.button
           onClick={handleScroll}
-          className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold text-sm tracking-wide shadow-2xl hover:bg-gray-100 transition-all duration-300 group"
+          className="inline-flex items-center gap-2 bg-black text-white dark:bg-white dark:text-black px-8 py-4 rounded-full font-bold text-sm tracking-wide shadow-2xl hover:opacity-90 dark:hover:bg-gray-100 transition-all duration-300 group"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.7 }}
@@ -63,14 +63,14 @@ export function HeroSection() {
 
       {/* Scroll indicator / CTA */}
       <motion.div
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 z-10 pointer-events-none"
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-black/40 dark:text-white/40 z-10 pointer-events-none"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
-        <span className="text-[10px] tracking-[0.3em] uppercase text-white/60">Scroll</span>
+        <span className="text-[10px] tracking-[0.3em] uppercase text-black/60 dark:text-white/60">Scroll</span>
         <motion.div
-          className="w-[1px] h-8 bg-white/40"
+          className="w-[1px] h-8 bg-black/40 dark:bg-white/40"
           animate={{ scaleY: [0.3, 1, 0.3] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
         />

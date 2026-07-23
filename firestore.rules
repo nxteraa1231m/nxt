@@ -9,7 +9,8 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() &&
-             exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+             (request.auth.token.email == "nxteraa953@gmail.com" ||
+              exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
     }
 
     // ─── Products (public read, admin write) ──────────────────────────

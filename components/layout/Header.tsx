@@ -52,7 +52,7 @@ export function Header() {
                   alt="NXT Brand Logo"
                   className={cn(
                     "h-8 w-auto object-contain transition-all duration-300",
-                    theme === "dark" || !scrolled ? "invert" : "invert-0"
+                    theme === "dark" ? "invert" : "invert-0"
                   )}
                 />
               </motion.div>
@@ -66,7 +66,7 @@ export function Header() {
                   href={link.href}
                   className={cn(
                     "text-sm font-medium tracking-wide transition-all duration-300 hover:opacity-70",
-                    scrolled ? "text-black dark:text-white" : "text-white"
+                    scrolled || theme === "light" ? "text-black dark:text-white" : "text-white"
                   )}
                 >
                   {link.label}
@@ -81,7 +81,7 @@ export function Header() {
                 onClick={toggleTheme}
                 className={cn(
                   "p-2 transition-all duration-300 rounded-lg hover:bg-black/5 dark:hover:bg-white/5",
-                  scrolled ? "text-black dark:text-white" : "text-white"
+                  scrolled || theme === "light" ? "text-black dark:text-white" : "text-white"
                 )}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -95,7 +95,7 @@ export function Header() {
                 onClick={toggleCart}
                 className={cn(
                   "relative p-2 transition-all duration-300",
-                  scrolled ? "text-black dark:text-white" : "text-white"
+                  scrolled || theme === "light" ? "text-black dark:text-white" : "text-white"
                 )}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -122,7 +122,7 @@ export function Header() {
               <button
                 className={cn(
                   "md:hidden p-2 transition-colors",
-                  scrolled ? "text-black dark:text-white" : "text-white"
+                  scrolled || theme === "light" ? "text-black dark:text-white" : "text-white"
                 )}
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label="Toggle menu"
