@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Check, Sparkles, ArrowLeft, Zap, Award } from "lucide-react";
+import { Play, Check, Sparkles, ArrowLeft, Zap, Award, Castle } from "lucide-react";
 import Link from "next/link";
 import { IntroWorldClassLuxury } from "@/components/intros/IntroWorldClassLuxury";
+import { IntroArchitecturalCathedral } from "@/components/intros/IntroArchitecturalCathedral";
 import {
   Intro1_LiquidChrome,
   Intro2_BlackMarble,
@@ -29,7 +30,8 @@ import {
 } from "@/components/intros/MasterIntros";
 
 const masterPromptsList = [
-  { id: 0, title: "★ Featured 12s Master World-Class Intro", style: "9-Scene PBR Fluid + Black Marble + Reverse Gravity + Model Architecture", duration: "12s" },
+  { id: 99, title: "★ Idea 2: $5M Architectural Black Crystal Cathedral (15s)", style: "14 Scenes: Black Glass Cathedral + Water Mirror + 20m Ring + Cubes + Model", duration: "15s" },
+  { id: 0, title: "★ Idea 1: 12s World-Class Master Luxury Intro", style: "9-Scene PBR Fluid + Black Marble + Reverse Gravity + Model Architecture", duration: "12s" },
   { id: 1, title: "1. Liquid Chrome Genesis", style: "Houdini Fluid Sim + Metaball Morphing + Chrome PBR", duration: "10s" },
   { id: 2, title: "2. Black Marble Temple", style: "Voronoi Fracture + Gold Vein Shader + Chiseling", duration: "10s" },
   { id: 3, title: "3. Infinite Mirror Room", style: "Recursive Ray-traced Mirror + Staggered Rotation", duration: "10s" },
@@ -54,7 +56,7 @@ const masterPromptsList = [
 
 export default function IntroLabPage() {
   const [selectedIntroId, setSelectedIntroId] = useState<number | null>(null);
-  const [activeSiteIntroId, setActiveSiteIntroId] = useState<number>(0);
+  const [activeSiteIntroId, setActiveSiteIntroId] = useState<number>(99);
   const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
@@ -87,16 +89,16 @@ export default function IntroLabPage() {
           </Link>
           <div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-2">
-              NXT Master 3D Cinema Lab <Award size={22} className="text-amber-400" />
+              NXT Master Cinema Suite <Castle size={22} className="text-amber-400" />
             </h1>
             <p className="text-xs text-zinc-400 font-medium">
-              World-Class 12s Master Intro + 20 8K 60FPS Cinematic Luxury Prompts
+              15s Architectural Black Crystal Cathedral + 12s Master + 20 8K 60FPS Prompts
             </p>
           </div>
         </div>
 
         <span className="text-xs bg-zinc-900 border border-zinc-800 text-amber-400 font-extrabold uppercase px-3.5 py-1.5 rounded-full tracking-wider flex items-center gap-1.5">
-          <Zap size={14} /> 21 Concepts Ready
+          <Zap size={14} /> 22 Concepts Live
         </span>
       </div>
 
@@ -104,13 +106,14 @@ export default function IntroLabPage() {
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {masterPromptsList.map((opt) => {
           const isActiveOnSite = activeSiteIntroId === opt.id;
+          const isFeatured = opt.id === 99 || opt.id === 0;
 
           return (
             <motion.div
               key={opt.id}
               whileHover={{ y: -4 }}
               className={`bg-zinc-900/60 border rounded-2xl p-6 flex flex-col justify-between backdrop-blur-md transition-all shadow-xl ${
-                opt.id === 0 ? "border-amber-500 bg-amber-500/10 shadow-amber-500/20 col-span-1 md:col-span-2 lg:col-span-3" : isActiveOnSite ? "border-amber-500/80 bg-zinc-900/90 shadow-amber-500/10" : "border-zinc-800 hover:border-zinc-700"
+                isFeatured ? "border-amber-500 bg-amber-500/10 shadow-amber-500/20 col-span-1 md:col-span-2 lg:col-span-3" : isActiveOnSite ? "border-amber-500/80 bg-zinc-900/90 shadow-amber-500/10" : "border-zinc-800 hover:border-zinc-700"
               }`}
             >
               <div className="space-y-3">
@@ -159,6 +162,7 @@ export default function IntroLabPage() {
       <AnimatePresence>
         {selectedIntroId !== null && !completed && (
           <div className="fixed inset-0 z-[999999]">
+            {selectedIntroId === 99 && <IntroArchitecturalCathedral onComplete={() => setCompleted(true)} />}
             {selectedIntroId === 0 && <IntroWorldClassLuxury onComplete={() => setCompleted(true)} />}
             {selectedIntroId === 1 && <Intro1_LiquidChrome onComplete={() => setCompleted(true)} />}
             {selectedIntroId === 2 && <Intro2_BlackMarble onComplete={() => setCompleted(true)} />}
