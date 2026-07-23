@@ -42,3 +42,20 @@ export function getCloudinaryPublicId(url: string): string {
   // Remove extension
   return filename.replace(/\.[^/.]+$/, "");
 }
+
+export async function deleteFromCloudinary(urls: string | string[]): Promise<void> {
+  const urlArray = Array.isArray(urls) ? urls : [urls];
+  const publicIds = urlArray.map(getCloudinaryPublicId).filter(Boolean);
+
+  if (publicIds.length === 0) return;
+
+  try {
+    await fetch("/api/admin/cloudinary/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ publicIds }),
+    });
+  } catch (err) {
+    console.error("Failed to delete images from Cloudinary:", err);
+  }
+}

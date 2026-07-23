@@ -8,20 +8,10 @@ import type { Product } from "@/types/product";
 import { getProducts } from "@/lib/firebase/firestore";
 
 export default function HomePage() {
-  const [hasSeenIntro, setHasSeenIntro] = useState<boolean>(true);
+  const [hasSeenIntro, setHasSeenIntro] = useState<boolean>(false);
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    // Check if intro has already been seen in this session
-    if (typeof window !== "undefined") {
-      const seen = sessionStorage.getItem("nxt_intro_seen");
-      if (!seen) {
-        setHasSeenIntro(false);
-      } else {
-        setHasSeenIntro(true);
-      }
-    }
-
     // Load products
     getProducts()
       .then(setProducts)
@@ -31,15 +21,12 @@ export default function HomePage() {
   }, []);
 
   const handleIntroComplete = () => {
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("nxt_intro_seen", "true");
-    }
     setHasSeenIntro(true);
   };
 
   return (
     <>
-      {/* Cinematic Intro — plays only ONCE per browser session */}
+      {/* Cinematic 3D Intro */}
       {!hasSeenIntro && (
         <IntroScreen onComplete={handleIntroComplete} />
       )}
@@ -48,7 +35,7 @@ export default function HomePage() {
       <div
         style={{
           opacity: hasSeenIntro ? 1 : 0,
-          transition: "opacity 0.4s ease",
+          transition: "opacity 0.5s ease",
         }}
       >
         <HeroSection />

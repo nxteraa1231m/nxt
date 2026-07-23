@@ -18,6 +18,7 @@ import { db } from "./config";
 import type { Product } from "@/types/product";
 import type { Order, OrderStatus, CreateOrderInput } from "@/types/order";
 import type { Category } from "@/types/category";
+import { deleteFromCloudinary } from "../cloudinary";
 
 // ─── Products ──────────────────────────────────────────
 
@@ -72,6 +73,23 @@ export async function updateProduct(
 }
 
 export async function deleteProduct(id: string): Promise<void> {
+  // Fetch product to collect image URLs before deletion
+  try {
+    const product = await getProductById(id);
+    if (product) {
+      const allImages = [
+        product.mainImage,
+        ...(product.variants?.map((v) => v.image) || []),
+      ].filter(Boolean) as string[];
+
+      if (allImages.length > 0) {
+        deleteFromCloudinary(allImages).catch(console.error);
+      }
+    }
+  } catch (err) {
+    console.error("Error collecting product images for Cloudinary deletion:", err);
+  }
+
   await deleteDoc(doc(db, "products", id));
 }
 
@@ -151,6 +169,20 @@ export interface SiteSettings {
   facebookUrl?: string;
   tiktokUrl?: string;
   currency?: string;
+
+  // About Page CMS
+  aboutTitle?: string;
+  aboutSubtitle?: string;
+  aboutSection1Title?: string;
+  aboutSection1Text?: string;
+  aboutSection1Image?: string;
+  aboutSection2Title?: string;
+  aboutSection2Text?: string;
+  aboutSection2Image?: string;
+
+  // Legal & Privacy CMS
+  privacyPolicyText?: string;
+  termsOfServiceText?: string;
 }
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
@@ -170,4 +202,50 @@ export async function updateSiteSettings(
 ): Promise<void> {
   const docRef = doc(db, "site_settings", "general");
   await setDoc(docRef, data, { merge: true });
+}
+
+// ─── Contact Messages & Complaints ──────────────────────
+
+export interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  status: "unread" | "read";
+  createdAt: any;
+}
+
+export async function createContactMessage(data: {
+  name: string;
+  email: string;
+  message: string;
+}): Promise<string> {
+  const docRef = await addDoc(collection(db, "contact_messages"), {
+    ...data,
+    status: "unread",
+    createdAt: Timestamp.now(),
+  });
+  return docRef.id;
+}
+
+export async function getContactMessages(): Promise<ContactMessage[]> {
+  try {
+    const q = query(collection(db, "contact_messages"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as ContactMessage);
+  } catch (err) {
+    console.error("Failed to load contact messages:", err);
+    return [];
+  }
+}
+
+export async function updateContactMessageStatus(
+  id: string,
+  status: "unread" | "read"
+): Promise<void> {
+  await updateDoc(doc(db, "contact_messages", id), { status });
+}
+
+export async function deleteContactMessage(id: string): Promise<void> {
+  await deleteDoc(doc(db, "contact_messages", id));
 }

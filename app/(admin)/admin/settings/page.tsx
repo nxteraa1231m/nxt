@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Trash2, Video, Image as ImageIcon, Save, Sparkles, Sliders, Type, CreditCard, Share2 } from "lucide-react";
+import { Trash2, Video, Image as ImageIcon, Save, Sparkles, Sliders, Type, CreditCard, Share2, Info, FileText, Shield } from "lucide-react";
 import { getSiteSettings, updateSiteSettings, type SiteSettings } from "@/lib/firebase/firestore";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { Spinner } from "@/components/ui/Spinner";
@@ -32,6 +32,42 @@ export default function AdminSettingsPage() {
     facebookUrl: "https://www.facebook.com/share/1D4P25PPrn/",
     tiktokUrl: "https://www.tiktok.com/@nxt_eraa",
     currency: "EGP",
+    aboutTitle: "About NXT",
+    aboutSubtitle: "Defining style through modern luxury, premium materials, and minimal design.",
+    aboutSection1Title: "Modern Minimalism",
+    aboutSection1Text: "At NXT, we believe that style is a reflection of identity. We design garments that strip away the noise to focus on clean lines, flawless fits, and premium construction. Every piece in our collection is crafted to be an essential building block of the modern wardrobe.",
+    aboutSection1Image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",
+    aboutSection2Title: "Uncompromising Quality",
+    aboutSection2Text: "We source only the finest fabrics—from extra-long staple cottons to sustainable technical fibers. By partnering with responsible manufacturers who share our dedication to craftsmanship, we ensure that every garment is built to last and feel exceptional on your skin.",
+    aboutSection2Image: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?q=80&w=800&auto=format&fit=crop",
+    privacyPolicyText: `Information We Collect
+We collect information you provide directly to us, such as your name, phone number, delivery address, and payment method when you place an order. We also collect information about how you use our website.
+
+How We Use Your Information
+We use the information we collect to process orders, communicate with you about your orders, and improve our services. We do not sell your personal information to third parties.
+
+Data Security
+We take reasonable measures to protect your information from unauthorized access or disclosure. Your payment information is never stored on our servers.
+
+Cookies
+We use cookies to improve your browsing experience and analyze site traffic. You can choose to disable cookies through your browser settings.
+
+Contact Us
+If you have questions about this Privacy Policy, please contact us at nxteraa953@gmail.com`,
+    termsOfServiceText: `Acceptance of Terms
+By using NXT, you agree to these Terms of Service. If you do not agree, please do not use our website or services.
+
+Orders & Payments
+All orders are subject to availability. Payment must be completed within 24 hours of placing an order via the selected payment method (Vodafone Cash or InstaPay). We reserve the right to cancel orders that are not paid.
+
+Shipping & Delivery
+We aim to ship all orders within 1–2 business days. Delivery takes 2–5 business days depending on your location. Shipping fees may apply depending on your area.
+
+Returns & Exchanges
+We accept returns within 7 days of delivery for unused items in original condition. Items must not be washed or damaged. Contact us at nxteraa953@gmail.com to initiate a return.
+
+Limitation of Liability
+NXT is not responsible for delays caused by courier services or events beyond our control. We are not liable for any indirect or consequential damages.`,
   });
 
   useEffect(() => {
@@ -55,7 +91,7 @@ export default function AdminSettingsPage() {
     setSaving(true);
     try {
       await updateSiteSettings(settings);
-      toast.success("Site settings & content saved successfully!");
+      toast.success("Site settings, About Page, Legal & Privacy policy content saved successfully!");
     } catch (err) {
       console.error(err);
       toast.error("Failed to save settings");
@@ -114,7 +150,7 @@ export default function AdminSettingsPage() {
           Website Settings & Copy Editor
         </h1>
         <p className="text-zinc-500 text-xs mt-1">
-          Manage homepage hero media (images, multiple slides, or video for Light/Dark mode) and customize all site text directly.
+          Manage homepage hero media, customize website text, edit the About Us page, update Privacy Policy & Terms of Service, and configure payment options.
         </p>
       </div>
 
@@ -256,12 +292,162 @@ export default function AdminSettingsPage() {
           )}
         </div>
 
-        {/* SECTION 2: LIVE WEBSITE TEXT & COPY CMS */}
+        {/* SECTION 2: ABOUT US PAGE CONTENT & IMAGES */}
+        <div className="bg-white rounded-2xl border border-zinc-100 p-6 sm:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.015)] space-y-6">
+          <div className="flex items-center gap-2 border-b border-zinc-100 pb-4">
+            <Info size={18} className="text-zinc-900" />
+            <h2 className="font-black text-sm text-zinc-900 uppercase tracking-wider">
+              About Us Page Content & Images
+            </h2>
+          </div>
+
+          <div className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-1.5">
+                  About Page Title
+                </label>
+                <input
+                  type="text"
+                  value={settings.aboutTitle || ""}
+                  onChange={(e) => setSettings({ ...settings, aboutTitle: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-zinc-200 rounded-xl text-xs font-semibold focus:outline-none focus:border-zinc-900"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-1.5">
+                  About Page Subtitle / Tagline
+                </label>
+                <input
+                  type="text"
+                  value={settings.aboutSubtitle || ""}
+                  onChange={(e) => setSettings({ ...settings, aboutSubtitle: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-zinc-200 rounded-xl text-xs font-semibold focus:outline-none focus:border-zinc-900"
+                />
+              </div>
+            </div>
+
+            {/* Section 1 Edit */}
+            <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-200/60 space-y-3">
+              <h3 className="text-xs font-bold text-zinc-800 uppercase tracking-wider">Section 1: Modern Minimalism</h3>
+              <div>
+                <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
+                  Section 1 Title
+                </label>
+                <input
+                  type="text"
+                  value={settings.aboutSection1Title || ""}
+                  onChange={(e) => setSettings({ ...settings, aboutSection1Title: e.target.value })}
+                  className="w-full px-4 py-2 border border-zinc-200 rounded-lg text-xs font-semibold focus:outline-none focus:border-zinc-900 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
+                  Section 1 Description Paragraph
+                </label>
+                <textarea
+                  rows={3}
+                  value={settings.aboutSection1Text || ""}
+                  onChange={(e) => setSettings({ ...settings, aboutSection1Text: e.target.value })}
+                  className="w-full px-4 py-2 border border-zinc-200 rounded-lg text-xs font-semibold focus:outline-none focus:border-zinc-900 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
+                  Section 1 Image URL / Upload
+                </label>
+                <ImageUploader
+                  images={settings.aboutSection1Image ? [settings.aboutSection1Image] : []}
+                  onChange={(imgs) => setSettings({ ...settings, aboutSection1Image: imgs[imgs.length - 1] || "" })}
+                />
+              </div>
+            </div>
+
+            {/* Section 2 Edit */}
+            <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-200/60 space-y-3">
+              <h3 className="text-xs font-bold text-zinc-800 uppercase tracking-wider">Section 2: Uncompromising Quality</h3>
+              <div>
+                <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
+                  Section 2 Title
+                </label>
+                <input
+                  type="text"
+                  value={settings.aboutSection2Title || ""}
+                  onChange={(e) => setSettings({ ...settings, aboutSection2Title: e.target.value })}
+                  className="w-full px-4 py-2 border border-zinc-200 rounded-lg text-xs font-semibold focus:outline-none focus:border-zinc-900 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
+                  Section 2 Description Paragraph
+                </label>
+                <textarea
+                  rows={3}
+                  value={settings.aboutSection2Text || ""}
+                  onChange={(e) => setSettings({ ...settings, aboutSection2Text: e.target.value })}
+                  className="w-full px-4 py-2 border border-zinc-200 rounded-lg text-xs font-semibold focus:outline-none focus:border-zinc-900 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
+                  Section 2 Image URL / Upload
+                </label>
+                <ImageUploader
+                  images={settings.aboutSection2Image ? [settings.aboutSection2Image] : []}
+                  onChange={(imgs) => setSettings({ ...settings, aboutSection2Image: imgs[imgs.length - 1] || "" })}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* SECTION 3: PRIVACY POLICY & TERMS OF SERVICE CMS */}
+        <div className="bg-white rounded-2xl border border-zinc-100 p-6 sm:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.015)] space-y-6">
+          <div className="flex items-center gap-2 border-b border-zinc-100 pb-4">
+            <Shield size={18} className="text-zinc-900" />
+            <h2 className="font-black text-sm text-zinc-900 uppercase tracking-wider">
+              Privacy Policy & Terms of Service CMS
+            </h2>
+          </div>
+
+          <div className="space-y-6">
+            <div>
+              <label className="flex items-center gap-2 text-xs font-bold text-zinc-800 uppercase tracking-wider mb-2">
+                <FileText size={14} />
+                Privacy Policy Text Content
+              </label>
+              <textarea
+                rows={8}
+                value={settings.privacyPolicyText || ""}
+                onChange={(e) => setSettings({ ...settings, privacyPolicyText: e.target.value })}
+                placeholder="Enter custom privacy policy content..."
+                className="w-full px-4 py-3 border border-zinc-200 rounded-xl text-xs font-medium focus:outline-none focus:border-zinc-900 leading-relaxed font-mono"
+              />
+            </div>
+
+            <div>
+              <label className="flex items-center gap-2 text-xs font-bold text-zinc-800 uppercase tracking-wider mb-2">
+                <FileText size={14} />
+                Terms of Service Text Content
+              </label>
+              <textarea
+                rows={8}
+                value={settings.termsOfServiceText || ""}
+                onChange={(e) => setSettings({ ...settings, termsOfServiceText: e.target.value })}
+                placeholder="Enter custom terms of service content..."
+                className="w-full px-4 py-3 border border-zinc-200 rounded-xl text-xs font-medium focus:outline-none focus:border-zinc-900 leading-relaxed font-mono"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* SECTION 4: LIVE WEBSITE TEXT & COPY CMS */}
         <div className="bg-white rounded-2xl border border-zinc-100 p-6 sm:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.015)] space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-100 pb-4">
             <Type size={18} className="text-zinc-900" />
             <h2 className="font-black text-sm text-zinc-900 uppercase tracking-wider">
-              Website Texts & Copy Control
+              Website Copy Control
             </h2>
           </div>
 
@@ -364,7 +550,7 @@ export default function AdminSettingsPage() {
           </div>
         </div>
 
-        {/* SECTION 3: STORE CONTACT & PAYMENT METHODS */}
+        {/* SECTION 5: STORE CONTACT & PAYMENT METHODS */}
         <div className="bg-white rounded-2xl border border-zinc-100 p-6 sm:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.015)] space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-100 pb-4">
             <CreditCard size={18} className="text-zinc-900" />
@@ -424,7 +610,7 @@ export default function AdminSettingsPage() {
           </div>
         </div>
 
-        {/* SECTION 4: SOCIAL MEDIA LINKS */}
+        {/* SECTION 6: SOCIAL MEDIA LINKS */}
         <div className="bg-white rounded-2xl border border-zinc-100 p-6 sm:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.015)] space-y-6">
           <div className="flex items-center gap-2 border-b border-zinc-100 pb-4">
             <Share2 size={18} className="text-zinc-900" />
@@ -477,7 +663,7 @@ export default function AdminSettingsPage() {
           className="inline-flex items-center justify-center gap-2 bg-zinc-900 text-white px-8 py-4 rounded-xl font-bold text-xs hover:bg-zinc-800 transition-all duration-300 shadow-xl shadow-zinc-900/10 disabled:opacity-50"
         >
           {saving ? <Spinner size="sm" className="border-white border-t-transparent" /> : <Save size={16} />}
-          Save All Settings & Website Text
+          Save All Settings & Website Legal Copy
         </button>
       </form>
     </div>
