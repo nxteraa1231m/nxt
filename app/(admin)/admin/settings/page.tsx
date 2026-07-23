@@ -36,10 +36,10 @@ export default function AdminSettingsPage() {
     aboutSubtitle: "Defining style through modern luxury, premium materials, and minimal design.",
     aboutSection1Title: "Modern Minimalism",
     aboutSection1Text: "At NXT, we believe that style is a reflection of identity. We design garments that strip away the noise to focus on clean lines, flawless fits, and premium construction. Every piece in our collection is crafted to be an essential building block of the modern wardrobe.",
-    aboutSection1Image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",
+    aboutSection1Image: "",
     aboutSection2Title: "Uncompromising Quality",
     aboutSection2Text: "We source only the finest fabrics—from extra-long staple cottons to sustainable technical fibers. By partnering with responsible manufacturers who share our dedication to craftsmanship, we ensure that every garment is built to last and feel exceptional on your skin.",
-    aboutSection2Image: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?q=80&w=800&auto=format&fit=crop",
+    aboutSection2Image: "",
     privacyPolicyText: `Information We Collect
 We collect information you provide directly to us, such as your name, phone number, delivery address, and payment method when you place an order. We also collect information about how you use our website.
 

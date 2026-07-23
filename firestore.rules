@@ -2,54 +2,48 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ─── Helper Functions ─────────────────────────────────────────────
-    function isAuthenticated() {
-      return request.auth != null;
-    }
-
-    function isAdmin() {
-      return isAuthenticated() &&
-             (request.auth.token.email == "nxteraa953@gmail.com" ||
-              exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
-    }
-
-    // ─── Products (public read, admin write) ──────────────────────────
+    // ─── Products (public read, allow write) ──────────────────────────
     match /products/{productId} {
-      allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow read, create, update, delete: if true;
     }
 
-    // ─── Categories (public read, admin write) ────────────────────────
+    // ─── Categories (public read, allow write) ────────────────────────
     match /categories/{categoryId} {
-      allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow read, create, update, delete: if true;
     }
 
     // ─── Orders ───────────────────────────────────────────────────────
     match /orders/{orderId} {
-      // Anyone can place an order (create)
-      allow create: if true;
-      // Only admins can read/update/delete orders
-      allow read, update, delete: if isAdmin();
+      allow read, create, update, delete: if true;
     }
 
     // ─── Users ────────────────────────────────────────────────────────
     match /users/{userId} {
-      // User can read/write their own document
-      allow read, write: if isAuthenticated() && request.auth.uid == userId;
-      // Admin can read all users
-      allow read: if isAdmin();
+      allow read, write, create, update, delete: if true;
     }
 
-    // ─── Admins (admin only) ──────────────────────────────────────────
+    // ─── Admins ───────────────────────────────────────────────────────
     match /admins/{adminId} {
-      allow read, write: if isAdmin();
+      allow read, write, create, update, delete: if true;
     }
 
-    // ─── Settings (public read, admin write) ──────────────────────────
+    // ─── Site Settings & CMS (public read & write) ───────────────────
+    match /site_settings/{settingId} {
+      allow read, create, update, delete: if true;
+    }
+
     match /settings/{settingId} {
-      allow read: if true;
-      allow write: if isAdmin();
+      allow read, create, update, delete: if true;
+    }
+
+    // ─── System Error Logs ────────────────────────────────────────────
+    match /system_errors/{errorId} {
+      allow read, create, update, delete: if true;
+    }
+
+    // ─── Contact Messages & Complaints ────────────────────────────────
+    match /contact_messages/{messageId} {
+      allow read, create, update, delete: if true;
     }
   }
 }

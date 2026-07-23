@@ -9,8 +9,7 @@ const collections = [
     title: "Men",
     subtitle: "Modern essentials",
     href: "/shop?category=men",
-    image:
-      "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=800&q=80&auto=format&fit=crop",
+    image: "/banner.png",
     span: "lg:col-span-1 lg:row-span-2",
     textPosition: "bottom-left",
   },
@@ -19,8 +18,7 @@ const collections = [
     title: "Women",
     subtitle: "Elegant styles",
     href: "/shop?category=women",
-    image:
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80&auto=format&fit=crop",
+    image: "/banner_light.png",
     span: "lg:col-span-2 lg:row-span-1",
     textPosition: "bottom-left",
   },
@@ -29,8 +27,7 @@ const collections = [
     title: "New Arrivals",
     subtitle: "Latest drops",
     href: "/shop?featured=true",
-    image:
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80&auto=format&fit=crop",
+    image: "/banner.png",
     span: "lg:col-span-1 lg:row-span-1",
     textPosition: "bottom-left",
   },
@@ -39,8 +36,7 @@ const collections = [
     title: "Best Sellers",
     subtitle: "Fan favorites",
     href: "/shop?bestSeller=true",
-    image:
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80&auto=format&fit=crop",
+    image: "/banner_light.png",
     span: "lg:col-span-1 lg:row-span-1",
     textPosition: "bottom-left",
   },

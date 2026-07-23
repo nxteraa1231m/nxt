@@ -24,17 +24,8 @@ export default function AboutPage() {
   const section1Text =
     settings?.aboutSection1Text ||
     "At NXT, we believe that style is a reflection of identity. We design garments that strip away the noise to focus on clean lines, flawless fits, and premium construction. Every piece in our collection is crafted to be an essential building block of the modern wardrobe.";
-  const section1Image =
-    settings?.aboutSection1Image ||
-    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop";
-
-  const section2Title = settings?.aboutSection2Title || "Uncompromising Quality";
-  const section2Text =
-    settings?.aboutSection2Text ||
-    "We source only the finest fabrics—from extra-long staple cottons to sustainable technical fibers. By partnering with responsible manufacturers who share our dedication to craftsmanship, we ensure that every garment is built to last and feel exceptional on your skin.";
-  const section2Image =
-    settings?.aboutSection2Image ||
-    "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?q=80&w=800&auto=format&fit=crop";
+  const section1Image = settings?.aboutSection1Image || "";
+  const section2Image = settings?.aboutSection2Image || "";
 
   return (
     <div className="pt-20 min-h-screen">
@@ -69,14 +60,16 @@ export default function AboutPage() {
                 {section1Text}
               </p>
             </div>
-            <div className="aspect-[4/3] relative rounded-2xl overflow-hidden bg-gray-100 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={section1Image}
-                alt={section1Title}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            {section1Image && (
+              <div className="aspect-[4/3] relative rounded-2xl overflow-hidden bg-gray-100 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={section1Image}
+                  alt={section1Title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
           </motion.div>
 
           {/* Section 2 */}
@@ -84,16 +77,18 @@ export default function AboutPage() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
+            className={`grid grid-cols-1 ${section2Image ? "md:grid-cols-2" : ""} gap-8 items-center`}
           >
-            <div className="order-2 md:order-1 aspect-[4/3] relative rounded-2xl overflow-hidden bg-gray-100 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={section2Image}
-                alt={section2Title}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            {section2Image && (
+              <div className="order-2 md:order-1 aspect-[4/3] relative rounded-2xl overflow-hidden bg-gray-100 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={section2Image}
+                  alt={section2Title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
             <div className="order-1 md:order-2">
               <h2 className="text-2xl font-bold mb-4 text-foreground">{section2Title}</h2>
               <p className="text-gray-500 dark:text-gray-400 leading-relaxed text-sm">

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Instagram, Facebook } from "lucide-react";
+import { Instagram, Facebook, MessageCircle } from "lucide-react";
 import { getSiteSettings, type SiteSettings } from "@/lib/firebase/firestore";
 
 function TiktokIcon({ size = 18 }: { size?: number }) {
@@ -59,7 +59,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-black text-white">
+    <footer className="bg-black text-white font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
@@ -136,35 +136,25 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Newsletter */}
-        <div className="mt-12 pt-8 border-t border-white/10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div>
-              <p className="font-semibold">Stay in the loop</p>
-              <p className="text-gray-400 text-sm">
-                Subscribe for exclusive drops and early access.
-              </p>
-            </div>
-            <form className="flex gap-2 w-full md:w-auto">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                className="flex-1 md:w-64 px-4 py-3 bg-white/10 rounded-xl text-sm text-white placeholder:text-gray-500 border border-white/10 focus:outline-none focus:border-white/30 transition-colors"
-              />
-              <button
-                type="submit"
-                className="px-5 py-3 bg-white text-black rounded-xl text-sm font-semibold hover:bg-gray-100 transition-colors"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* Bottom */}
-        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-gray-500">
+        {/* Bottom Credits */}
+        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-400">
           <p>© {new Date().getFullYear()} NXT. All rights reserved.</p>
-          <p>Designed with ♥ for modern fashion</p>
+
+          {/* Developer Credit & WhatsApp */}
+          <div className="flex flex-col md:items-end items-center gap-1">
+            <p className="font-bold text-zinc-300">
+              Developed by Yousef
+            </p>
+            <a
+              href="https://wa.me/201020451206"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-mono transition-colors"
+            >
+              <MessageCircle size={14} />
+              <span>01020451206</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>

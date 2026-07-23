@@ -6,12 +6,21 @@ import { createSystemErrorLog } from "@/lib/firebase/firestore";
 export function ErrorTrackerProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const handleGlobalError = (event: ErrorEvent) => {
+      const msg = event.message || "";
+      if (
+        msg.includes("permission-denied font-sans") ||
+        msg.includes("insufficient permissions") ||
+        msg.includes("Missing or insufficient permissions")
+      ) {
+        return;
+      }
+
       createSystemErrorLog({
-        message: event.message || "Global Unhandled Error",
+        message: msg || "Global Unhandled Error",
         stack: event.error?.stack || `${event.filename}:${event.lineno}:${event.colno}`,
         url: window.location.href,
         context: "Global Unhandled Error",
-      }).catch(console.error);
+      }).catch(() => {});
     };
 
     const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
@@ -20,6 +29,16 @@ export function ErrorTrackerProvider({ children }: { children: React.ReactNode }
         typeof reason === "string"
           ? reason
           : reason?.message || "Unhandled Promise Rejection";
+
+      if (
+        message.includes("permission-denied") ||
+        message.includes("insufficient permissions") ||
+        message.includes("Missing or insufficient permissions") ||
+        reason?.code === "permission-denied"
+      ) {
+        return;
+      }
+
       const stack = reason?.stack || "";
 
       createSystemErrorLog({
@@ -27,7 +46,7 @@ export function ErrorTrackerProvider({ children }: { children: React.ReactNode }
         stack,
         url: window.location.href,
         context: "Unhandled Promise Rejection",
-      }).catch(console.error);
+      }).catch(() => {});
     };
 
     window.addEventListener("error", handleGlobalError);
