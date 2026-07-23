@@ -4,9 +4,10 @@ echo "  NXT - PUSHING TO GITHUB (AUTOMATED SCRIPT)"
 echo "==================================================="
 echo ""
 
-# Get script directory
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "$DIR"
+# Create public directory and copy logo asset
+mkdir -p public
+cp "c:/Users/youse/OneDrive/Desktop/nxt/logo/12-removebg-preview.png" "./public/logo.png" 2>/dev/null
+cp "/Users/youse/OneDrive/Desktop/nxt/logo/12-removebg-preview.png" "./public/logo.png" 2>/dev/null
 
 # Initialize Git
 if [ ! -d ".git" ]; then

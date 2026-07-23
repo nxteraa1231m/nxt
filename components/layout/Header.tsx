@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
-  { href: "/#collections", label: "About" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -35,16 +35,21 @@ export function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <Link href="/" className="flex-shrink-0">
+            <Link href="/" className="flex-shrink-0 flex items-center">
               <motion.div
-                className={cn(
-                  "text-2xl md:text-3xl font-black tracking-tighter transition-colors duration-300",
-                  scrolled ? "text-black" : "text-white"
-                )}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative h-8 w-24 flex items-center justify-start"
               >
-                NXT
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo.png"
+                  alt="NXT Brand Logo"
+                  className={cn(
+                    "h-8 w-auto object-contain transition-all duration-300",
+                    theme === "dark" || !scrolled ? "invert" : "invert-0"
+                  )}
+                />
               </motion.div>
             </Link>
 

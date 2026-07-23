@@ -8,7 +8,12 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <span className="text-3xl font-black tracking-tighter">NXT</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.png"
+              alt="NXT Brand Logo"
+              className="h-8 w-auto object-contain invert"
+            />
             <p className="mt-4 text-gray-400 text-sm leading-relaxed max-w-sm">
               Premium fashion for modern people. Elevate your style with our
               curated collections of high-quality clothing and accessories.
@@ -77,6 +82,7 @@ export function Footer() {
             </h4>
             <ul className="space-y-3 text-sm text-gray-400">
               {[
+                { href: "/about", label: "About Us" },
                 { href: "/contact", label: "Contact Us" },
                 { href: "/privacy", label: "Privacy Policy" },
                 { href: "/terms", label: "Terms of Service" },

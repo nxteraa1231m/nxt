@@ -7,6 +7,10 @@ echo.
 :: Ensure we are in the correct directory
 cd /d "%~dp0"
 
+:: Create public directory and copy logo asset
+if not exist public mkdir public
+copy /y "c:\Users\youse\OneDrive\Desktop\nxt\logo\12-removebg-preview.png" "c:\Users\youse\OneDrive\Desktop\nxt\public\logo.png" >nul
+
 :: Initialize Git if not already done
 if not exist .git (
     echo [1/5] Initializing Git repository...

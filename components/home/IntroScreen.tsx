@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Logo3D } from "@/components/ui/Logo3D";
 
-const BRAND_LETTERS = ["N", "X", "T"];
 const TAGLINE_LETTERS = "DEFINE YOUR STYLE".split("");
 
 export function IntroScreen({ onComplete }: { onComplete: () => void }) {
@@ -47,23 +47,16 @@ export function IntroScreen({ onComplete }: { onComplete: () => void }) {
 
           {/* Brand Name */}
           <div className="relative z-10 flex flex-col items-center gap-8">
-            <div className="flex items-center gap-1">
-              {BRAND_LETTERS.map((letter, i) => (
-                <motion.span
-                  key={letter}
-                  className="text-7xl md:text-9xl font-black text-white tracking-tighter"
-                  initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{
-                    delay: 0.2 + i * 0.15,
-                    duration: 0.7,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85, filter: "blur(10px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              transition={{
+                duration: 1.2,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              <Logo3D layers={15} size={220} />
+            </motion.div>
 
             {/* Tagline — letter by letter */}
             <AnimatePresence>
