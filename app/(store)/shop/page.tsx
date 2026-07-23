@@ -17,6 +17,8 @@ const SORT_OPTIONS = [
   { value: "price-desc", label: "Price: High to Low" },
 ];
 
+const PRICE_RANGE: [number, number] = [0, 10000];
+
 export default function ShopPage() {
   const searchParams = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
@@ -25,7 +27,6 @@ export default function ShopPage() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [sort, setSort] = useState("newest");
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const priceRange: [number, number] = [0, 10000];
 
   const category = searchParams.get("category");
   const featured = searchParams.get("featured");
@@ -58,8 +59,8 @@ export default function ShopPage() {
 
     result = result.filter(
       (p) =>
-        (p.salePrice ?? p.price) >= priceRange[0] &&
-        (p.salePrice ?? p.price) <= priceRange[1]
+        (p.salePrice ?? p.price) >= PRICE_RANGE[0] &&
+        (p.salePrice ?? p.price) <= PRICE_RANGE[1]
     );
 
     if (sort === "price-asc") {
@@ -69,7 +70,7 @@ export default function ShopPage() {
     }
 
     setFiltered(result);
-  }, [products, selectedSizes, priceRange, sort]);
+  }, [products, selectedSizes, sort]);
 
   const toggleSize = (size: string) => {
     setSelectedSizes((prev) =>
