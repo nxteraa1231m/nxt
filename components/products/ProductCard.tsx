@@ -24,12 +24,9 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     : 0;
 
   const staggerDelay = (index % 4) * 0.08;
-  const targetSlug = product.slug || product.id;
 
-  const handleCardClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    // Always navigate by document ID (guaranteed unique in Firestore)
-    // Never use slug — two products can share the same slug/name
+  // Navigate by Firestore Document ID (always unique — never use slug)
+  const navigateToProduct = () => {
     router.push(`/products?id=${encodeURIComponent(product.id)}`);
   };
 
@@ -45,20 +42,16 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       }}
       whileHover={{ y: -8, transition: { duration: 0.3, ease: "easeOut" } }}
     >
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={handleCardClick}
-        onKeyDown={(e) => e.key === "Enter" && handleCardClick(e as any)}
-        className="block group cursor-pointer select-none"
-      >
-        {/* Floating Image Container — No border, drop-shadow creates depth */}
+      {/* Outer wrapper — NO nested buttons, NO role=button on div */}
+      <div className="block group cursor-pointer select-none" onClick={navigateToProduct}>
+
+        {/* Floating Image Container */}
         <div className="relative overflow-visible">
-          {/* Wishlist Heart Button */}
+
+          {/* Wishlist Heart Button — stops propagation so card click doesn't fire */}
           <button
             type="button"
             onClick={(e) => {
-              e.preventDefault();
               e.stopPropagation();
               toggleWishlist(product);
             }}
@@ -94,7 +87,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             </motion.span>
           </div>
 
-          {/* Product Image — Full image, no crop, no border */}
+          {/* Product Image */}
           <div className="aspect-[3/4] relative overflow-hidden">
             {product.mainImage ? (
               <motion.div

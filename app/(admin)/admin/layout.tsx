@@ -54,12 +54,12 @@ export default function AdminLayout({
   }, [pathname]);
 
   useEffect(() => {
-    if (!loading && !isLoginPage) {
-      if (!user) {
-        router.push("/admin/login");
-      }
+    if (loading) return; // Wait for Firebase Auth to fully initialize
+    if (!isLoginPage && !user) {
+      router.replace("/admin/login");
     }
-  }, [user, loading, router, isLoginPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, loading, isLoginPage]);
 
   useEffect(() => {
     // Force Light Mode for the Admin Dashboard
