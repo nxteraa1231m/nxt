@@ -2,50 +2,52 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Check, Sparkles, ArrowLeft, Zap } from "lucide-react";
+import { Play, Check, Sparkles, ArrowLeft, Zap, Layers } from "lucide-react";
 import Link from "next/link";
-import { IntroAppleMinimal } from "@/components/intros/IntroAppleMinimal";
-import { IntroFabricCraft } from "@/components/intros/IntroFabricCraft";
-import { IntroCyberLuxury } from "@/components/intros/IntroCyberLuxury";
-import { IntroAppleKeynote } from "@/components/intros/IntroAppleKeynote";
-import { IntroFastStreetwear } from "@/components/intros/IntroFastStreetwear";
+import {
+  Intro1_LiquidChrome,
+  Intro2_BlackMarble,
+  Intro3_InfiniteMirror,
+  Intro4_CyberNeon,
+  Intro5_GoldenDesert,
+  Intro6_UnderwaterSilk,
+  Intro7_GlassLabyrinth,
+  Intro8_VolcanicObsidian,
+  Intro9_CelestialVoid,
+  Intro10_LiquidGold,
+  Intro11_CrystalCave,
+  Intro12_OrigamiMotion,
+  Intro13_DiamondFracture,
+  Intro14_VelvetShadow,
+  Intro15_MuseumLight,
+  Intro16_KineticSculpture,
+  Intro17_IcePalace,
+  Intro18_SmokeSilk,
+  Intro19_BrutalistConcrete,
+  Intro20_HolographicRunway,
+} from "@/components/intros/MasterIntros";
 
-const introOptions = [
-  {
-    id: 1,
-    title: "Intro 1: Apple & Prada Minimal Luxury",
-    duration: "6 Seconds",
-    style: "Obsidian Black + Letter Merging (N-X-T) + Frosted Glass Blur",
-    description: "Begins in total darkness, N-X-T letters fade sequentially and merge into logo with DEFINE YOUR STYLE slogan and thin horizontal white line.",
-  },
-  {
-    id: 2,
-    title: "Intro 2: Premium Fabric & Craftsmanship",
-    duration: "7 Seconds",
-    style: "Black Cotton Macro + Studio Lighting + Emerald Accents",
-    description: "Slow-motion black cotton fabric texture with studio lighting sweep, fading to logo with MODERN LUXURY slogan and emerald accents.",
-  },
-  {
-    id: 3,
-    title: "Intro 3: Particle Simulation & Streetwear Model",
-    duration: "7.6 Seconds",
-    style: "Gold Particles + Logo Assembly + Fashion Model Reveal",
-    description: "Thousands of floating gold & white particles gather to assemble the NXT logo, then morph into a high-end streetwear fashion model.",
-  },
-  {
-    id: 4,
-    title: "Intro 4: Pure Apple Keynote Statement",
-    duration: "5 Seconds",
-    style: "1s Silence + NXT Scale + 'Not Just Clothing. A Statement.'",
-    description: "Pure black opening with 1s silence, logo scaling forward with sequential keynote statements fading in.",
-  },
-  {
-    id: 5,
-    title: "Intro 5: Fast-Paced Premium Streetwear",
-    duration: "6 Seconds",
-    style: "Fast Cuts (<0.3s) + Camera Flashes + 'PREMIUM STREETWEAR'",
-    description: "High-octane macro shots of hoodies, hardware zippers, and luxury footwear with camera flashes, stopping abruptly for the NXT logo.",
-  },
+const masterPromptsList = [
+  { id: 1, title: "1. Liquid Chrome Genesis", style: "Houdini Fluid Sim + Metaball Morphing + Chrome PBR", duration: "10s" },
+  { id: 2, title: "2. Black Marble Temple", style: "Voronoi Fracture + Gold Vein Shader + Chiseling", duration: "10s" },
+  { id: 3, title: "3. Infinite Mirror Room", style: "Recursive Ray-traced Mirror + Staggered Rotation", duration: "10s" },
+  { id: 4, title: "4. Cyber Luxury Neon", style: "Volumetric Rain + Holographic Grid + Leather Sim", duration: "10s" },
+  { id: 5, title: "5. Golden Desert Mirage", style: "Sand Particle Sim + Heat Refraction + Silk Sim", duration: "10s" },
+  { id: 6, title: "6. Underwater Silk", style: "Underwater Caustics + Fluid Cloth + Bubble Particle", duration: "10s" },
+  { id: 7, title: "7. Glass Labyrinth", style: "Procedural Glass Panel + Emissive Edge + Shatter", duration: "10s" },
+  { id: 8, title: "8. Volcanic Obsidian", style: "Molten Lava Sim + Thermal Cooling Shader + Embers", duration: "10s" },
+  { id: 9, title: "9. Celestial Void", style: "Nebula Shader + Gravitational Particle Assembly", duration: "10s" },
+  { id: 10, title: "10. Liquid Gold Pour", style: "High-Res Gold Pour + Fluid-to-Solid Morphing", duration: "10s" },
+  { id: 11, title: "11. Crystal Cave", style: "L-System Crystal Growth + Subsurface Scattering", duration: "10s" },
+  { id: 12, title: "12. Origami Motion", style: "Procedural Fold Rigging + Matte Paper PBR", duration: "10s" },
+  { id: 13, title: "13. Diamond Fracture", style: "Voronoi Fracture + Diamond Dispersion Caustics", duration: "10s" },
+  { id: 14, title: "14. Velvet Shadow", style: "High-Fidelity Velvet Cloth + Volumetric Light Reveal", duration: "10s" },
+  { id: 15, title: "15. Museum of Light", style: "Spotlight Rig + Light Particle Assembly + GI Bake", duration: "10s" },
+  { id: 16, title: "16. Kinetic Sculpture Hall", style: "Mechanical Gear Sim + Wave Rotation Rig", duration: "10s" },
+  { id: 17, title: "17. Ice Palace Minimal", style: "Snow Accumulation + Ice PBR + Fog Dissolve", duration: "10s" },
+  { id: 18, title: "18. Smoke & Silk", style: "Fluid Smoke Solver + Backlight Rim + Dissipation", duration: "10s" },
+  { id: 19, title: "19. Brutalist Concrete Reveal", style: "CNC Carving Displacement + Dust Fall Particle", duration: "10s" },
+  { id: 20, title: "20. Holographic Runway", style: "Scanline Shader + Hologram Character + Particle Dissolve", duration: "10s" },
 ];
 
 export default function IntroLabPage() {
@@ -83,62 +85,61 @@ export default function IntroLabPage() {
           </Link>
           <div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-2">
-              NXT Cinema Intro Lab <Sparkles size={20} className="text-amber-400" />
+              NXT 20 Master 3D Intro Suite <Sparkles size={20} className="text-amber-400" />
             </h1>
             <p className="text-xs text-zinc-400 font-medium">
-              Interactive testing suite for all 5 luxury website intro concepts
+              Complete collection of 20 8K 60FPS Master 3D Luxury Prompts & Motion Systems
             </p>
           </div>
         </div>
 
         <span className="text-xs bg-zinc-900 border border-zinc-800 text-amber-400 font-extrabold uppercase px-3.5 py-1.5 rounded-full tracking-wider flex items-center gap-1.5">
-          <Zap size={14} /> 5 Concepts Ready
+          <Zap size={14} /> 20 Concepts Live
         </span>
       </div>
 
-      {/* Grid of Intro Options */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-        {introOptions.map((opt) => {
+      {/* Grid of 20 Master Prompts */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {masterPromptsList.map((opt) => {
           const isActiveOnSite = activeSiteIntroId === opt.id;
 
           return (
             <motion.div
               key={opt.id}
               whileHover={{ y: -4 }}
-              className={`bg-zinc-900/60 border rounded-2xl p-6 sm:p-8 flex flex-col justify-between backdrop-blur-md transition-all shadow-xl ${
+              className={`bg-zinc-900/60 border rounded-2xl p-6 flex flex-col justify-between backdrop-blur-md transition-all shadow-xl ${
                 isActiveOnSite ? "border-amber-500/80 bg-zinc-900/90 shadow-amber-500/10" : "border-zinc-800 hover:border-zinc-700"
               }`}
             >
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-extrabold tracking-widest bg-zinc-800 text-zinc-300 px-3 py-1 rounded-full uppercase">
                     {opt.duration}
                   </span>
 
                   {isActiveOnSite && (
-                    <span className="flex items-center gap-1 text-[10px] font-extrabold bg-amber-500 text-zinc-950 px-3 py-1 rounded-full uppercase tracking-wider">
-                      <Check size={12} /> Active On Main Site
+                    <span className="flex items-center gap-1 text-[10px] font-extrabold bg-amber-500 text-zinc-950 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                      <Check size={12} /> Active
                     </span>
                   )}
                 </div>
 
-                <h2 className="text-lg font-bold text-white leading-snug">{opt.title}</h2>
-                <p className="text-xs text-amber-400 font-semibold">{opt.style}</p>
-                <p className="text-xs text-zinc-400 leading-relaxed">{opt.description}</p>
+                <h2 className="text-base font-bold text-white leading-snug">{opt.title}</h2>
+                <p className="text-xs text-amber-400 font-semibold leading-relaxed">{opt.style}</p>
               </div>
 
-              <div className="flex items-center gap-3 pt-6 mt-6 border-t border-zinc-800/60">
+              <div className="flex items-center gap-3 pt-4 mt-4 border-t border-zinc-800/60">
                 <button
                   onClick={() => playIntro(opt.id)}
-                  className="flex-1 inline-flex items-center justify-center gap-2 bg-white text-black font-extrabold text-xs uppercase px-5 py-3 rounded-xl hover:bg-zinc-200 transition-all shadow-lg active:scale-95"
+                  className="flex-1 inline-flex items-center justify-center gap-2 bg-white text-black font-extrabold text-xs uppercase px-4 py-2.5 rounded-xl hover:bg-zinc-200 transition-all shadow-lg active:scale-95"
                 >
-                  <Play size={14} className="fill-black" /> Preview Concept
+                  <Play size={14} className="fill-black" /> Preview
                 </button>
 
                 <button
                   onClick={() => setAsActiveSiteIntro(opt.id)}
                   title="Set as active main site intro"
-                  className={`p-3 rounded-xl border transition-all ${
+                  className={`p-2.5 rounded-xl border transition-all ${
                     isActiveOnSite
                       ? "bg-amber-500 text-black border-amber-400"
                       : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700"
@@ -156,11 +157,26 @@ export default function IntroLabPage() {
       <AnimatePresence>
         {selectedIntroId !== null && !completed && (
           <div className="fixed inset-0 z-[999999]">
-            {selectedIntroId === 1 && <IntroAppleMinimal onComplete={() => setCompleted(true)} />}
-            {selectedIntroId === 2 && <IntroFabricCraft onComplete={() => setCompleted(true)} />}
-            {selectedIntroId === 3 && <IntroCyberLuxury onComplete={() => setCompleted(true)} />}
-            {selectedIntroId === 4 && <IntroAppleKeynote onComplete={() => setCompleted(true)} />}
-            {selectedIntroId === 5 && <IntroFastStreetwear onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 1 && <Intro1_LiquidChrome onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 2 && <Intro2_BlackMarble onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 3 && <Intro3_InfiniteMirror onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 4 && <Intro4_CyberNeon onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 5 && <Intro5_GoldenDesert onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 6 && <Intro6_UnderwaterSilk onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 7 && <Intro7_GlassLabyrinth onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 8 && <Intro8_VolcanicObsidian onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 9 && <Intro9_CelestialVoid onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 10 && <Intro10_LiquidGold onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 11 && <Intro11_CrystalCave onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 12 && <Intro12_OrigamiMotion onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 13 && <Intro13_DiamondFracture onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 14 && <Intro14_VelvetShadow onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 15 && <Intro15_MuseumLight onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 16 && <Intro16_KineticSculpture onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 17 && <Intro17_IcePalace onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 18 && <Intro18_SmokeSilk onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 19 && <Intro19_BrutalistConcrete onComplete={() => setCompleted(true)} />}
+            {selectedIntroId === 20 && <Intro20_HolographicRunway onComplete={() => setCompleted(true)} />}
 
             <button
               onClick={() => setCompleted(true)}
