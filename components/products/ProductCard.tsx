@@ -6,9 +6,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, Heart } from "lucide-react";
 import { useWishlist } from "@/features/wishlist/WishlistProvider";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, getDiscountPercentage } from "@/lib/utils";
 import type { Product } from "@/types/product";
-import { getDiscountPercentage } from "@/lib/utils/discount";
 
 interface ProductCardProps {
   product: Product;
