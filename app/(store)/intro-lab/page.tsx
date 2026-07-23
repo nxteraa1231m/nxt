@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Check, Sparkles, ArrowLeft, Zap, Layers } from "lucide-react";
+import { Play, Check, Sparkles, ArrowLeft, Zap, Award } from "lucide-react";
 import Link from "next/link";
+import { IntroWorldClassLuxury } from "@/components/intros/IntroWorldClassLuxury";
 import {
   Intro1_LiquidChrome,
   Intro2_BlackMarble,
@@ -28,6 +29,7 @@ import {
 } from "@/components/intros/MasterIntros";
 
 const masterPromptsList = [
+  { id: 0, title: "★ Featured 12s Master World-Class Intro", style: "9-Scene PBR Fluid + Black Marble + Reverse Gravity + Model Architecture", duration: "12s" },
   { id: 1, title: "1. Liquid Chrome Genesis", style: "Houdini Fluid Sim + Metaball Morphing + Chrome PBR", duration: "10s" },
   { id: 2, title: "2. Black Marble Temple", style: "Voronoi Fracture + Gold Vein Shader + Chiseling", duration: "10s" },
   { id: 3, title: "3. Infinite Mirror Room", style: "Recursive Ray-traced Mirror + Staggered Rotation", duration: "10s" },
@@ -52,7 +54,7 @@ const masterPromptsList = [
 
 export default function IntroLabPage() {
   const [selectedIntroId, setSelectedIntroId] = useState<number | null>(null);
-  const [activeSiteIntroId, setActiveSiteIntroId] = useState<number>(1);
+  const [activeSiteIntroId, setActiveSiteIntroId] = useState<number>(0);
   const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
@@ -85,20 +87,20 @@ export default function IntroLabPage() {
           </Link>
           <div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-2">
-              NXT 20 Master 3D Intro Suite <Sparkles size={20} className="text-amber-400" />
+              NXT Master 3D Cinema Lab <Award size={22} className="text-amber-400" />
             </h1>
             <p className="text-xs text-zinc-400 font-medium">
-              Complete collection of 20 8K 60FPS Master 3D Luxury Prompts & Motion Systems
+              World-Class 12s Master Intro + 20 8K 60FPS Cinematic Luxury Prompts
             </p>
           </div>
         </div>
 
         <span className="text-xs bg-zinc-900 border border-zinc-800 text-amber-400 font-extrabold uppercase px-3.5 py-1.5 rounded-full tracking-wider flex items-center gap-1.5">
-          <Zap size={14} /> 20 Concepts Live
+          <Zap size={14} /> 21 Concepts Ready
         </span>
       </div>
 
-      {/* Grid of 20 Master Prompts */}
+      {/* Grid of Master Prompts */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {masterPromptsList.map((opt) => {
           const isActiveOnSite = activeSiteIntroId === opt.id;
@@ -108,7 +110,7 @@ export default function IntroLabPage() {
               key={opt.id}
               whileHover={{ y: -4 }}
               className={`bg-zinc-900/60 border rounded-2xl p-6 flex flex-col justify-between backdrop-blur-md transition-all shadow-xl ${
-                isActiveOnSite ? "border-amber-500/80 bg-zinc-900/90 shadow-amber-500/10" : "border-zinc-800 hover:border-zinc-700"
+                opt.id === 0 ? "border-amber-500 bg-amber-500/10 shadow-amber-500/20 col-span-1 md:col-span-2 lg:col-span-3" : isActiveOnSite ? "border-amber-500/80 bg-zinc-900/90 shadow-amber-500/10" : "border-zinc-800 hover:border-zinc-700"
               }`}
             >
               <div className="space-y-3">
@@ -119,12 +121,12 @@ export default function IntroLabPage() {
 
                   {isActiveOnSite && (
                     <span className="flex items-center gap-1 text-[10px] font-extrabold bg-amber-500 text-zinc-950 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                      <Check size={12} /> Active
+                      <Check size={12} /> Active On Site
                     </span>
                   )}
                 </div>
 
-                <h2 className="text-base font-bold text-white leading-snug">{opt.title}</h2>
+                <h2 className="text-base sm:text-lg font-bold text-white leading-snug">{opt.title}</h2>
                 <p className="text-xs text-amber-400 font-semibold leading-relaxed">{opt.style}</p>
               </div>
 
@@ -133,7 +135,7 @@ export default function IntroLabPage() {
                   onClick={() => playIntro(opt.id)}
                   className="flex-1 inline-flex items-center justify-center gap-2 bg-white text-black font-extrabold text-xs uppercase px-4 py-2.5 rounded-xl hover:bg-zinc-200 transition-all shadow-lg active:scale-95"
                 >
-                  <Play size={14} className="fill-black" /> Preview
+                  <Play size={14} className="fill-black" /> Preview Concept
                 </button>
 
                 <button
@@ -157,6 +159,7 @@ export default function IntroLabPage() {
       <AnimatePresence>
         {selectedIntroId !== null && !completed && (
           <div className="fixed inset-0 z-[999999]">
+            {selectedIntroId === 0 && <IntroWorldClassLuxury onComplete={() => setCompleted(true)} />}
             {selectedIntroId === 1 && <Intro1_LiquidChrome onComplete={() => setCompleted(true)} />}
             {selectedIntroId === 2 && <Intro2_BlackMarble onComplete={() => setCompleted(true)} />}
             {selectedIntroId === 3 && <Intro3_InfiniteMirror onComplete={() => setCompleted(true)} />}
