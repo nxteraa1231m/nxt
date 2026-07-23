@@ -69,14 +69,14 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
           {/* Product Image — aspect-square, object-contain */}
           <div className="aspect-square relative overflow-hidden">
-            {product.images[0] ? (
+            {product.mainImage ? (
               <motion.div
                 className="w-full h-full"
                 whileHover={{ scale: 1.06 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <Image
-                  src={product.images[0]}
+                  src={product.mainImage}
                   alt={product.name}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -94,19 +94,19 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
         {/* Product Info — minimal, centered */}
         <div className="pt-4 text-center space-y-1 px-2">
           {/* Colors swatches */}
-          {product.colors.length > 0 && (
+          {product.variants && product.variants.length > 0 && (
             <div className="flex items-center justify-center gap-1.5 mb-2">
-              {product.colors.slice(0, 4).map((color) => (
+              {product.variants.slice(0, 4).map((variant) => (
                 <div
-                  key={color.hex}
+                  key={variant.colorHex}
                   className="w-3 h-3 rounded-full border border-gray-200 dark:border-zinc-800"
-                  style={{ backgroundColor: color.hex }}
-                  title={color.name}
+                  style={{ backgroundColor: variant.colorHex }}
+                  title={variant.colorName}
                 />
               ))}
-              {product.colors.length > 4 && (
+              {product.variants.length > 4 && (
                 <span className="text-[10px] text-gray-400">
-                  +{product.colors.length - 4}
+                  +{product.variants.length - 4}
                 </span>
               )}
             </div>

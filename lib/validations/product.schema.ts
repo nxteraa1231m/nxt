@@ -1,8 +1,15 @@
 import { z } from "zod";
 
-export const productColorSchema = z.object({
-  name: z.string().min(1, "Color name required"),
-  hex: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Valid hex color required"),
+export const sizeStockSchema = z.object({
+  size: z.string().min(1, "Size is required"),
+  stock: z.number().int().min(0, "Stock must be 0 or more"),
+});
+
+export const productVariantSchema = z.object({
+  colorName: z.string().min(1, "Color name is required"),
+  colorHex: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Valid hex color required"),
+  image: z.string().url("Color variant image is required"),
+  sizes: z.array(sizeStockSchema).min(1, "At least one size is required"),
 });
 
 export const productSchema = z.object({
@@ -16,10 +23,8 @@ export const productSchema = z.object({
   salePrice: z.number().min(0).optional(),
   category: z.string().min(1, "Category required"),
   brand: z.string().min(1, "Brand required"),
-  sizes: z.array(z.string()).min(1, "At least one size required"),
-  colors: z.array(productColorSchema).min(1, "At least one color required"),
-  stock: z.number().int().min(0, "Stock must be 0 or more"),
-  images: z.array(z.string().url()).min(1, "At least one image required"),
+  mainImage: z.string().url("Primary card image required"),
+  variants: z.array(productVariantSchema).min(1, "At least one color variant required"),
   featured: z.boolean().default(false),
   bestSeller: z.boolean().default(false),
 });

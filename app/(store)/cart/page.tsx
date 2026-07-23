@@ -71,7 +71,7 @@ export default function CartPage() {
                       {/* Image */}
                       <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden bg-white flex-shrink-0">
                         <Image
-                          src={item.product.images[0] || "/placeholder.jpg"}
+                          src={item.selectedColor.image || item.product.mainImage || "/placeholder.jpg"}
                           alt={item.product.name}
                           width={128}
                           height={128}

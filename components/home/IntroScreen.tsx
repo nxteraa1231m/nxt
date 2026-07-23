@@ -59,7 +59,7 @@ export function IntroScreen({ onComplete }: { onComplete: () => void }) {
               <img
                 src="/intro.png"
                 alt="NXT Brand"
-                className="w-full h-full object-contain filter invert pointer-events-none select-none"
+                className="w-full h-full object-contain pointer-events-none select-none"
               />
             </motion.div>
 

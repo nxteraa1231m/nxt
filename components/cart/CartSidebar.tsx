@@ -87,8 +87,9 @@ export function CartSidebar() {
                         >
                           {/* Image */}
                           <div className="w-20 h-20 rounded-xl overflow-hidden bg-white flex-shrink-0">
-                            <Image
-                              src={item.product.images[0] || "/placeholder.jpg"}
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={item.selectedColor.image || item.product.mainImage || "/placeholder.jpg"}
                               alt={item.product.name}
                               width={80}
                               height={80}

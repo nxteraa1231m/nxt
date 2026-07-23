@@ -57,7 +57,7 @@ export default function CheckoutPage() {
       const orderItems: OrderItem[] = items.map((item) => ({
         productId: item.product.id,
         productName: item.product.name,
-        productImage: item.product.images[0] || "",
+        productImage: item.selectedColor.image || item.product.mainImage || "",
         price: item.product.salePrice ?? item.product.price,
         quantity: item.quantity,
         selectedSize: item.selectedSize,
@@ -246,7 +246,7 @@ export default function CheckoutPage() {
                       <div key={key} className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-lg overflow-hidden bg-white flex-shrink-0">
                           <Image
-                            src={item.product.images[0] || "/placeholder.jpg"}
+                            src={item.selectedColor.image || item.product.mainImage || "/placeholder.jpg"}
                             alt={item.product.name}
                             width={48}
                             height={48}
