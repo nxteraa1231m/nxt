@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, ShoppingBag } from "lucide-react";
 import { useTheme } from "@/features/theme/ThemeProvider";
 import { getSiteSettings, type SiteSettings } from "@/lib/firebase/firestore";
 
@@ -127,7 +127,7 @@ export function HeroSection() {
               transition={{ repeat: Infinity, duration: 2.8, ease: "linear", repeatDelay: 1 }}
             />
 
-            <Sparkles size={16} className="text-amber-400 dark:text-amber-600 animate-spin-slow" />
+            <ShoppingBag size={18} className="relative z-10 text-white dark:text-zinc-950 group-hover:scale-110 transition-transform duration-300" />
             
             <span className="relative z-10">
               {settings?.heroButtonText || "Shop Now"}
