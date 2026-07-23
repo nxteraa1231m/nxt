@@ -8,21 +8,11 @@ import type { Product } from "@/types/product";
 import { getProducts } from "@/lib/firebase/firestore";
 
 export default function HomePage() {
-  const [hasSeenIntro, setHasSeenIntro] = useState<boolean>(true);
+  const [hasSeenIntro, setHasSeenIntro] = useState(false);
   const [introComplete, setIntroComplete] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    // Check if intro has already been played in this browser session
-    if (typeof window !== "undefined") {
-      const seen = sessionStorage.getItem("nxt_has_seen_intro");
-      if (!seen) {
-        setHasSeenIntro(false);
-      } else {
-        setIntroComplete(true);
-      }
-    }
-
     // Load all products for the catalog
     getProducts()
       .then(setProducts)
@@ -32,9 +22,6 @@ export default function HomePage() {
   }, []);
 
   const handleIntroComplete = () => {
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("nxt_has_seen_intro", "true");
-    }
     setHasSeenIntro(true);
     setIntroComplete(true);
   };

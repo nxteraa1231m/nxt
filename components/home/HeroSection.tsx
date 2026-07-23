@@ -18,16 +18,16 @@ export function HeroSection() {
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-white dark:bg-black transition-colors duration-500">
-      {/* Background image */}
-      <div className="absolute inset-0 flex items-center justify-center p-4 md:p-8 bg-white dark:bg-black transition-colors duration-500">
+      {/* Background image — full bleed, edge to edge without borders */}
+      <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-black transition-colors duration-500">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={bannerSrc}
           alt="NXT Hero — Premium Fashion"
-          className="w-full h-full object-contain object-center rounded-2xl md:rounded-[2rem]"
+          className="w-full h-full object-cover object-center rounded-none scale-100 transition-all duration-700"
         />
-        {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/20 dark:from-black/20 dark:via-transparent dark:to-black/40 rounded-2xl md:rounded-[2rem] m-4 md:m-8 pointer-events-none" />
+        {/* Full-bleed gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/30 dark:from-black/30 dark:via-transparent dark:to-black/60 pointer-events-none" />
       </div>
 
       {/* Sleek Minimal Subtitle — positioned further down to avoid header overlap */}
