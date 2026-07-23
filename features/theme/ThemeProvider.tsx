@@ -43,14 +43,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Prevent hydration mismatch by returning a placeholder or identical tree
-  if (!mounted) {
-    return <div className="invisible">{children}</div>;
-  }
-
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <div className={mounted ? "" : "invisible"}>
+        {children}
+      </div>
     </ThemeContext.Provider>
   );
 }
