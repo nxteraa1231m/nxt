@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Plus, Trash2, Video, Image as ImageIcon, Save, Sparkles, Sliders, Type, CreditCard, Share2 } from "lucide-react";
+import { Trash2, Video, Image as ImageIcon, Save, Sparkles, Sliders, Type, CreditCard, Share2 } from "lucide-react";
 import { getSiteSettings, updateSiteSettings, type SiteSettings } from "@/lib/firebase/firestore";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { Spinner } from "@/components/ui/Spinner";
@@ -220,7 +220,10 @@ export default function AdminSettingsPage() {
                     </div>
                   ))}
                 </div>
-                <ImageUploader onUpload={(url) => addImageLight(url)} />
+                <ImageUploader
+                  images={settings.heroImagesLight || []}
+                  onChange={(newImgs) => setSettings((prev) => ({ ...prev, heroImagesLight: newImgs }))}
+                />
               </div>
 
               {/* Dark Mode Images */}
@@ -244,7 +247,10 @@ export default function AdminSettingsPage() {
                     </div>
                   ))}
                 </div>
-                <ImageUploader onUpload={(url) => addImageDark(url)} />
+                <ImageUploader
+                  images={settings.heroImagesDark || []}
+                  onChange={(newImgs) => setSettings((prev) => ({ ...prev, heroImagesDark: newImgs }))}
+                />
               </div>
             </div>
           )}

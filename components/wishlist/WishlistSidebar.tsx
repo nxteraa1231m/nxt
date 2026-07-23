@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { X, Heart, ShoppingBag, Eye } from "lucide-react";
+import { X, Heart, Eye } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useWishlist } from "@/features/wishlist/WishlistProvider";
 import { formatPrice } from "@/lib/utils";
