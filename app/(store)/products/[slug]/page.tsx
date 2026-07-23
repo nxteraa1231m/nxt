@@ -114,21 +114,6 @@ export default function ProductDetailPage() {
 
   return (
     <div className="pt-20 min-h-screen relative">
-      {/* Floating Close Button */}
-      <button
-        onClick={() => {
-          if (typeof window !== "undefined" && window.history.length > 1) {
-            router.back();
-          } else {
-            router.push("/#products");
-          }
-        }}
-        className="fixed top-20 right-4 sm:right-8 z-50 p-2.5 rounded-full bg-black text-white dark:bg-white dark:text-black shadow-xl hover:scale-110 active:scale-95 transition-all cursor-pointer flex items-center justify-center border border-white/20 dark:border-black/20"
-        title="Close and return to store"
-      >
-        <X size={16} />
-      </button>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           {/* Image Gallery */}

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node copy_intro.js && node copy_size_charts.js",
+    "prebuild": "node copy_size_charts.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
