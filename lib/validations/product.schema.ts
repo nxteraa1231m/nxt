@@ -28,6 +28,7 @@ export const productSchema = z.object({
   variants: z.array(productVariantSchema).min(1, "أضف لون واحد على الأقل"),
   featured: z.boolean().default(false),
   bestSeller: z.boolean().default(false),
+  sizeChartType: z.enum(["tshirt", "pants"]).default("tshirt"),
 });
 
 export type ProductFormData = z.infer<typeof productSchema>;

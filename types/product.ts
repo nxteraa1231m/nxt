@@ -14,6 +14,7 @@ export interface Product {
   variants: ProductVariant[];
   featured: boolean;
   bestSeller: boolean;
+  sizeChartType?: "tshirt" | "pants"; // نوع جدول المقاسات للمنتج
   createdAt: Timestamp | Date;
 }
 

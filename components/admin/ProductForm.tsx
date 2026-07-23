@@ -52,6 +52,7 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
           variants: initialData.variants,
           featured: initialData.featured ?? false,
           bestSeller: initialData.bestSeller ?? false,
+          sizeChartType: initialData.sizeChartType || "tshirt",
         }
       : {
           category: "all",
@@ -61,11 +62,13 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
           bestSeller: false,
           price: 0,
           sku: generateSKU(),
+          sizeChartType: "tshirt",
         },
   });
 
   const watchedMainImage = watch("mainImage");
   const watchedVariants = watch("variants") || [];
+  const watchedSizeChartType = watch("sizeChartType") || "tshirt";
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
@@ -352,6 +355,77 @@ export function ProductForm({ initialData, productId }: ProductFormProps) {
               {...register("salePrice", { valueAsNumber: true })}
             />
           </div>
+        </div>
+      </div>
+
+      {/* 3.5 Size Chart Selection Panel */}
+      <div className="bg-white rounded-2xl border border-zinc-100 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.015)] space-y-4">
+        <div>
+          <h2 className="font-black text-xs text-zinc-900 uppercase tracking-widest">جدول المقاسات (SIZE CHART GUIDE)</h2>
+          <p className="text-[10px] text-zinc-400 font-medium mt-1">اختر صورة جدول المقاسات المناسبة للمنتج ليتم عرضها للعميل في صفحة الشراء</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <label
+            className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+              watchedSizeChartType === "tshirt"
+                ? "border-zinc-900 bg-zinc-900 text-white shadow-lg"
+                : "border-zinc-200 bg-zinc-50 hover:border-zinc-300 text-zinc-800"
+            }`}
+          >
+            <input
+              type="radio"
+              value="tshirt"
+              {...register("sizeChartType")}
+              className="hidden"
+            />
+            <div className="w-12 h-12 rounded-lg overflow-hidden border border-zinc-300/30 flex-shrink-0 bg-black">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/size-chart-tshirt.png" alt="T-Shirts Size Chart" className="w-full h-full object-cover" />
+            </div>
+            <div>
+              <p className="text-xs font-black">👕 جدول مقاسات التيشرتات (T-Shirts)</p>
+              <p className={`text-[10px] ${watchedSizeChartType === "tshirt" ? "text-zinc-300" : "text-zinc-400"}`}>
+                Oversize & Box Fit T-Shirts
+              </p>
+            </div>
+          </label>
+
+          <label
+            className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+              watchedSizeChartType === "pants"
+                ? "border-zinc-900 bg-zinc-900 text-white shadow-lg"
+                : "border-zinc-200 bg-zinc-50 hover:border-zinc-300 text-zinc-800"
+            }`}
+          >
+            <input
+              type="radio"
+              value="pants"
+              {...register("sizeChartType")}
+              className="hidden"
+            />
+            <div className="w-12 h-12 rounded-lg overflow-hidden border border-zinc-300/30 flex-shrink-0 bg-black">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/size-chart-pants.png" alt="Pants Size Chart" className="w-full h-full object-cover" />
+            </div>
+            <div>
+              <p className="text-xs font-black">👖 جدول مقاسات البناطيل (Pants)</p>
+              <p className={`text-[10px] ${watchedSizeChartType === "pants" ? "text-zinc-300" : "text-zinc-400"}`}>
+                Length & Waist Chart
+              </p>
+            </div>
+          </label>
+        </div>
+
+        {/* Live Size Chart Preview */}
+        <div className="border border-zinc-100 rounded-xl p-3 bg-zinc-50 flex flex-col items-center">
+          <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2">معاينة جدول المقاسات المختار للمنتج:</p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={watchedSizeChartType === "pants" ? "/size-chart-pants.png" : "/size-chart-tshirt.png"}
+            alt="Selected Size Chart"
+            className="max-h-56 object-contain rounded-lg border border-zinc-200 shadow-sm"
+          />
         </div>
       </div>
 

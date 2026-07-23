@@ -27,6 +27,7 @@ export default function ProductDetailPage() {
   const [selectedColor, setSelectedColor] = useState<{ name: string; hex: string; image: string } | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [adding, setAdding] = useState(false);
+  const [showSizeGuide, setShowSizeGuide] = useState(false);
 
   const { addItem, openCart } = useCart();
 
@@ -289,12 +290,21 @@ export default function ProductDetailPage() {
             {/* Size Picker */}
             {availableSizes.length > 0 && (
               <div className="mb-6">
-                <p className="text-xs font-semibold mb-2">
-                  Size:{" "}
-                  <span className="font-normal text-gray-500">
-                    {selectedSize}
-                  </span>
-                </p>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-semibold">
+                    Size / المقاس:{" "}
+                    <span className="font-normal text-gray-500">
+                      {selectedSize}
+                    </span>
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setShowSizeGuide(true)}
+                    className="flex items-center gap-1.5 text-xs font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors cursor-pointer bg-amber-50 dark:bg-amber-950/40 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-800/60"
+                  >
+                    <span>📏 جدول المقاسات (Size Guide)</span>
+                  </button>
+                </div>
                 <div className="flex flex-wrap gap-1.5">
                   {availableSizes.map((sizeStockItem) => {
                     const isOutOfStock = sizeStockItem.stock === 0;
@@ -385,6 +395,53 @@ export default function ProductDetailPage() {
           </motion.div>
         </div>
       </div>
+
+      {/* 📏 Size Guide Modal Drawer */}
+      <AnimatePresence>
+        {showSizeGuide && (
+          <div className="fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 350 }}
+              className="bg-zinc-950 text-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl border border-zinc-800 relative overflow-hidden"
+              dir="rtl"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between mb-4 border-b border-zinc-800 pb-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">📏</span>
+                  <h3 className="font-black text-sm uppercase tracking-wider text-white">
+                    جدول مقاسات NXT ({product.sizeChartType === "pants" ? "بناطيل / Pants" : "تيشرتات / T-Shirts"})
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setShowSizeGuide(false)}
+                  className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-zinc-800 text-zinc-400 hover:text-white transition-all border border-zinc-800 cursor-pointer"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Size Chart Image */}
+              <div className="flex justify-center p-2 bg-black rounded-2xl border border-zinc-800/80 overflow-hidden shadow-inner">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={product.sizeChartType === "pants" ? "/size-chart-pants.png" : "/size-chart-tshirt.png"}
+                  alt="NXT Size Guide"
+                  className="w-full max-h-[70vh] object-contain rounded-xl"
+                />
+              </div>
+
+              {/* Footer text */}
+              <p className="text-[11px] text-zinc-400 text-center mt-3 font-medium">
+                جميع المقاسات دقيقة ومصممة بعناية لمنتجات NXT
+              </p>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
