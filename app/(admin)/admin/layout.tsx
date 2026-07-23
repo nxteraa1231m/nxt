@@ -13,6 +13,7 @@ import {
   Settings,
   LogOut,
   ChevronRight,
+  ShieldCheck,
 } from "lucide-react";
 import { signOut } from "@/lib/firebase/auth";
 import { toast } from "sonner";
@@ -20,7 +21,7 @@ import { useAuth } from "@/features/auth/AuthProvider";
 import { Spinner } from "@/components/ui/Spinner";
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin", label: "Overview", icon: LayoutDashboard },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/customers", label: "Customers", icon: Users },
@@ -66,7 +67,6 @@ export default function AdminLayout({
   const handleSignOut = async () => {
     try {
       await signOut();
-      // Clear session cookie
       await fetch("/api/admin/auth", { method: "DELETE" });
       router.push("/admin/login");
     } catch {
@@ -81,8 +81,11 @@ export default function AdminLayout({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Spinner size="lg" />
+      <div className="min-h-screen bg-zinc-50 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <Spinner size="lg" />
+          <p className="text-xs text-zinc-400 font-medium tracking-widest uppercase">Initializing NXT Admin</p>
+        </div>
       </div>
     );
   }
@@ -92,21 +95,35 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-100 flex flex-col fixed top-0 bottom-0 left-0 z-30">
-        {/* Logo */}
-        <div className="px-6 py-6 border-b border-gray-100">
-          <Link href="/admin" className="flex items-center gap-2">
-            <span className="text-xl font-black tracking-tighter">NXT</span>
-            <span className="text-xs bg-black text-white px-2 py-0.5 rounded-full font-medium">
-              Admin
-            </span>
+    <div className="min-h-screen bg-[#FBFBFD] flex text-zinc-950 font-sans">
+      {/* Sidebar - Premium Minimalist Float Panel */}
+      <aside className="w-64 bg-white/70 backdrop-blur-lg border-r border-zinc-100 flex flex-col fixed top-0 bottom-0 left-0 z-30 shadow-[1px_0_10px_rgba(0,0,0,0.01)]">
+        {/* Logo and Admin indicator */}
+        <div className="px-6 py-6 border-b border-zinc-100 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="NXT Logo" className="h-6 w-auto object-contain" />
           </Link>
+          <span className="text-[9px] tracking-widest bg-zinc-900 text-white font-bold uppercase px-2 py-0.5 rounded-md">
+            Console
+          </span>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        {/* User Info Capsule */}
+        <div className="px-4 py-4 border-b border-zinc-100/60 bg-zinc-50/40">
+          <div className="flex items-center gap-2.5 px-2">
+            <div className="w-7 h-7 rounded-full bg-zinc-900 flex items-center justify-center text-white text-xs font-bold shadow-md">
+              A
+            </div>
+            <div className="overflow-hidden">
+              <p className="text-xs font-bold truncate text-zinc-800">Admin Account</p>
+              <p className="text-[10px] text-zinc-400 truncate font-mono">nxteraa953@gmail.com</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation - Spaced and clean items */}
+        <nav className="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto">
           {navItems.map(({ href, label, icon: Icon }) => {
             const isActive =
               href === "/admin"
@@ -117,43 +134,70 @@ export default function AdminLayout({
               <Link
                 key={href}
                 href={href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative ${
                   isActive
-                    ? "bg-black text-white"
-                    : "text-gray-600 hover:bg-gray-100 hover:text-black"
+                    ? "bg-zinc-900 text-white shadow-lg shadow-zinc-900/10"
+                    : "text-zinc-500 hover:bg-zinc-100/80 hover:text-zinc-900"
                 }`}
               >
-                <Icon size={18} />
+                <Icon size={16} className={`transition-transform duration-300 group-hover:scale-105 ${isActive ? "text-white" : "text-zinc-400 group-hover:text-zinc-800"}`} />
                 {label}
-                {isActive && <ChevronRight size={14} className="ml-auto" />}
+                {isActive && (
+                  <motion.div
+                    layoutId="activeIndicator"
+                    className="absolute right-3 w-1 h-1 rounded-full bg-white"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
               </Link>
             );
           })}
         </nav>
 
-        {/* Sign Out */}
-        <div className="px-3 pb-4">
+        {/* Footer actions inside sidebar */}
+        <div className="px-3 pb-6 border-t border-zinc-100/80 pt-4">
           <button
             onClick={handleSignOut}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
+            className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-zinc-400 hover:bg-red-50/60 hover:text-red-600 transition-all duration-300"
           >
-            <LogOut size={18} />
+            <LogOut size={16} className="text-zinc-400 group-hover:text-red-500" />
             Sign Out
           </button>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 ml-64 p-8">
-        <motion.div
-          key={pathname}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          {children}
-        </motion.div>
-      </main>
+      {/* Main Content Area */}
+      <div className="flex-1 ml-64 min-h-screen flex flex-col">
+        {/* Top bar */}
+        <header className="h-16 border-b border-zinc-100 bg-white/40 backdrop-blur-md sticky top-0 z-20 px-8 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-zinc-400 text-xs font-medium">
+            <span>Dashboard</span>
+            <ChevronRight size={12} />
+            <span className="text-zinc-800 font-bold capitalize">
+              {pathname.split("/").filter(Boolean).slice(1).join(" / ") || "Overview"}
+            </span>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+              <ShieldCheck size={12} />
+              Secure Link
+            </div>
+          </div>
+        </header>
+
+        {/* Content Wrapper */}
+        <main className="flex-1 p-8 md:p-10 max-w-7xl w-full mx-auto">
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {children}
+          </motion.div>
+        </main>
+      </div>
     </div>
   );
 }

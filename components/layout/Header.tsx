@@ -8,6 +8,7 @@ import { useScroll } from "@/hooks/useScroll";
 import { useCart } from "@/features/cart/CartProvider";
 import { useTheme } from "@/features/theme/ThemeProvider";
 import { cn } from "@/lib/utils";
+import { Logo3D } from "@/components/ui/Logo3D";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -44,17 +45,9 @@ export function Header() {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative h-8 w-24 flex items-center justify-start"
+                className="relative flex items-center justify-start"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/logo.png"
-                  alt="NXT Brand Logo"
-                  className={cn(
-                    "h-8 w-auto object-contain transition-all duration-300",
-                    theme === "dark" ? "invert" : "invert-0"
-                  )}
-                />
+                <Logo3D size={44} layers={8} className={theme === "dark" ? "invert" : "invert-0"} />
               </motion.div>
             </Link>
 

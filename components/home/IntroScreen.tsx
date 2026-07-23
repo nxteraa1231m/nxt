@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Logo3D } from "@/components/ui/Logo3D";
 
 const TAGLINE_LETTERS = "DEFINE YOUR STYLE".split("");
 
@@ -54,8 +53,14 @@ export function IntroScreen({ onComplete }: { onComplete: () => void }) {
                 duration: 1.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
+              className="relative w-[280px] h-[120px] flex items-center justify-center"
             >
-              <Logo3D layers={15} size={220} />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/intro.png"
+                alt="NXT Brand"
+                className="w-full h-full object-contain filter invert pointer-events-none select-none"
+              />
             </motion.div>
 
             {/* Tagline — letter by letter */}

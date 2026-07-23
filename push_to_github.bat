@@ -12,6 +12,7 @@ if not exist public mkdir public
 copy /y "c:\Users\youse\OneDrive\Desktop\nxt\logo\12-removebg-preview.png" "c:\Users\youse\OneDrive\Desktop\nxt\public\logo.png" >nul
 copy /y "c:\Users\youse\OneDrive\Desktop\nxt\logo\baner.png" "c:\Users\youse\OneDrive\Desktop\nxt\public\banner.png" >nul
 copy /y "c:\Users\youse\OneDrive\Desktop\nxt\logo\Screenshot 2026-07-23 041712.png" "c:\Users\youse\OneDrive\Desktop\nxt\public\banner_light.png" >nul
+copy /y "c:\Users\youse\OneDrive\Desktop\nxt\logo\انترو 1.png" "c:\Users\youse\OneDrive\Desktop\nxt\public\intro.png" >nul
 
 :: Initialize Git if not already done
 if not exist .git (
