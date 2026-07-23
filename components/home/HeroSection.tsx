@@ -8,16 +8,15 @@ export function HeroSection() {
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
       {/* Background image — Unsplash luxury fashion */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 flex items-center justify-center p-4 md:p-8 bg-black">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/banner.png"
           alt="NXT Hero — Premium Fashion"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-contain object-center rounded-2xl md:rounded-[2rem]"
         />
         {/* Multi-layer gradient overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/60 rounded-2xl md:rounded-[2rem] m-4 md:m-8 pointer-events-none" />
       </div>
 
       {/* Hero Content */}
